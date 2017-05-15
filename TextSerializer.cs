@@ -99,18 +99,19 @@ namespace TheCodingMonkey.Serialization
 
         /// <summary>Creates a single TargetType object given a record string.</summary>
         /// <param name="text">Record string to deserialize.</param>
+        /// <param name="returnMaybe">Possible return object. Allows creation in calling program.</param>
         /// <returns>Newly created TargetType object.</returns>
         /// <exception cref="ArgumentNullException">Thrown if text is null.</exception>
         /// <exception cref="TextSerializationException">Thrown if the number of fields in the record doesn't match that in TargetType.</exception>
-        public TTargetType Deserialize( string text )
+        public TTargetType Deserialize( string text, TTargetType returnMaybe = default(TTargetType))
         {
             if ( text == null )
                 throw new ArgumentNullException( "text", "text cannot be null" );
 
             // Create the correct return objects depending on whether this is a value or reference type
             // This makes a difference for reflection later on when populating the fields dynamically.
-            TTargetType returnObj = new TTargetType();
-            ValueType  returnStruct = null;
+            TTargetType returnObj = returnMaybe == null || returnMaybe.Equals(default(TTargetType)) ? new TTargetType() : returnMaybe;
+            ValueType returnStruct = null;
             if ( _type.IsValueType )
             {
                 object tempObj = returnObj;
