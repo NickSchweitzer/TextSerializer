@@ -14,6 +14,18 @@ namespace TheCodingMonkey.Serialization
             Padding = ' ';
         }
 
+        /// <summary>Default constructor.</summary>
+        /// <param name="position">Position (column) where this field is serialized in the fixed width file.</param>
+        /// <param name="size">Number of characters in the fixed width file that this field takes up.</param>
+        /// <param name="padding">Character to use to pad a text field if it doesn't meet the minimum size requirement for the
+        /// fixed length field.</param>
+        public FixedWidthFieldAttribute(int position, int size, char padding)
+        : base(position)
+        {
+            Size = size;
+            Padding = padding;
+        }
+
         /// <summary>Character to use to pad a text field if it doesn't meet the minimum size requirement for the
         /// fixed length field.</summary>
         public char Padding { get; set; }
