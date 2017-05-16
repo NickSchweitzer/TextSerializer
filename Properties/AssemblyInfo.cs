@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TextSerializer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Library for reading and writing CSV and Fixed Width files into a class or struct similar to XmlSerializer.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The Coding Monkey")]
 [assembly: AssemblyProduct("Text Serializer")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
