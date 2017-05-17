@@ -57,7 +57,7 @@
     <Compile Include="Models\BasicCsvRecord.cs" />
     <Compile Include="Models\BasicFixedWidthRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="BooleanIntFormatterTests.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
