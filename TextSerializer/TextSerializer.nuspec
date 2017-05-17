@@ -13,8 +13,8 @@
     <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>csv fixed width serialization parsing utility</tags>
-    <files>
-      <file src="../README.md" target="" />
-    </files>
   </metadata>
+  <files>
+    <file src="..\README.md" target="" />
+  </files>
 </package>
