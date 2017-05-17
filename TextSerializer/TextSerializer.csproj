@@ -72,6 +72,7 @@
     <Compile Include="CsvSerializer.cs" />
     <Compile Include="FixedWidthFieldAttribute.cs" />
     <Compile Include="FixedWidthSerializer.cs" />
+    <Compile Include="Formatters\BooleanIntFormatter.cs" />
     <Compile Include="ITextFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextFieldAttribute.cs" />
