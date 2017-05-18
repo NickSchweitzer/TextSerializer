@@ -4,7 +4,7 @@ using TheCodingMonkey.Serialization.Tests.Models;
 
 namespace TheCodingMonkey.Serialization.Tests.Expectations
 {
-    internal class BasicCsvExpectations : IExpectations<BasicCsvRecord>
+    internal class BasicCsvPipeDelimitedExpectations : IExpectations<BasicCsvRecord>
     {
         private static List<BasicCsvRecord> recordList = new List<BasicCsvRecord>
         {
@@ -20,9 +20,17 @@ namespace TheCodingMonkey.Serialization.Tests.Expectations
             {
                 Id = 2,
                 Name = "Second Record",
-                Description = "Long Description without a Comma",
+                Description = "Long Description, with a Comma",
                 Value = 123.4567,
                 Enabled = false
+            },
+            new BasicCsvRecord
+            {
+                Id = 3,
+                Name = "Third Record",
+                Description = "Long Description| with a Pipe",
+                Value = 8675309,
+                Enabled = true
             }
         };
 

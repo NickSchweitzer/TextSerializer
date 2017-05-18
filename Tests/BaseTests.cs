@@ -8,15 +8,25 @@ namespace TheCodingMonkey.Serialization.Tests
     public abstract class BaseTests<T>
         where T : new()
     {
-        protected TextSerializer<T> Serializer;
         protected readonly string TestFile;
         protected readonly string Extension;
+        protected readonly IExpectations<T> Expectations;
+
+        protected TextSerializer<T> Serializer;
         protected IComparer Comparer;
 
         protected BaseTests(string file, string ext)
         {
             TestFile = file;
             Extension = ext;
+            Expectations = Utilities.GetExpectations<T>(TestFile);
+        }
+
+        protected BaseTests(string file, string ext, IExpectations<T> expectations)
+        {
+            TestFile = file;
+            Extension = ext;
+            Expectations = expectations;
         }
 
         [TestMethod]
@@ -28,7 +38,7 @@ namespace TheCodingMonkey.Serialization.Tests
                 csvRecords = (ICollection)Serializer.DeserializeArray(reader);
             }
 
-            var expectedRecords = (ICollection)Utilities.GetExpectations<T>(TestFile).List();
+            var expectedRecords = (ICollection)Expectations.List();
 
             CollectionAssert.AreEqual(expectedRecords, csvRecords, Comparer);
         }
@@ -36,7 +46,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public virtual void DeserializeEnumerableTest()
         {
-            var expectedRecords = Utilities.GetExpectations<T>(TestFile).List().ToArray();
+            var expectedRecords = Expectations.List().ToArray();
             using (var reader = Utilities.OpenEmbeddedFile(TestFile, Extension))
             {
                 int i = 0;
@@ -51,7 +61,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public virtual void SerializeTest()
         {
-            var expectedRecords = Utilities.GetExpectations<T>(TestFile).List().ToArray();
+            var expectedRecords = Expectations.List().ToArray();
             var expectedLines = Utilities.GetLines(TestFile, Extension);
 
             for (int i = 0; i < expectedRecords.Length; i++)
@@ -64,7 +74,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public virtual void SerializeArrayTest()
         {
-            var expectedRecords = Utilities.GetExpectations<T>(TestFile).List().ToArray();
+            var expectedRecords = Expectations.List().ToArray();
             var expectedLines = Utilities.GetLines(TestFile, Extension);
 
             using (MemoryStream stream = new MemoryStream())

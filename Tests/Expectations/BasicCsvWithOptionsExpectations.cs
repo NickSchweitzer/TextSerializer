@@ -20,7 +20,7 @@ namespace TheCodingMonkey.Serialization.Tests.Expectations
             {
                 Id = 2,
                 Name = "Second Record",
-                Description = "Long Description, with a Comma",
+                Description = "Long Description without a Comma",
                 Value = 123.4567,
                 Enabled = false
             }
