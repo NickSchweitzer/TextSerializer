@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
+    <Compile Include="BasicCsvWithOptionsTests.cs" />
+    <Compile Include="BasicCsvWithHeaderTests.cs" />
+    <Compile Include="Expectations\BasicCsvWithOptionsExpectations.cs" />
     <Compile Include="FormattedCsvTests.cs" />
     <Compile Include="BasicCsvTests.cs" />
     <Compile Include="BasicFixedWidthTests.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Expectations\BasicFixedWidthExpectations.cs" />
     <Compile Include="Expectations\BasicCsvExpectations.cs" />
     <Compile Include="IExpectations.cs" />
+    <Compile Include="Models\BasicCsvWithOptionsRecord.cs" />
     <Compile Include="Models\FormattedCsvRecord.cs" />
     <Compile Include="Models\BasicCsvRecord.cs" />
     <Compile Include="Models\BasicFixedWidthRecord.cs" />
@@ -66,6 +70,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Files\BasicCsvFile.csv" />
     <EmbeddedResource Include="Files\FormattedCsvFile.csv" />
+    <EmbeddedResource Include="Files\BasicCsvWithHeaderFile.csv" />
+    <EmbeddedResource Include="Files\BasicCsvWithOptionsFile.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

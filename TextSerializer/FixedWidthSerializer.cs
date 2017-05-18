@@ -18,10 +18,14 @@ namespace TheCodingMonkey.Serialization
         protected override List<string> Parse( string text )
         {
             List<string> returnList = new List<string>();
-            foreach (FixedWidthFieldAttribute field in _textFields.Values)
+            int startPos = 0;
+
+            for ( int i = 0; i < _textFields.Count; i++ )
+            //foreach (FixedWidthFieldAttribute field in _textFields.Values)
             {
+                FixedWidthFieldAttribute field = (FixedWidthFieldAttribute)_textFields[i];
                 int fieldLen = field.Size;
-                int startPos = field.Position;
+                //int startPos = field.Position;
 
                 // Double check that the field length attribute on the property or field is positive.
                 if ( fieldLen < 0 )
@@ -39,8 +43,13 @@ namespace TheCodingMonkey.Serialization
                 // Trim out any padding characters that may exist
                 string strField = text.Substring( startPos, fieldLen );
                 returnList.Add( strField.Trim( field.Padding ) );
+
+                startPos += fieldLen;   // Move the pointer
             }
 
+            // Double check that we didn't go UNDER the record length either.
+            if (startPos != text.Length)
+                throw new TextSerializationException("Fixed width field length mismatch");
             return returnList;
         }
 

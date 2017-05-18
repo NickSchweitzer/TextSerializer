@@ -22,13 +22,13 @@ public class MyCsvRecord
 [TextSerializable]
 public class MyFixedWidthRecord
 {
-    [FixedWidthField(position: 0, size: 5, padding: '0')]
+    [FixedWidthField(position: 0, size: 5, Padding = '0')]
     public int Id { get; set; }
 
-    [FixedWidthField(position: 5, size: 20)]
+    [FixedWidthField(position: 1, size: 20)]
     public string Name { get; set; }
 
-    [FixedWidthField(position: 25, size: 20)]
+    [FixedWidthField(position: 2, size: 20)]
     public string Organization { get; set; }
 }
 

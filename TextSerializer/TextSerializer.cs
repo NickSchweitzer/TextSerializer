@@ -199,6 +199,10 @@ namespace TheCodingMonkey.Serialization
             return returnList;
         }
 
+        /// <summary>Deserializes a file one record at a time suitable for usage in a foreach loop.</summary>
+        /// <param name="reader">Reader which contains the CSV or FixedWidth data to deserialize.</param>
+        /// <param name="count">Number of records to deserialize with the enumerable</param>
+        /// <returns>An enumerable collection of TargetType objects.</returns>
         public IEnumerable<TTargetType> DeserializeEnumerable(TextReader reader)
         {
             bool bContinue = true;

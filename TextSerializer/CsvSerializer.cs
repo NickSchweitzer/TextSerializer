@@ -73,20 +73,46 @@ namespace TheCodingMonkey.Serialization
         /// names of the parameters in the TargetType class.</exception>
         public ICollection<TTargetType> DeserializeArray( TextReader reader, int count, bool readHeader )
         {
-            if ( readHeader )
+            if (readHeader)
+                ReadHeader(reader);
+
+            return base.DeserializeArray( reader, count );
+        }
+
+        /// <summary>Deserializes a CSV file one record at a time suitable for usage in a foreach loop.</summary>
+        /// <param name="reader">Reader which contains the CSV or FixedWidth data to deserialize.</param>
+        /// <param name="count">Number of records to deserialize with the enumerable</param>
+        /// <param name="readHeader">True if there is a Header row. This row will be ignored and not 
+        /// returned as part of the IEnumerable.</param>
+        /// <returns>An enumerable collection of TargetType objects.</returns>
+        public IEnumerable<TTargetType> DeserializeEnumerable(TextReader reader, bool readHeader)
+        {
+            if (readHeader)
+                ReadHeader(reader);
+
+            bool bContinue = true;
+            while (bContinue)
             {
-                string strHeader = reader.ReadLine();
-                if ( string.IsNullOrEmpty( strHeader ) )
+                string row = reader.ReadLine();
+                if (!string.IsNullOrEmpty(row))
+                    yield return Deserialize(row);
+                else
+                    bContinue = false;
+            }
+        }
+
+        private void ReadHeader(TextReader reader)
+        {
+            string strHeader = reader.ReadLine();
+            if (!string.IsNullOrEmpty(strHeader))
+            {
+                List<string> headerList = Parse(strHeader);
+                for (int i = 0; i < headerList.Count; i++)
                 {
-                    List<string> headerList = Parse( strHeader );
-                    for ( int i = 0; i < headerList.Count; i++ )
-                    {
-                        if ( _textFields[i].Name != headerList[i] )
-                            throw new TextSerializationException( "Header row does not match structure" );
-                    }
+                    if (_textFields[i].Name != headerList[i])
+                        throw new TextSerializationException("Header row does not match structure");
                 }
             }
-            return base.DeserializeArray( reader, count );
         }
 
         /// <summary>Parses a line of text as a record and returns the fields.</summary>
