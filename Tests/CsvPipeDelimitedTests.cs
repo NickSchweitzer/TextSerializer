@@ -6,14 +6,13 @@ using TheCodingMonkey.Serialization.Tests.Models;
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class BasicCsvWithoutQualifierTests : BaseTests<BasicCsvRecord>
+    public class CsvPipeDelimitedTests : BaseTests<CsvRecord>
     {
-        public BasicCsvWithoutQualifierTests() 
-        : base("BasicCsvWithoutQualifier", "csv", Utilities.GetExpectations<BasicCsvRecord>("BasicCsv"))
+        public CsvPipeDelimitedTests() : base("CsvPipeDelimited", "csv")
         {
-            Serializer = new CsvSerializer<BasicCsvRecord>()
+            Serializer = new CsvSerializer<CsvRecord>
             {
-                AlwaysWriteQualifier = false
+                Delimiter = '|'
             };
             Comparer = new RecordComparer();
         }
@@ -22,8 +21,8 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             public int Compare(object x, object y)
             {
-                var left = (BasicCsvRecord)x;
-                var right = (BasicCsvRecord)y;
+                var left = (CsvRecord)x;
+                var right = (CsvRecord)y;
 
                 bool equal = left.Id == right.Id &&
                              left.Name == right.Name &&

@@ -7,18 +7,18 @@ using System.IO;
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class BasicCsvWithHeaderTests
+    public class CsvWithHeaderTests
     {
-        protected CsvSerializer<BasicCsvRecord> Serializer;
+        protected CsvSerializer<CsvRecord> Serializer;
         protected readonly string TestFile;
         protected readonly string Extension;
         protected IComparer Comparer;
 
-        public BasicCsvWithHeaderTests()
+        public CsvWithHeaderTests()
         {
-            TestFile = "BasicCsvWithHeader";
+            TestFile = "CsvWithHeader";
             Extension = "csv";
-            Serializer = new CsvSerializer<BasicCsvRecord>();
+            Serializer = new CsvSerializer<CsvRecord>();
             Comparer = new RecordComparer();
         }
 
@@ -31,7 +31,7 @@ namespace TheCodingMonkey.Serialization.Tests
                 csvRecords = (ICollection)Serializer.DeserializeArray(reader, true);
             }
 
-            var expectedRecords = (ICollection)Utilities.GetExpectations<BasicCsvRecord>("BasicCsv").List();
+            var expectedRecords = (ICollection)Utilities.GetExpectations<CsvRecord>("Csv").List();
 
             CollectionAssert.AreEqual(expectedRecords, csvRecords, Comparer);
         }
@@ -39,7 +39,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void DeserializeEnumerableTest()
         {
-            var expectedRecords = Utilities.GetExpectations<BasicCsvRecord>("BasicCsv").List().ToArray();
+            var expectedRecords = Utilities.GetExpectations<CsvRecord>("Csv").List().ToArray();
             using (var reader = Utilities.OpenEmbeddedFile(TestFile, Extension))
             {
                 int i = 0;
@@ -54,7 +54,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod, ExpectedException(typeof(TextSerializationException))]
         public void DeserializeWithoutHeaderTest()
         {
-            using (var reader = Utilities.OpenEmbeddedFile("BasicCsv", Extension))
+            using (var reader = Utilities.OpenEmbeddedFile("Csv", Extension))
             {
                 Serializer.DeserializeArray(reader, true);
             }
@@ -63,7 +63,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void SerializeTest()
         {
-            var expectedRecords = Utilities.GetExpectations<BasicCsvRecord>("BasicCsv").List().ToArray();
+            var expectedRecords = Utilities.GetExpectations<CsvRecord>("Csv").List().ToArray();
             var expectedLines = Utilities.GetLines(TestFile, Extension);
 
             for (int i = 0; i < expectedRecords.Length; i++)
@@ -76,7 +76,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void SerializeArrayTest()
         {
-            var expectedRecords = Utilities.GetExpectations<BasicCsvRecord>("BasicCsv").List().ToArray();
+            var expectedRecords = Utilities.GetExpectations<CsvRecord>("Csv").List().ToArray();
             var expectedLines = Utilities.GetLines(TestFile, Extension);
 
             using (MemoryStream stream = new MemoryStream())
@@ -98,8 +98,8 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             public int Compare(object x, object y)
             {
-                var left = (BasicCsvRecord)x;
-                var right = (BasicCsvRecord)y;
+                var left = (CsvRecord)x;
+                var right = (CsvRecord)y;
 
                 bool equal = left.Id == right.Id &&
                              left.Name == right.Name &&

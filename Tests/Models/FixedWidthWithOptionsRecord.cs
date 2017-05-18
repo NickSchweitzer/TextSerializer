@@ -3,17 +3,17 @@
 namespace TheCodingMonkey.Serialization.Tests.Models
 {
     [TextSerializable]
-    public class BasicCsvRecord
+    public class FixedWidthWithOptionsRecord
     {
-        [TextField(0)]
+        [FixedWidthField(0, 5, Padding = '0')]
         public int Id { get; set; }
-        [TextField(1)]
+        [FixedWidthField(1, 15)]
         public string Name { get; set; }
-        [TextField(2)]
+        [FixedWidthField(2, 30)]
         public string Description { get; set; }
-        [TextField(3)]
+        [FixedWidthField(3, 8, Padding = '0')]
         public double Value { get; set; }
-        [TextField(4)]
+        [FixedWidthField(4, 5, Optional = true)]
         public bool Enabled { get; set; }
     }
 }

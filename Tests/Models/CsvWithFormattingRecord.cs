@@ -4,7 +4,7 @@ using TheCodingMonkey.Serialization.Formatters;
 namespace TheCodingMonkey.Serialization.Tests.Models
 {
     [TextSerializable]
-    public class FormattedCsvRecord
+    public class CsvWithFormattingRecord
     {
         [TextField(0)]
         public int Id { get; set; }

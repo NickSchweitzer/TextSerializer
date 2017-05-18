@@ -4,11 +4,11 @@ using TheCodingMonkey.Serialization.Tests.Models;
 
 namespace TheCodingMonkey.Serialization.Tests.Expectations
 {
-    internal class BasicCsvExpectations : IExpectations<BasicCsvRecord>
+    internal class FixedWidthWithOptionsExpectations : IExpectations<FixedWidthWithOptionsRecord>
     {
-        private static List<BasicCsvRecord> recordList = new List<BasicCsvRecord>
+        private static List<FixedWidthWithOptionsRecord> recordList = new List<FixedWidthWithOptionsRecord>
         {
-            new BasicCsvRecord
+            new FixedWidthWithOptionsRecord
             {
                 Id = 1,
                 Name = "First Record",
@@ -16,22 +16,22 @@ namespace TheCodingMonkey.Serialization.Tests.Expectations
                 Value = 3.14159,
                 Enabled = true
             },
-            new BasicCsvRecord
+            new FixedWidthWithOptionsRecord
             {
                 Id = 2,
                 Name = "Second Record",
-                Description = "Long Description without a Comma",
+                Description = "Long Description, with a Comma",
                 Value = 123.4567,
                 Enabled = false
             }
         };
 
-        public BasicCsvRecord Item(int index)
+        public FixedWidthWithOptionsRecord Item(int index)
         {
             return recordList[index];
         }
 
-        public ICollection<BasicCsvRecord> List()
+        public ICollection<FixedWidthWithOptionsRecord> List()
         {
             return recordList;
         }

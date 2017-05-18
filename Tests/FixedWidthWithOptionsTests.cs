@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TheCodingMonkey.Serialization.Tests.Models;
+using System.Collections;
 using System.IO;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
-    [TestClass, TestCategory("CSV")]
-    public class BasicCsvWithOptionsTests : BaseTests<BasicCsvWithOptionsRecord>
+    [TestClass, TestCategory("Fixed Width")]
+    public class FixedWidthWithOptionsTests : BaseTests<FixedWidthWithOptionsRecord>
     {
-        public BasicCsvWithOptionsTests() : base("BasicCsvWithOptions", "csv")
+        public FixedWidthWithOptionsTests() : base("FixedWidthWithOptions", "txt")
         {
-            Serializer = new CsvSerializer<BasicCsvWithOptionsRecord>();
+            Serializer = new FixedWidthSerializer<FixedWidthWithOptionsRecord>();
             Comparer = new RecordComparer();
         }
 
         [TestMethod]
         public override void SerializeTest()
         {
-            var expectedRecords = Utilities.GetExpectations<BasicCsvWithOptionsRecord>(TestFile).List().ToArray();
-            var expectedLines = Utilities.GetLines("BasicCsv", Extension);
+            var expectedRecords = Utilities.GetExpectations<FixedWidthWithOptionsRecord>(TestFile).List().ToArray();
+            var expectedLines = Utilities.GetLines("FixedWidth", Extension);
 
             for (int i = 0; i < expectedRecords.Length; i++)
             {
@@ -31,8 +31,8 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public override void SerializeArrayTest()
         {
-            var expectedRecords = Utilities.GetExpectations<BasicCsvWithOptionsRecord>(TestFile).List().ToArray();
-            var expectedLines = Utilities.GetLines("BasicCsv", Extension);
+            var expectedRecords = Utilities.GetExpectations<FixedWidthWithOptionsRecord>(TestFile).List().ToArray();
+            var expectedLines = Utilities.GetLines("FixedWidth", Extension);
 
             using (MemoryStream stream = new MemoryStream())
             {
@@ -53,8 +53,8 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             public int Compare(object x, object y)
             {
-                var left = (BasicCsvWithOptionsRecord)x;
-                var right = (BasicCsvWithOptionsRecord)y;
+                var left = (FixedWidthWithOptionsRecord)x;
+                var right = (FixedWidthWithOptionsRecord)y;
 
                 bool equal = left.Id == right.Id &&
                              left.Name == right.Name &&
@@ -62,7 +62,7 @@ namespace TheCodingMonkey.Serialization.Tests
                              left.Value == right.Value &&
                              left.Enabled == right.Enabled;
 
-                return equal ? 0 : 1; 
+                return equal ? 0 : 1;
             }
         }
     }

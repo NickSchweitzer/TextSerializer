@@ -6,11 +6,11 @@ using TheCodingMonkey.Serialization.Tests.Models;
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class FormattedCsvTests : BaseTests<FormattedCsvRecord>
+    public class CsvWithFormattingTests : BaseTests<CsvWithFormattingRecord>
     {
-        public FormattedCsvTests() : base("FormattedCsv", "csv")
+        public CsvWithFormattingTests() : base("CsvWithFormatting", "csv")
         {
-            Serializer = new CsvSerializer<FormattedCsvRecord>();
+            Serializer = new CsvSerializer<CsvWithFormattingRecord>();
             Comparer = new RecordComparer();
         }
 
@@ -18,8 +18,8 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             public int Compare(object x, object y)
             {
-                var left = (FormattedCsvRecord)x;
-                var right = (FormattedCsvRecord)y;
+                var left = (CsvWithFormattingRecord)x;
+                var right = (CsvWithFormattingRecord)y;
 
                 bool equal = left.Id == right.Id &&
                              left.Name == right.Name &&

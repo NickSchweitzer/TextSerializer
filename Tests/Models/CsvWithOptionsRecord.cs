@@ -3,7 +3,7 @@
 namespace TheCodingMonkey.Serialization.Tests.Models
 {
     [TextSerializable]
-    public class BasicCsvWithOptionsRecord
+    public class CsvWithOptionsRecord
     {
         [TextField(0)]
         public int Id { get; set; }

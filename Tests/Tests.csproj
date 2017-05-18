@@ -49,34 +49,37 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
-    <Compile Include="BasicCsvPipeDelimitedTests.cs" />
-    <Compile Include="BasicCsvWithoutQualifierTests.cs" />
-    <Compile Include="BasicCsvWithOptionsTests.cs" />
-    <Compile Include="BasicCsvWithHeaderTests.cs" />
-    <Compile Include="Expectations\BasicCsvPipeDelimitedExpectations.cs" />
-    <Compile Include="Expectations\BasicCsvWithOptionsExpectations.cs" />
-    <Compile Include="FormattedCsvTests.cs" />
-    <Compile Include="BasicCsvTests.cs" />
-    <Compile Include="BasicFixedWidthTests.cs" />
-    <Compile Include="Expectations\FormattedCsvExpectations.cs" />
-    <Compile Include="Expectations\BasicFixedWidthExpectations.cs" />
-    <Compile Include="Expectations\BasicCsvExpectations.cs" />
+    <Compile Include="CsvPipeDelimitedTests.cs" />
+    <Compile Include="CsvWithoutQualifierTests.cs" />
+    <Compile Include="CsvWithOptionsTests.cs" />
+    <Compile Include="CsvWithHeaderTests.cs" />
+    <Compile Include="Expectations\CsvPipeDelimitedExpectations.cs" />
+    <Compile Include="Expectations\CsvWithOptionsExpectations.cs" />
+    <Compile Include="CsvWithFormattingTests.cs" />
+    <Compile Include="CsvTests.cs" />
+    <Compile Include="Expectations\FixedWidthWithOptionsExpectations.cs" />
+    <Compile Include="FixedWidthWithOptionsTests.cs" />
+    <Compile Include="FixedWidthTests.cs" />
+    <Compile Include="Expectations\CsvWithFormattingExpectations.cs" />
+    <Compile Include="Expectations\FixedWidthExpectations.cs" />
+    <Compile Include="Expectations\CsvExpectations.cs" />
     <Compile Include="IExpectations.cs" />
-    <Compile Include="Models\BasicCsvWithOptionsRecord.cs" />
-    <Compile Include="Models\FormattedCsvRecord.cs" />
-    <Compile Include="Models\BasicCsvRecord.cs" />
-    <Compile Include="Models\BasicFixedWidthRecord.cs" />
+    <Compile Include="Models\CsvWithOptionsRecord.cs" />
+    <Compile Include="Models\CsvWithFormattingRecord.cs" />
+    <Compile Include="Models\CsvRecord.cs" />
+    <Compile Include="Models\FixedWidthWithOptionsRecord.cs" />
+    <Compile Include="Models\FixedWidthRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BooleanIntFormatterTests.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Files\BasicCsvFile.csv" />
-    <EmbeddedResource Include="Files\FormattedCsvFile.csv" />
-    <EmbeddedResource Include="Files\BasicCsvWithHeaderFile.csv" />
-    <EmbeddedResource Include="Files\BasicCsvWithOptionsFile.csv" />
-    <EmbeddedResource Include="Files\BasicCsvPipeDelimitedFile.csv" />
-    <EmbeddedResource Include="Files\BasicCsvWithoutQualifierFile.csv" />
+    <EmbeddedResource Include="Files\CsvFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithFormattingFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithHeaderFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithOptionsFile.csv" />
+    <EmbeddedResource Include="Files\CsvPipeDelimitedFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithoutQualifierFile.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -86,7 +89,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Files\BasicFixedWidthFile.txt" />
+    <EmbeddedResource Include="Files\FixedWidthFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Files\FixedWidthWithOptionsFile.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

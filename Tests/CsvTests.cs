@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TheCodingMonkey.Serialization.Tests.Models;
-using System.Collections;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
-    [TestClass, TestCategory("Fixed Width")]
-    public class BasicFixedWidthTests : BaseTests<BasicFixedWidthRecord>
+    [TestClass, TestCategory("CSV")]
+    public class CsvTests : BaseTests<CsvRecord>
     {
-        public BasicFixedWidthTests() : base("BasicFixedWidth", "txt")
+        public CsvTests() : base("Csv", "csv")
         {
-            Serializer = new FixedWidthSerializer<BasicFixedWidthRecord>();
+            Serializer = new CsvSerializer<CsvRecord>();
             Comparer = new RecordComparer();
         }
 
@@ -18,8 +18,8 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             public int Compare(object x, object y)
             {
-                var left = (BasicFixedWidthRecord)x;
-                var right = (BasicFixedWidthRecord)y;
+                var left = (CsvRecord)x;
+                var right = (CsvRecord)y;
 
                 bool equal = left.Id == right.Id &&
                              left.Name == right.Name &&
@@ -27,7 +27,7 @@ namespace TheCodingMonkey.Serialization.Tests
                              left.Value == right.Value &&
                              left.Enabled == right.Enabled;
 
-                return equal ? 0 : 1;
+                return equal ? 0 : 1; 
             }
         }
     }
