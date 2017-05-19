@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
+    <Compile Include="CsvFluentConfigurationTests.cs" />
     <Compile Include="CsvPipeDelimitedTests.cs" />
     <Compile Include="CsvWithoutQualifierTests.cs" />
     <Compile Include="CsvWithOptionsTests.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Expectations\FixedWidthExpectations.cs" />
     <Compile Include="Expectations\CsvExpectations.cs" />
     <Compile Include="IExpectations.cs" />
+    <Compile Include="Models\CsvPocoRecord.cs" />
     <Compile Include="Models\CsvWithOptionsRecord.cs" />
     <Compile Include="Models\CsvWithFormattingRecord.cs" />
     <Compile Include="Models\CsvRecord.cs" />

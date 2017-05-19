@@ -69,6 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllowedValuesAttribute.cs" />
+    <Compile Include="Configuration\CsvConfiguration.cs" />
+    <Compile Include="Configuration\FixedWidthConfiguration.cs" />
+    <Compile Include="Configuration\TextConfiguration.cs" />
+    <Compile Include="Configuration\TextFieldConfiguration.cs" />
+    <Compile Include="Configuration\TextSerializerConfigurationException.cs" />
     <Compile Include="CsvSerializer.cs" />
     <Compile Include="FixedWidthFieldAttribute.cs" />
     <Compile Include="FixedWidthSerializer.cs" />
@@ -79,6 +84,7 @@
     <Compile Include="TextSerializableAttribute.cs" />
     <Compile Include="TextSerializationException.cs" />
     <Compile Include="TextSerializer.cs" />
+    <Compile Include="Utilities\ReflectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

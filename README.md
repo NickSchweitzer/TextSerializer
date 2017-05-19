@@ -3,7 +3,7 @@
 
 Library for reading and writing CSV and Fixed Width files into a class or struct similar to XmlSerializer.
 
-# Quick Start
+# Attribute Based Configuration
 
 ```csharp
 [TextSerializable]
@@ -50,3 +50,5 @@ using (StreamReader reader = new File.OpenText("fixedwidth.txt"))
     reader.Close();
 }
 ```
+
+# Fluent Configuration

@@ -10,8 +10,7 @@
     <projectUrl>https://github.com/NickSchweitzer/TextSerializer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Fixed issues with Size on Fixed Width Files when Serializing, properly handling of header
-    line exceptions in CSV, and added more Unit Test coverage.</releaseNotes>
+    <releaseNotes>Restructured library and added option to do Fluent Configuration instead of Attribute based Configuration</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>csv fixed width serialization parsing utility</tags>
   </metadata>

@@ -10,6 +10,11 @@ namespace TheCodingMonkey.Serialization
     public class FixedWidthSerializer<TTargetType> : TextSerializer<TTargetType>
         where TTargetType : new()
     {
+        public FixedWidthSerializer()
+        {
+            InitializeFromAttributes();
+        }
+
         /// <summary>Parses a line of text as a record and returns the fields.</summary>
         /// <param name="text">A single line of text for the entire record out of the file.</param>
         /// <returns>A list of strings, where each string represents a field in the record.</returns>

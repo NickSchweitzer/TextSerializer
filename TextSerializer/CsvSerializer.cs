@@ -1,6 +1,8 @@
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -17,6 +19,7 @@ namespace TheCodingMonkey.Serialization
             AlwaysWriteQualifier = true;
             Delimiter = ',';
             Qualifier = '"';
+            InitializeFromAttributes();
         }
 
         /// <summary>Initializes a new instance of the CSVSerializer class.</summary>
@@ -25,6 +28,13 @@ namespace TheCodingMonkey.Serialization
             AlwaysWriteQualifier = alwaysWriteQualifier;
             Delimiter = delimiter;
             Qualifier = qualifier;
+            InitializeFromAttributes();
+        }
+
+        public CsvSerializer(Action<CsvConfiguration<TTargetType>> config)
+        {
+            CsvConfiguration<TTargetType> completedConfig = new CsvConfiguration<TTargetType>(this);
+            config.Invoke(completedConfig);
         }
 
         /// <summary>True if should wrap every field in the <see cref="Qualifier">Qualifier</see> during serialization.  If false, then

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -21,46 +22,54 @@ namespace TheCodingMonkey.Serialization
         {
             // Get the Reflection type for the Generic Argument
             _type = GetType().GetGenericArguments()[0];
+        }
 
+        protected void InitializeFromAttributes()
+        {
             // Double check that the TextSerializableAttribute has been attached to the TargetType
-            object[] serAttrs = _type.GetCustomAttributes( typeof( TextSerializableAttribute ), false );
-            if ( serAttrs.Length == 0 )
-                throw new TextSerializationException( "TargetType must have a TextSerializableAttribute attached" );
+            object[] serAttrs = _type.GetCustomAttributes(typeof(TextSerializableAttribute), false);
+            if (serAttrs.Length == 0)
+                throw new TextSerializationException("TargetType must have a TextSerializableAttribute attached");
 
             // Get all the public properties and fields on the class
-            MemberInfo[] members = _type.GetMembers( BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField | BindingFlags.GetProperty );
-            foreach ( MemberInfo member in members )
+            MemberInfo[] members = _type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField | BindingFlags.GetProperty);
+            foreach (MemberInfo member in members)
             {
                 // Check to see if they've marked up this field/property with the attribute for serialization
-                object[] fieldAttrs = member.GetCustomAttributes( typeof( TextFieldAttribute ), false );
-                if ( fieldAttrs.Length > 0 )
+                object[] fieldAttrs = member.GetCustomAttributes(typeof(TextFieldAttribute), false);
+                if (fieldAttrs.Length > 0)
                 {
                     Type memberType;
-                    if ( member is FieldInfo )
-                        memberType = ( (FieldInfo)member ).FieldType;
-                    else if ( member is PropertyInfo )
-                        memberType = ( (PropertyInfo)member ).PropertyType;
+                    if (member is FieldInfo)
+                        memberType = ((FieldInfo)member).FieldType;
+                    else if (member is PropertyInfo)
+                        memberType = ((PropertyInfo)member).PropertyType;
                     else
-                        throw new TextSerializationException( "Invalid MemberInfo type encountered" );
+                        throw new TextSerializationException("Invalid MemberInfo type encountered");
 
                     TextFieldAttribute textField = (TextFieldAttribute)fieldAttrs[0];
 
                     // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
-                    object[] allowedAttrs = member.GetCustomAttributes( typeof( AllowedValuesAttribute ), false );
-                    if ( allowedAttrs.Length > 0 )
+                    object[] allowedAttrs = member.GetCustomAttributes(typeof(AllowedValuesAttribute), false);
+                    if (allowedAttrs.Length > 0)
                     {
                         AllowedValuesAttribute allowedAttr = (AllowedValuesAttribute)allowedAttrs[0];
                         textField.AllowedValues = allowedAttr.AllowedValues;
                     }
 
                     // If they don't override the name in the Attribute, use the MemberInfo name
-                    if ( string.IsNullOrEmpty( textField.Name ) )
+                    if (string.IsNullOrEmpty(textField.Name))
                         textField.Name = member.Name;
 
                     textField.Member = member;
-                    _textFields.Add( textField.Position, textField );
+                    _textFields.Add(textField.Position, textField);
                 }
             }
+        }
+
+        internal Dictionary<int, TextFieldAttribute> Fields
+        {
+            get { return _textFields; }
         }
 
         /// <summary>Serializes a single TargetType object into a properly formatted record string.</summary>
