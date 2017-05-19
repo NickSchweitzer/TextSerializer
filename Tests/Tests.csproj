@@ -54,6 +54,7 @@
     <Compile Include="CsvWithoutQualifierTests.cs" />
     <Compile Include="CsvWithOptionsTests.cs" />
     <Compile Include="CsvWithHeaderTests.cs" />
+    <Compile Include="Expectations\CsvPocoExpectations.cs" />
     <Compile Include="Expectations\CsvPipeDelimitedExpectations.cs" />
     <Compile Include="Expectations\CsvWithOptionsExpectations.cs" />
     <Compile Include="CsvWithFormattingTests.cs" />
