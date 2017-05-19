@@ -125,10 +125,9 @@ namespace TheCodingMonkey.Serialization
                 throw new TextSerializationException( "TargetType field count doesn't match number of items in text" );
 
             // For each field that is parsed in the string, populate the correct corresponding field in the TargetType
-            TextFieldAttribute[] attributes = _textFields.Values.ToArray();
             for ( int i = 0; i < parseList.Count; i++ )
             {
-                TextFieldAttribute attr = attributes[i];
+                TextFieldAttribute attr = _textFields[i];
                 if ( attr != null )
                 {
                     string strVal = Truncate( parseList[i], attr.Size );
