@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTests.cs" />
+    <Compile Include="CsvConventionConfigurationTests.cs" />
     <Compile Include="CsvFluentConfigurationTests.cs" />
     <Compile Include="CsvPipeDelimitedTests.cs" />
     <Compile Include="CsvWithoutQualifierTests.cs" />

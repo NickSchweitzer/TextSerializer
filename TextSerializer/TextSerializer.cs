@@ -72,6 +72,11 @@ namespace TheCodingMonkey.Serialization
             get { return _textFields; }
         }
 
+        internal Type TargetType
+        {
+            get { return _type; }
+        }
+
         /// <summary>Serializes a single TargetType object into a properly formatted record string.</summary>
         /// <param name="obj">Object to serialize</param>
         /// <returns>Record string</returns>

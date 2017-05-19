@@ -10,7 +10,12 @@ namespace TheCodingMonkey.Serialization
     {
         private Type _formatterType;
 
-        internal TextFieldAttribute() { }
+        internal TextFieldAttribute()
+        {
+            Position = -1;
+            Size = -1;
+            Optional = false;
+        }
 
         /// <summary>Default constructor.</summary>
         /// <param name="position">Position (column) where this field is serialized in the CSV file.</param>

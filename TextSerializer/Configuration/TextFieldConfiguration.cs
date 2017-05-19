@@ -9,9 +9,6 @@ namespace TheCodingMonkey.Serialization.Configuration
         internal TextFieldConfiguration(TextFieldAttribute attr)
         {
             Attribute = attr;
-            Position(-1);
-            Size(-1);
-            Optional(false);
         }
 
         /// <summary>Position (column) where this field is serialized in the CSV file.</summary>
