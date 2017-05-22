@@ -21,17 +21,31 @@ namespace TheCodingMonkey.Serialization.Configuration
             Qualifier('"');
         }
 
+        /// <summary>Automatically configures serializer based on the class definition. All properties and fields are added as serializable in the order they appear in the class.</summary>
+        /// <exception cref="TextSerializationConfigurationException">ByConvention fails if a class or structure contains a mix of Properties and Fields. Because of the limitations
+        /// of the .NET Reflection API, the order cannot be properly determined at runtime if both appear in the same class.</exception>
         public CsvConfiguration<TTargetType> ByConvention()
         {
             MemberInfo[] members = Serializer.TargetType.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField | BindingFlags.GetProperty);
             int position = 0;
+            bool foundProperty = false;
+            bool foundField = false;
             foreach (MemberInfo member in members)
             {
                 Type memberType = null;
                 if (member is FieldInfo)
+                {
                     memberType = ((FieldInfo)member).FieldType;
+                    foundField = true;
+                }
                 else if (member is PropertyInfo)
+                {
                     memberType = ((PropertyInfo)member).PropertyType;
+                    foundProperty = true;
+                }
+
+                if (foundProperty && foundField)
+                    throw new TextSerializationConfigurationException("Cannot configure classes by Convention with both Properties and Fields because cannot get order correct automatically. Use explicit configuration methods.");
 
                 if (memberType != null)
                 {
@@ -48,7 +62,6 @@ namespace TheCodingMonkey.Serialization.Configuration
 
             return this;
         }
-
 
         /// <summary>True if should wrap every field in the <see cref="Qualifier">Qualifier</see> during serialization.  If false, then
         /// the qualifier is only written if the field contains the <see cref="Delimiter">Delimiter</see>.</summary>
@@ -72,6 +85,9 @@ namespace TheCodingMonkey.Serialization.Configuration
             return this;
         }
 
+        /// <summary>Sets the serialization properties of a member of the class. If ByConvention was called first, this will override those inferred settings.</summary>
+        /// <param name="field">Field in the class to configure.</param>
+        /// <param name="opt">Serialization options to set on the field.</param>
         public CsvConfiguration<TTargetType> ForMember(Expression<Func<TTargetType, object>> field, Action<TextFieldConfiguration> opt)
         {
             var member = ReflectionHelper.FindProperty(field);
@@ -98,6 +114,8 @@ namespace TheCodingMonkey.Serialization.Configuration
             return this;
         }
 
+        /// <summary>Marks a field as not serializable.</summary>
+        /// <param name="field">Field to ignore.</param>
         public CsvConfiguration<TTargetType> Ignore(Expression<Func<TTargetType, object>> field)
         {
             var member = ReflectionHelper.FindProperty(field);
