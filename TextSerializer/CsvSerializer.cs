@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using TheCodingMonkey.Serialization.Configuration;
+using System.Reflection;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -37,6 +38,16 @@ namespace TheCodingMonkey.Serialization
             config.Invoke(completedConfig);
         }
 
+        protected override Field GetFieldFromAttribute(MemberInfo member)
+        {
+            // Check to see if they've marked up this field/property with the attribute for serialization
+            object[] fieldAttrs = member.GetCustomAttributes(typeof(TextFieldAttribute), false);
+            if (fieldAttrs.Length > 0)
+                return ((TextFieldAttribute)fieldAttrs[0]).Field;
+            else
+                return null;
+        }
+
         /// <summary>True if should wrap every field in the <see cref="Qualifier">Qualifier</see> during serialization.  If false, then
         /// the qualifier is only written if the field contains the <see cref="Delimiter">Delimiter</see>.</summary>
         public bool AlwaysWriteQualifier { get; set; }
@@ -56,8 +67,8 @@ namespace TheCodingMonkey.Serialization
             if ( writeHeader )
             {
                 var headerList = new List<string>();
-                for ( int i = 0; i < _textFields.Count; i++ )
-                    headerList.Add( _textFields[i].Name );
+                for ( int i = 0; i < Fields.Count; i++ )
+                    headerList.Add( ((CsvField)Fields[i]).Name );
 
                 writer.WriteLine( FormatOutput( headerList ) );
             }
@@ -91,7 +102,6 @@ namespace TheCodingMonkey.Serialization
 
         /// <summary>Deserializes a CSV file one record at a time suitable for usage in a foreach loop.</summary>
         /// <param name="reader">Reader which contains the CSV or FixedWidth data to deserialize.</param>
-        /// <param name="count">Number of records to deserialize with the enumerable</param>
         /// <param name="readHeader">True if there is a Header row. This row will be ignored and not 
         /// returned as part of the IEnumerable.</param>
         /// <returns>An enumerable collection of TargetType objects.</returns>
@@ -119,7 +129,7 @@ namespace TheCodingMonkey.Serialization
                 List<string> headerList = Parse(strHeader);
                 for (int i = 0; i < headerList.Count; i++)
                 {
-                    if (_textFields[i].Name != headerList[i])
+                    if (((CsvField)Fields[i]).Name != headerList[i])
                         throw new TextSerializationException("Header row does not match structure");
                 }
             }

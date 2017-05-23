@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace TheCodingMonkey.Serialization
@@ -15,6 +16,16 @@ namespace TheCodingMonkey.Serialization
             InitializeFromAttributes();
         }
 
+        protected override Field GetFieldFromAttribute(MemberInfo member)
+        {
+            // Check to see if they've marked up this field/property with the attribute for serialization
+            object[] fieldAttrs = member.GetCustomAttributes(typeof(FixedWidthFieldAttribute), false);
+            if (fieldAttrs.Length > 0)
+                return ((FixedWidthFieldAttribute)fieldAttrs[0]).Field;
+            else
+                return null;
+        }
+
         /// <summary>Parses a line of text as a record and returns the fields.</summary>
         /// <param name="text">A single line of text for the entire record out of the file.</param>
         /// <returns>A list of strings, where each string represents a field in the record.</returns>
@@ -25,12 +36,10 @@ namespace TheCodingMonkey.Serialization
             List<string> returnList = new List<string>();
             int startPos = 0;
 
-            for ( int i = 0; i < _textFields.Count; i++ )
-            //foreach (FixedWidthFieldAttribute field in _textFields.Values)
+            for ( int i = 0; i < Fields.Count; i++ )
             {
-                FixedWidthFieldAttribute field = (FixedWidthFieldAttribute)_textFields[i];
+                FixedWidthField field = (FixedWidthField)Fields[i];
                 int fieldLen = field.Size;
-                //int startPos = field.Position;
 
                 // Double check that the field length attribute on the property or field is positive.
                 if ( fieldLen < 0 )
@@ -67,12 +76,12 @@ namespace TheCodingMonkey.Serialization
             for ( int i = 0; i < fieldList.Count; i++ )
             {
                 // Compare the length of the field with what the fixed width file is expecting
-                int paddingCount = _textFields[i].Size - fieldList[i].Length;
+                int paddingCount = Fields[i].Size - fieldList[i].Length;
 
                 // Pad the string if required
                 if ( paddingCount > 0 )
                 {
-                    FixedWidthFieldAttribute fieldAttr = (FixedWidthFieldAttribute)_textFields[i];
+                    FixedWidthField fieldAttr = (FixedWidthField)Fields[i];
                     sb.Append( fieldAttr.Padding, paddingCount );
                 }
 

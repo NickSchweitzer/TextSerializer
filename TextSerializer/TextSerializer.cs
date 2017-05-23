@@ -15,29 +15,33 @@ namespace TheCodingMonkey.Serialization
     public abstract class TextSerializer<TTargetType>
         where TTargetType : new()
     {
-        protected readonly Type _type;
-        protected readonly Dictionary<int, TextFieldAttribute> _textFields = new Dictionary<int, TextFieldAttribute>();
-
         protected TextSerializer()
         {
+            Fields = new Dictionary<int, Field>();
+
             // Get the Reflection type for the Generic Argument
-            _type = GetType().GetGenericArguments()[0];
+            TargetType = GetType().GetGenericArguments()[0];
         }
+
+        internal Dictionary<int, Field> Fields { get; private set; }
+
+        internal Type TargetType { get; private set; }
+
+        protected abstract Field GetFieldFromAttribute(MemberInfo member);
 
         protected void InitializeFromAttributes()
         {
             // Double check that the TextSerializableAttribute has been attached to the TargetType
-            object[] serAttrs = _type.GetCustomAttributes(typeof(TextSerializableAttribute), false);
+            object[] serAttrs = TargetType.GetCustomAttributes(typeof(TextSerializableAttribute), false);
             if (serAttrs.Length == 0)
                 throw new TextSerializationException("TargetType must have a TextSerializableAttribute attached");
 
             // Get all the public properties and fields on the class
-            MemberInfo[] members = _type.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField | BindingFlags.GetProperty);
+            MemberInfo[] members = TargetType.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField | BindingFlags.GetProperty);
             foreach (MemberInfo member in members)
             {
-                // Check to see if they've marked up this field/property with the attribute for serialization
-                object[] fieldAttrs = member.GetCustomAttributes(typeof(TextFieldAttribute), false);
-                if (fieldAttrs.Length > 0)
+                Field textField = GetFieldFromAttribute(member);
+                if (textField != null)
                 {
                     Type memberType;
                     if (member is FieldInfo)
@@ -47,8 +51,6 @@ namespace TheCodingMonkey.Serialization
                     else
                         throw new TextSerializationException("Invalid MemberInfo type encountered");
 
-                    TextFieldAttribute textField = (TextFieldAttribute)fieldAttrs[0];
-
                     // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
                     object[] allowedAttrs = member.GetCustomAttributes(typeof(AllowedValuesAttribute), false);
                     if (allowedAttrs.Length > 0)
@@ -57,24 +59,10 @@ namespace TheCodingMonkey.Serialization
                         textField.AllowedValues = allowedAttr.AllowedValues;
                     }
 
-                    // If they don't override the name in the Attribute, use the MemberInfo name
-                    if (string.IsNullOrEmpty(textField.Name))
-                        textField.Name = member.Name;
-
                     textField.Member = member;
-                    _textFields.Add(textField.Position, textField);
+                    Fields.Add(textField.Position, textField);
                 }
             }
-        }
-
-        internal Dictionary<int, TextFieldAttribute> Fields
-        {
-            get { return _textFields; }
-        }
-
-        internal Type TargetType
-        {
-            get { return _type; }
         }
 
         /// <summary>Serializes a single TargetType object into a properly formatted record string.</summary>
@@ -85,25 +73,25 @@ namespace TheCodingMonkey.Serialization
         {
             // First go through the object and get string representations of all the fields
             List<string> fieldList = new List<string>();
-            for ( int i = 0; i < _textFields.Count; i++ )
+            for ( int i = 0; i < Fields.Count; i++ )
             {
-                TextFieldAttribute attr = _textFields[i];
+                Field field = Fields[i];
                 object objValue;
 
                 // Get the object from the field
-                if ( attr.Member is PropertyInfo )
-                    objValue = ( (PropertyInfo)attr.Member ).GetValue( obj, null );
-                else if ( attr.Member is FieldInfo )
-                    objValue = ( (FieldInfo)attr.Member ).GetValue( obj );
+                if ( field.Member is PropertyInfo )
+                    objValue = ( (PropertyInfo)field.Member ).GetValue( obj, null );
+                else if ( field.Member is FieldInfo )
+                    objValue = ( (FieldInfo)field.Member ).GetValue( obj );
                 else
                     throw new TextSerializationException( "Invalid MemberInfo type encountered" );
 
                 // Get the string representation for the object.  If there is a custom formatter for this field, then
                 // use that, otherwise use the default ToString behavior.
-                string str = attr.Formatter != null ? attr.Formatter.Serialize( objValue ) : objValue.ToString();
+                string str = field.Formatter != null ? field.Formatter.Serialize( objValue ) : objValue.ToString();
 
                 // Truncate the string if required
-                fieldList.Add( Truncate( str, attr.Size ) );
+                fieldList.Add( Truncate( str, field.Size ) );
             }
 
             // Now that all the strings are collected, put them together into a record string depending on the
@@ -126,7 +114,7 @@ namespace TheCodingMonkey.Serialization
             // This makes a difference for reflection later on when populating the fields dynamically.
             TTargetType returnObj = returnMaybe == null || returnMaybe.Equals(default(TTargetType)) ? new TTargetType() : returnMaybe;
             ValueType returnStruct = null;
-            if ( _type.IsValueType )
+            if ( TargetType.IsValueType )
             {
                 object tempObj = returnObj;
                 returnStruct = (ValueType)tempObj;
@@ -134,31 +122,31 @@ namespace TheCodingMonkey.Serialization
 
             // Parse the record into it's individual fields depending on the type of serializer this is
             List<string> parseList = Parse( text );
-            int requiredCount = _textFields.Values.Count(attr => !attr.Optional);
-            if ( parseList.Count < requiredCount || parseList.Count > _textFields.Count )
+            int requiredCount = Fields.Values.Count(attr => !attr.Optional);
+            if ( parseList.Count < requiredCount || parseList.Count > Fields.Count )
                 throw new TextSerializationException( "TargetType field count doesn't match number of items in text" );
 
             // For each field that is parsed in the string, populate the correct corresponding field in the TargetType
             for ( int i = 0; i < parseList.Count; i++ )
             {
-                TextFieldAttribute attr = _textFields[i];
-                if ( attr != null )
+                Field field = Fields[i];
+                if ( field != null )
                 {
-                    string strVal = Truncate( parseList[i], attr.Size );
+                    string strVal = Truncate( parseList[i], field.Size );
 
                     // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
-                    object fieldObj = attr.Formatter != null ? attr.Formatter.Deserialize( strVal ) : Convert.ChangeType( strVal, attr.GetNativeType() );
+                    object fieldObj = field.Formatter != null ? field.Formatter.Deserialize( strVal ) : Convert.ChangeType( strVal, field.GetNativeType() );
 
                     // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
-                    if ( _type.IsValueType )
-                        AssignToStruct( returnStruct, fieldObj, attr.Member );
+                    if ( TargetType.IsValueType )
+                        AssignToStruct( returnStruct, fieldObj, field.Member );
                     else
-                        AssignToClass( returnObj, fieldObj, attr.Member );
+                        AssignToClass( returnObj, fieldObj, field.Member );
                 }
             }
 
             // If this was a value type, need to do a little more magic so can be returned properly
-            if ( _type.IsValueType )
+            if ( TargetType.IsValueType )
             {
                 object tempObj = (object)returnStruct;
                 returnObj = (TTargetType)tempObj;
@@ -214,7 +202,6 @@ namespace TheCodingMonkey.Serialization
 
         /// <summary>Deserializes a file one record at a time suitable for usage in a foreach loop.</summary>
         /// <param name="reader">Reader which contains the CSV or FixedWidth data to deserialize.</param>
-        /// <param name="count">Number of records to deserialize with the enumerable</param>
         /// <returns>An enumerable collection of TargetType objects.</returns>
         public IEnumerable<TTargetType> DeserializeEnumerable(TextReader reader)
         {

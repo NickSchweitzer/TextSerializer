@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+
 using TheCodingMonkey.Serialization.Utilities;
 
 namespace TheCodingMonkey.Serialization.Configuration
@@ -11,7 +11,7 @@ namespace TheCodingMonkey.Serialization.Configuration
     {
         private CsvSerializer<TTargetType> CsvSerializer { get; set; }
 
-        public CsvConfiguration(CsvSerializer<TTargetType> serializer)
+        internal CsvConfiguration(CsvSerializer<TTargetType> serializer)
         : base(serializer)
         {
             CsvSerializer = serializer;
@@ -49,7 +49,7 @@ namespace TheCodingMonkey.Serialization.Configuration
 
                 if (memberType != null)
                 {
-                    TextFieldAttribute textField = new TextFieldAttribute
+                    CsvField textField = new CsvField
                     {
                         Name = member.Name,
                         Member = member,
@@ -88,15 +88,15 @@ namespace TheCodingMonkey.Serialization.Configuration
         /// <summary>Sets the serialization properties of a member of the class. If ByConvention was called first, this will override those inferred settings.</summary>
         /// <param name="field">Field in the class to configure.</param>
         /// <param name="opt">Serialization options to set on the field.</param>
-        public CsvConfiguration<TTargetType> ForMember(Expression<Func<TTargetType, object>> field, Action<TextFieldConfiguration> opt)
+        public CsvConfiguration<TTargetType> ForMember(Expression<Func<TTargetType, object>> field, Action<CsvFieldConfiguration> opt)
         {
             var member = ReflectionHelper.FindProperty(field);
-            var kvp = GetAttributePair(member);
+            var kvp = GetFieldPair(member);
 
-            TextFieldAttribute attr;
+            CsvField textField;
             if (kvp == null)
             {
-                attr = new TextFieldAttribute
+                textField = new CsvField
                 {
                     Member = member,
                     Name = member.Name
@@ -104,13 +104,13 @@ namespace TheCodingMonkey.Serialization.Configuration
             }
             else
             {
-                attr = kvp.Value.Value;
-                CsvSerializer.Fields.Remove(kvp.Value.Key);
+                textField = (CsvField)kvp.Value.Value;
+                Serializer.Fields.Remove(kvp.Value.Key);
             }
 
-            TextFieldConfiguration fieldConfig = new TextFieldConfiguration(attr);
+            CsvFieldConfiguration fieldConfig = new CsvFieldConfiguration(textField);
             opt.Invoke(fieldConfig);
-            CsvSerializer.Fields.Add(attr.Position, attr);
+            CsvSerializer.Fields.Add(fieldConfig.Field.Position, fieldConfig.Field);
             return this;
         }
 
@@ -118,26 +118,8 @@ namespace TheCodingMonkey.Serialization.Configuration
         /// <param name="field">Field to ignore.</param>
         public CsvConfiguration<TTargetType> Ignore(Expression<Func<TTargetType, object>> field)
         {
-            var member = ReflectionHelper.FindProperty(field);
-            var kvp = GetAttributePair(member);
-            if (kvp != null)
-                Serializer.Fields.Remove(kvp.Value.Key);
-
+            InternalIgnore(field);
             return this;
-        }
-
-        private KeyValuePair<int, TextFieldAttribute>? GetAttributePair(MemberInfo member)
-        {
-            KeyValuePair<int, TextFieldAttribute>? foundKvp = null;
-            foreach (var kvp in CsvSerializer.Fields)
-            {
-                if (kvp.Value.Member.Name == member.Name)
-                {
-                    foundKvp = kvp;
-                    break;
-                }
-            }
-            return foundKvp;
         }
     }
 }
