@@ -6,33 +6,15 @@ using TheCodingMonkey.Serialization.Tests.Models;
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class CsvWithoutQualifierTests : BaseTests<CsvRecord>
+    public class CsvWithoutQualifierTests : CsvTests
     {
         public CsvWithoutQualifierTests() 
-        : base("CsvWithoutQualifier", "csv", Utilities.GetExpectations<CsvRecord>("Csv"))
         {
             Serializer = new CsvSerializer<CsvRecord>()
             {
                 AlwaysWriteQualifier = false
             };
-            Comparer = new RecordComparer();
-        }
-
-        private class RecordComparer : IComparer
-        {
-            public int Compare(object x, object y)
-            {
-                var left = (CsvRecord)x;
-                var right = (CsvRecord)y;
-
-                bool equal = left.Id == right.Id &&
-                             left.Name == right.Name &&
-                             left.Description == right.Description &&
-                             left.Value == right.Value &&
-                             left.Enabled == right.Enabled;
-
-                return equal ? 0 : 1; 
-            }
+            TestFile = "CsvWithoutQualifierFile.csv";
         }
     }
 }

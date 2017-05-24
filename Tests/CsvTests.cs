@@ -1,34 +1,39 @@
 ﻿using System;
-using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using TheCodingMonkey.Serialization.Tests.Models;
+using TheCodingMonkey.Serialization.Tests.Helpers;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class CsvTests : BaseTests<CsvRecord>
+    public class CsvTests
     {
-        public CsvTests() : base("Csv", "csv")
+        protected CsvSerializer<CsvRecord> Serializer = new CsvSerializer<CsvRecord>();
+        protected string TestFile = "CsvFile.csv";
+
+        [TestMethod]
+        public void DeserializeArrayTest()
         {
-            Serializer = new CsvSerializer<CsvRecord>();
-            Comparer = new RecordComparer();
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvRecords);
         }
 
-        private class RecordComparer : IComparer
+        [TestMethod]
+        public void DeserializeEnumerableTest()
         {
-            public int Compare(object x, object y)
-            {
-                var left = (CsvRecord)x;
-                var right = (CsvRecord)y;
+            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvRecords);
+        }
 
-                bool equal = left.Id == right.Id &&
-                             left.Name == right.Name &&
-                             left.Description == right.Description &&
-                             left.Value == right.Value &&
-                             left.Enabled == right.Enabled;
+        [TestMethod]
+        public void SerializeTest()
+        {
+            Helpers.Tests.SerializeTest(TestFile, Serializer, Records.CsvRecords);
+        }
 
-                return equal ? 0 : 1; 
-            }
+        [TestMethod]
+        public void SerializeArrayTest()
+        {
+            Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.CsvRecords);
         }
     }
 }

@@ -1,34 +1,39 @@
 ﻿using System;
-using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using TheCodingMonkey.Serialization.Tests.Models;
+using TheCodingMonkey.Serialization.Tests.Helpers;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class CsvWithFormattingTests : BaseTests<CsvWithFormattingRecord>
+    public class CsvWithFormattingTests
     {
-        public CsvWithFormattingTests() : base("CsvWithFormatting", "csv")
+        private CsvSerializer<CsvWithFormattingRecord> Serializer = new CsvSerializer<CsvWithFormattingRecord>();
+        private string TestFile = "CsvWithFormattingFile.csv";
+
+        [TestMethod]
+        public void DeserializeArrayTest()
         {
-            Serializer = new CsvSerializer<CsvWithFormattingRecord>();
-            Comparer = new RecordComparer();
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvWithFormattingRecords);
         }
 
-        private class RecordComparer : IComparer
+        [TestMethod]
+        public void DeserializeEnumerableTest()
         {
-            public int Compare(object x, object y)
-            {
-                var left = (CsvWithFormattingRecord)x;
-                var right = (CsvWithFormattingRecord)y;
+            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvWithFormattingRecords);
+        }
 
-                bool equal = left.Id == right.Id &&
-                             left.Name == right.Name &&
-                             left.Description == right.Description &&
-                             left.Value == right.Value &&
-                             left.Enabled == right.Enabled;
+        [TestMethod]
+        public void SerializeTest()
+        {
+            Helpers.Tests.SerializeTest(TestFile, Serializer, Records.CsvWithFormattingRecords);
+        }
 
-                return equal ? 0 : 1; 
-            }
+        [TestMethod]
+        public void SerializeArrayTest()
+        {
+            Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.CsvWithFormattingRecords);
         }
     }
 }

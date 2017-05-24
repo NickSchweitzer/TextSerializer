@@ -1,69 +1,40 @@
 ﻿using System;
-using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using TheCodingMonkey.Serialization.Tests.Models;
-using System.IO;
+using TheCodingMonkey.Serialization.Tests.Helpers;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class CsvWithOptionsTests : BaseTests<CsvWithOptionsRecord>
+    public class CsvWithOptionsTests
     {
-        public CsvWithOptionsTests() : base("CsvWithOptions", "csv")
+        private CsvSerializer<CsvWithOptionsRecord> Serializer = new CsvSerializer<CsvWithOptionsRecord>();
+        private string DeserializeTestFile = "CsvWithOptionsFile.csv";
+        private string SerializeTestFile = "CsvFile.csv";
+
+        [TestMethod]
+        public void DeserializeArrayTest()
         {
-            Serializer = new CsvSerializer<CsvWithOptionsRecord>();
-            Comparer = new RecordComparer();
+            Helpers.Tests.DeserializeArrayTest(DeserializeTestFile, Serializer, Records.CsvWithOptionsRecords);
         }
 
         [TestMethod]
-        public override void SerializeTest()
+        public void DeserializeEnumerableTest()
         {
-            var expectedRecords = Utilities.GetExpectations<CsvWithOptionsRecord>(TestFile).List().ToArray();
-            var expectedLines = Utilities.GetLines("Csv", Extension);
-
-            for (int i = 0; i < expectedRecords.Length; i++)
-            {
-                string line = Serializer.Serialize(expectedRecords[i]);
-                Assert.AreEqual(expectedLines[i], line);
-            }
+            Helpers.Tests.DeserializeEnumerableTest(DeserializeTestFile, Serializer, Records.CsvWithOptionsRecords);
         }
 
         [TestMethod]
-        public override void SerializeArrayTest()
+        public void SerializeTest()
         {
-            var expectedRecords = Utilities.GetExpectations<CsvWithOptionsRecord>(TestFile).List().ToArray();
-            var expectedLines = Utilities.GetLines("Csv", Extension);
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    Serializer.SerializeArray(writer, expectedRecords);
-                    writer.Flush();
-                    stream.Position = 0;
-                    var lines = Utilities.GetLines(stream);
-
-                    for (int i = 0; i < expectedLines.Count; i++)
-                        Assert.AreEqual(expectedLines[i], lines[i]);
-                }
-            }
+            Helpers.Tests.SerializeTest(SerializeTestFile, Serializer, Records.CsvWithOptionsRecords);
         }
 
-        private class RecordComparer : IComparer
+        [TestMethod]
+        public void SerializeArrayTest()
         {
-            public int Compare(object x, object y)
-            {
-                var left = (CsvWithOptionsRecord)x;
-                var right = (CsvWithOptionsRecord)y;
-
-                bool equal = left.Id == right.Id &&
-                             left.Name == right.Name &&
-                             left.Description == right.Description &&
-                             left.Value == right.Value &&
-                             left.Enabled == right.Enabled;
-
-                return equal ? 0 : 1; 
-            }
+            Helpers.Tests.SerializeArrayTest(SerializeTestFile, Serializer, Records.CsvWithOptionsRecords);
         }
     }
 }

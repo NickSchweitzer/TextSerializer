@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -11,11 +13,24 @@ namespace TheCodingMonkey.Serialization
     public class FixedWidthSerializer<TTargetType> : TextSerializer<TTargetType>
         where TTargetType : new()
     {
+        /// <summary>Initializes a new instance of the FixedWidthSerializer class with default values, using Attributes on the target type
+        /// to determine the configuration of fields and properties.</summary>
         public FixedWidthSerializer()
         {
             InitializeFromAttributes();
         }
 
+        /// <summary>Initializes a new instance of the FixedWidthSerializer class using Fluent configuration.</summary>
+        ///<param name="config">Fluent configuration for the serializer.</param>
+        public FixedWidthSerializer(Action<FixedWidthConfiguration<TTargetType>> config)
+        {
+            FixedWidthConfiguration<TTargetType> completedConfig = new FixedWidthConfiguration<TTargetType>(this);
+            config.Invoke(completedConfig);
+        }
+
+        /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>
+        /// <param name="member">Property or Field to return a configuration for.</param>
+        /// <returns>Field configuration if this property should be serialized, otherwise null to ignore.</returns>
         protected override Field GetFieldFromAttribute(MemberInfo member)
         {
             // Check to see if they've marked up this field/property with the attribute for serialization

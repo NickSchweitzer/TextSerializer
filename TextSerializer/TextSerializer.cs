@@ -15,6 +15,7 @@ namespace TheCodingMonkey.Serialization
     public abstract class TextSerializer<TTargetType>
         where TTargetType : new()
     {
+        /// <summary>Default constructor for the base type. Does only basic initialization of the TargetType.</summary>
         protected TextSerializer()
         {
             Fields = new Dictionary<int, Field>();
@@ -27,8 +28,12 @@ namespace TheCodingMonkey.Serialization
 
         internal Type TargetType { get; private set; }
 
+        /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>
+        /// <param name="member">Property or Field to return a configuration for.</param>
+        /// <returns>Field configuration if this property should be serialized, otherwise null to ignore.</returns>
         protected abstract Field GetFieldFromAttribute(MemberInfo member);
 
+        /// <summary>Initializes the field definitions for this class using Attributes, which occurs if a Configuration is not passed into the Constructor.</summary>
         protected void InitializeFromAttributes()
         {
             // Double check that the TextSerializableAttribute has been attached to the TargetType

@@ -1,34 +1,39 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using TheCodingMonkey.Serialization.Tests.Models;
-using System.Collections;
+using TheCodingMonkey.Serialization.Tests.Helpers;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("Fixed Width")]
-    public class FixedWidthTests : BaseTests<FixedWidthRecord>
+    public class FixedWidthTests
     {
-        public FixedWidthTests() : base("FixedWidth", "txt")
+        protected FixedWidthSerializer<FixedWidthRecord> Serializer = new FixedWidthSerializer<FixedWidthRecord>();
+        protected string TestFile = "FixedWidthFile.txt";
+
+        [TestMethod]
+        public void DeserializeArrayTest()
         {
-            Serializer = new FixedWidthSerializer<FixedWidthRecord>();
-            Comparer = new RecordComparer();
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.FixedWidthRecords);
         }
 
-        private class RecordComparer : IComparer
+        [TestMethod]
+        public void DeserializeEnumerableTest()
         {
-            public int Compare(object x, object y)
-            {
-                var left = (FixedWidthRecord)x;
-                var right = (FixedWidthRecord)y;
+            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.FixedWidthRecords);
+        }
 
-                bool equal = left.Id == right.Id &&
-                             left.Name == right.Name &&
-                             left.Description == right.Description &&
-                             left.Value == right.Value &&
-                             left.Enabled == right.Enabled;
+        [TestMethod]
+        public void SerializeTest()
+        {
+            Helpers.Tests.SerializeTest(TestFile, Serializer, Records.FixedWidthRecords);
+        }
 
-                return equal ? 0 : 1;
-            }
+        [TestMethod]
+        public void SerializeArrayTest()
+        {
+            Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.FixedWidthRecords);
         }
     }
 }

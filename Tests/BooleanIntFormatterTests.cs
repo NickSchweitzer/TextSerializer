@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using TheCodingMonkey.Serialization.Formatters;
 
 namespace TheCodingMonkey.Serialization.Tests

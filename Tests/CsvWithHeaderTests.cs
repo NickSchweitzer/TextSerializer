@@ -1,114 +1,45 @@
 ﻿using System;
-using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using TheCodingMonkey.Serialization.Tests.Models;
-using System.IO;
+using TheCodingMonkey.Serialization.Tests.Helpers;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
     public class CsvWithHeaderTests
     {
-        protected CsvSerializer<CsvRecord> Serializer;
-        protected readonly string TestFile;
-        protected readonly string Extension;
-        protected IComparer Comparer;
-
-        public CsvWithHeaderTests()
-        {
-            TestFile = "CsvWithHeader";
-            Extension = "csv";
-            Serializer = new CsvSerializer<CsvRecord>();
-            Comparer = new RecordComparer();
-        }
+        private CsvSerializer<CsvRecord> Serializer = new CsvSerializer<CsvRecord>();
+        private string TestFile = "CsvWithHeaderFile.csv";
 
         [TestMethod]
         public void DeserializeArrayTest()
         {
-            ICollection csvRecords;
-            using (var reader = Utilities.OpenEmbeddedFile(TestFile, Extension))
-            {
-                csvRecords = (ICollection)Serializer.DeserializeArray(reader, true);
-            }
-
-            var expectedRecords = (ICollection)Utilities.GetExpectations<CsvRecord>("Csv").List();
-
-            CollectionAssert.AreEqual(expectedRecords, csvRecords, Comparer);
+            Helpers.Tests.DeserializeArrayWithHeaderTest(TestFile, Serializer, Records.CsvRecords);
         }
 
         [TestMethod]
         public void DeserializeEnumerableTest()
         {
-            var expectedRecords = Utilities.GetExpectations<CsvRecord>("Csv").List().ToArray();
-            using (var reader = Utilities.OpenEmbeddedFile(TestFile, Extension))
-            {
-                int i = 0;
-                foreach (var record in Serializer.DeserializeEnumerable(reader, true))
-                {
-                    Assert.AreEqual(0, Comparer.Compare(expectedRecords[i++], record));
-                }
-                Assert.AreEqual(expectedRecords.Length, i);
-            }
-        }
-
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
-        public void DeserializeWithoutHeaderTest()
-        {
-            using (var reader = Utilities.OpenEmbeddedFile("Csv", Extension))
-            {
-                Serializer.DeserializeArray(reader, true);
-            }
+            Helpers.Tests.DeserializeEnumerableWithHeaderTest(TestFile, Serializer, Records.CsvRecords);
         }
 
         [TestMethod]
         public void SerializeTest()
         {
-            var expectedRecords = Utilities.GetExpectations<CsvRecord>("Csv").List().ToArray();
-            var expectedLines = Utilities.GetLines(TestFile, Extension);
-
-            for (int i = 0; i < expectedRecords.Length; i++)
-            {
-                string line = Serializer.Serialize(expectedRecords[i]);
-                Assert.AreEqual(expectedLines[i+1], line);
-            }
+            Helpers.Tests.SerializeWithHeaderTest(TestFile, Serializer, Records.CsvRecords);
         }
 
         [TestMethod]
         public void SerializeArrayTest()
         {
-            var expectedRecords = Utilities.GetExpectations<CsvRecord>("Csv").List().ToArray();
-            var expectedLines = Utilities.GetLines(TestFile, Extension);
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    Serializer.SerializeArray(writer, expectedRecords, true);
-                    writer.Flush();
-                    stream.Position = 0;
-                    var lines = Utilities.GetLines(stream);
-
-                    for (int i = 0; i < expectedLines.Count; i++)
-                        Assert.AreEqual(expectedLines[i], lines[i]);
-                }
-            }
+            Helpers.Tests.SerializeArrayWithHeaderTest(TestFile, Serializer, Records.CsvRecords);
         }
-        
-        private class RecordComparer : IComparer
+
+        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        public void DeserializeWithoutHeaderTest()
         {
-            public int Compare(object x, object y)
-            {
-                var left = (CsvRecord)x;
-                var right = (CsvRecord)y;
-
-                bool equal = left.Id == right.Id &&
-                             left.Name == right.Name &&
-                             left.Description == right.Description &&
-                             left.Value == right.Value &&
-                             left.Enabled == right.Enabled;
-
-                return equal ? 0 : 1; 
-            }
+            Helpers.Tests.DeserializeArrayWithHeaderTest("CsvFile.csv", Serializer, Records.CsvRecords);
         }
     }
 }

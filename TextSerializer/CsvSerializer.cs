@@ -14,7 +14,8 @@ namespace TheCodingMonkey.Serialization
     public class CsvSerializer<TTargetType> : TextSerializer<TTargetType>
         where TTargetType : new()
     {
-        /// <summary>Initializes a new instance of the CSVSerializer class.</summary>
+        /// <summary>Initializes a new instance of the CSVSerializer class with default values, using Attributes on the target type
+        /// to determine the configuration of fields and properties.</summary>
         public CsvSerializer()
         {
             AlwaysWriteQualifier = true;
@@ -23,7 +24,11 @@ namespace TheCodingMonkey.Serialization
             InitializeFromAttributes();
         }
 
-        /// <summary>Initializes a new instance of the CSVSerializer class.</summary>
+        /// <summary>Initializes a new instance of the CSVSerializer class with specific values for how the CSV should be formatted, using Attributes 
+        /// on the target type to determine the configuration of fields and properties.</summary>
+        /// <param name="alwaysWriteQualifier">True to always use qualifiers around all fields in the CSV.</param>
+        /// <param name="delimiter">The delimiter to use between CSV fields.</param>
+        /// <param name="qualifier">The qualifier character to use around the fields.</param>
         public CsvSerializer(bool alwaysWriteQualifier, char delimiter, char qualifier)
         {
             AlwaysWriteQualifier = alwaysWriteQualifier;
@@ -32,12 +37,17 @@ namespace TheCodingMonkey.Serialization
             InitializeFromAttributes();
         }
 
+        /// <summary>Initializes a new instance of the CSVSerializer class using Fluent configuration.</summary>
+        ///<param name="config">Fluent configuration for the serializer.</param>
         public CsvSerializer(Action<CsvConfiguration<TTargetType>> config)
         {
             CsvConfiguration<TTargetType> completedConfig = new CsvConfiguration<TTargetType>(this);
             config.Invoke(completedConfig);
         }
 
+        /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>
+        /// <param name="member">Property or Field to return a configuration for.</param>
+        /// <returns>Field configuration if this property should be serialized, otherwise null to ignore.</returns>
         protected override Field GetFieldFromAttribute(MemberInfo member)
         {
             // Check to see if they've marked up this field/property with the attribute for serialization
@@ -58,20 +68,25 @@ namespace TheCodingMonkey.Serialization
         /// <summary>Character used to wrap a field if the field contins the <see cref="Delimiter">Delimiter</see>.</summary>
         public char Qualifier { get; set; }
 
+        /// <summary>Serializes out the header row by itself</summary>
+        /// <returns>Header string</returns>
+        public string SerializeHeader()
+        {
+            var headerList = new List<string>();
+            for (int i = 0; i < Fields.Count; i++)
+                headerList.Add(((CsvField)Fields[i]).Name);
+
+            return FormatOutput(headerList);
+        }
+
         /// <summary>Serializes an array of objects to CSV Format</summary>
         /// <param name="writer">TextWriter where CSV text should go</param>
         /// <param name="records">Array of objects to serialize</param>
         /// <param name="writeHeader">True if should write a header record first, false otherwise</param>
         public void SerializeArray( TextWriter writer, ICollection<TTargetType> records, bool writeHeader )
         {
-            if ( writeHeader )
-            {
-                var headerList = new List<string>();
-                for ( int i = 0; i < Fields.Count; i++ )
-                    headerList.Add( ((CsvField)Fields[i]).Name );
-
-                writer.WriteLine( FormatOutput( headerList ) );
-            }
+            if (writeHeader)
+                writer.WriteLine(SerializeHeader());
 
             base.SerializeArray( writer, records );
         }

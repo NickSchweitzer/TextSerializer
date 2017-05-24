@@ -1,37 +1,47 @@
 ﻿using System;
-using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using TheCodingMonkey.Serialization.Tests.Models;
+using TheCodingMonkey.Serialization.Tests.Helpers;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("CSV")]
-    public class CsvPipeDelimitedTests : BaseTests<CsvRecord>
+    public class CsvPipeDelimitedTests
     {
-        public CsvPipeDelimitedTests() : base("CsvPipeDelimited", "csv")
+        private CsvSerializer<CsvRecord> Serializer = new CsvSerializer<CsvRecord>();
+        private string TestFile = "CsvPipeDelimitedFile.csv";
+
+        public CsvPipeDelimitedTests()
         {
             Serializer = new CsvSerializer<CsvRecord>
             {
                 Delimiter = '|'
             };
-            Comparer = new RecordComparer();
         }
 
-        private class RecordComparer : IComparer
+        [TestMethod]
+        public void DeserializeArrayTest()
         {
-            public int Compare(object x, object y)
-            {
-                var left = (CsvRecord)x;
-                var right = (CsvRecord)y;
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvPipeDelimitedRecords);
+        }
 
-                bool equal = left.Id == right.Id &&
-                             left.Name == right.Name &&
-                             left.Description == right.Description &&
-                             left.Value == right.Value &&
-                             left.Enabled == right.Enabled;
+        [TestMethod]
+        public void DeserializeEnumerableTest()
+        {
+            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvPipeDelimitedRecords);
+        }
 
-                return equal ? 0 : 1; 
-            }
+        [TestMethod]
+        public void SerializeTest()
+        {
+            Helpers.Tests.SerializeTest(TestFile, Serializer, Records.CsvPipeDelimitedRecords);
+        }
+
+        [TestMethod]
+        public void SerializeArrayTest()
+        {
+            Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.CsvPipeDelimitedRecords);
         }
     }
 }
