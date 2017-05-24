@@ -48,11 +48,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvStructConfigurationTests.cs" />
     <Compile Include="CsvFluentMixedConfigurationTests.cs" />
     <Compile Include="CsvIgnoreConfigurationTests.cs" />
     <Compile Include="CsvConventionConfigurationTests.cs" />
     <Compile Include="CsvFluentConfigurationTests.cs" />
     <Compile Include="CsvPipeDelimitedTests.cs" />
+    <Compile Include="CsvStructTests.cs" />
     <Compile Include="CsvWithExtraFieldsTests.cs" />
     <Compile Include="CsvWithoutQualifierTests.cs" />
     <Compile Include="CsvWithOptionsTests.cs" />
@@ -64,8 +66,10 @@
     <Compile Include="Helpers\Records.cs" />
     <Compile Include="Helpers\Tests.cs" />
     <Compile Include="Models\CsvPocoMixedRecord.cs" />
+    <Compile Include="Models\CsvPocoStructRecord.cs" />
     <Compile Include="Models\CsvPocoWithExtraFieldsRecord.cs" />
     <Compile Include="Models\CsvPocoRecord.cs" />
+    <Compile Include="Models\CsvStructRecord.cs" />
     <Compile Include="Models\CsvWithExtraFieldsRecord.cs" />
     <Compile Include="Models\CsvWithOptionsRecord.cs" />
     <Compile Include="Models\CsvWithFormattingRecord.cs" />

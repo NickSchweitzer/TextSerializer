@@ -27,6 +27,26 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         };
 
+        public static readonly List<CsvStructRecord> CsvStructRecords = new List<CsvStructRecord>
+        {
+            new CsvStructRecord
+            {
+                Id = 1,
+                Name = "First Record",
+                Description = "Long Description, with a Comma",
+                Value = 3.14159,
+                Enabled = true
+            },
+            new CsvStructRecord
+            {
+                Id = 2,
+                Name = "Second Record",
+                Description = "Long Description without a Comma",
+                Value = 123.4567,
+                Enabled = false
+            }
+        };
+
         public static readonly List<CsvRecord> CsvPipeDelimitedRecords = new List<CsvRecord>
         {
             new CsvRecord
@@ -166,6 +186,26 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Enabled = true
             },
             new CsvPocoRecord
+            {
+                Id = 2,
+                Name = "Second Record",
+                Description = "Long Description without a Comma",
+                Value = 123.4567,
+                Enabled = false
+            }
+        };
+
+        public static readonly List<CsvPocoStructRecord> CsvPocoStructRecords = new List<CsvPocoStructRecord>
+        {
+            new CsvPocoStructRecord
+            {
+                Id = 1,
+                Name = "First Record",
+                Description = "Long Description, with a Comma",
+                Value = 3.14159,
+                Enabled = true
+            },
+            new CsvPocoStructRecord
             {
                 Id = 2,
                 Name = "Second Record",

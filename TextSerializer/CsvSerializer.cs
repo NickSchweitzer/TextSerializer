@@ -17,12 +17,8 @@ namespace TheCodingMonkey.Serialization
         /// <summary>Initializes a new instance of the CSVSerializer class with default values, using Attributes on the target type
         /// to determine the configuration of fields and properties.</summary>
         public CsvSerializer()
-        {
-            AlwaysWriteQualifier = true;
-            Delimiter = ',';
-            Qualifier = '"';
-            InitializeFromAttributes();
-        }
+        : this(true, ',', '"')
+        { }
 
         /// <summary>Initializes a new instance of the CSVSerializer class with specific values for how the CSV should be formatted, using Attributes 
         /// on the target type to determine the configuration of fields and properties.</summary>
