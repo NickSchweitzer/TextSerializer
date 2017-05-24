@@ -95,6 +95,26 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         };
 
+        public static readonly List<CsvWithExtraFieldsRecord> CsvWithExtraFieldsRecords = new List<CsvWithExtraFieldsRecord>
+        {
+            new CsvWithExtraFieldsRecord
+            {
+                Id = 1,
+                Name = "First Record",
+                Description = "Long Description, with a Comma",
+                Value = 3.14159,
+                Enabled = true
+            },
+            new CsvWithExtraFieldsRecord
+            {
+                Id = 2,
+                Name = "Second Record",
+                Description = "Long Description without a Comma",
+                Value = 123.4567,
+                Enabled = false
+            }
+        };
+
         public static readonly List<FixedWidthRecord> FixedWidthRecords = new List<FixedWidthRecord>
         {
             new FixedWidthRecord
@@ -154,5 +174,26 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Enabled = false
             }
         };
+
+        public static readonly List<CsvPocoWithExtraFieldsRecord> CsvPocoWithExtraFieldsRecords = new List<CsvPocoWithExtraFieldsRecord>
+        {
+            new CsvPocoWithExtraFieldsRecord
+            {
+                Id = 1,
+                Name = "First Record",
+                Description = "Long Description, with a Comma",
+                Value = 3.14159,
+                Enabled = true
+            },
+            new CsvPocoWithExtraFieldsRecord
+            {
+                Id = 2,
+                Name = "Second Record",
+                Description = "Long Description without a Comma",
+                Value = 123.4567,
+                Enabled = false
+            }
+        };
+
     }
 }

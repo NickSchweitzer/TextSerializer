@@ -10,7 +10,7 @@ namespace TheCodingMonkey.Serialization.Tests
     public class CsvFluentConfigurationTests
     {
         protected CsvSerializer<CsvPocoRecord> Serializer;
-        private string TestFile = "CsvFile.csv";
+        protected string TestFile = "CsvWithOptionsFile.csv";
 
         public CsvFluentConfigurationTests()
         {
@@ -37,13 +37,13 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void SerializeTest()
         {
-            Helpers.Tests.SerializeTest(TestFile, Serializer, Records.CsvPocoRecords);
+            Helpers.Tests.SerializeTest("CsvFile.csv", Serializer, Records.CsvPocoRecords);
         }
 
         [TestMethod]
         public void SerializeArrayTest()
         {
-            Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.CsvPocoRecords);
+            Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.CsvPocoRecords);
         }
     }
 }
