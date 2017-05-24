@@ -3,7 +3,7 @@
 namespace TheCodingMonkey.Serialization.Configuration
 {
     [Serializable]
-    internal class TextSerializationConfigurationException : Exception
+    public class TextSerializationConfigurationException : Exception
     {
         public TextSerializationConfigurationException()
         { }

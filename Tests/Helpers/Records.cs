@@ -175,6 +175,26 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         };
 
+        public static readonly List<CsvPocoMixedRecord> CsvPocoMixedRecords = new List<CsvPocoMixedRecord>
+        {
+            new CsvPocoMixedRecord
+            {
+                Id = 1,
+                Name = "First Record",
+                Description = "Long Description, with a Comma",
+                Value = 3.14159,
+                Enabled = true
+            },
+            new CsvPocoMixedRecord
+            {
+                Id = 2,
+                Name = "Second Record",
+                Description = "Long Description without a Comma",
+                Value = 123.4567,
+                Enabled = false
+            }
+        };
+
         public static readonly List<CsvPocoWithExtraFieldsRecord> CsvPocoWithExtraFieldsRecords = new List<CsvPocoWithExtraFieldsRecord>
         {
             new CsvPocoWithExtraFieldsRecord
