@@ -2,6 +2,7 @@
 
 namespace TheCodingMonkey.Serialization
 {
+    /// <summary>Contains configuration properties for a field/property that are specific to CSV files</summary>
     public class CsvField : Field
     {
         private string _Name = null;

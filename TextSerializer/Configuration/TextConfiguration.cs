@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
+
 using TheCodingMonkey.Serialization.Utilities;
 
 namespace TheCodingMonkey.Serialization.Configuration
 {
+    /// <summary>Base class for Fluent Configuration classes</summary>
     public abstract class TextConfiguration<TTargetType>
         where TTargetType : new()
     {
+        /// <summary>Serializer which is being configured by this class.</summary>
         protected TextSerializer<TTargetType> Serializer { get; set; }
 
         internal TextConfiguration(TextSerializer<TTargetType> serializer)
@@ -27,6 +29,9 @@ namespace TheCodingMonkey.Serialization.Configuration
                 Serializer.Fields.Remove(kvp.Value.Key);
         }
 
+        /// <summary>Retrieves the Field configuration for the specified member, along with the position in the file where it should be serialized.</summary>
+        /// <param name="member">The Reflection MemberInfo for the field to find in this configuration</param>
+        /// <returns>A KeyValuePair containing the configured member if its already been configured, otherwise null.</returns>
         protected KeyValuePair<int, Field>? GetFieldPair(MemberInfo member)
         {
             KeyValuePair<int, Field>? foundKvp = null;

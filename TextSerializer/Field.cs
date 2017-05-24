@@ -3,8 +3,10 @@ using System.Reflection;
 
 namespace TheCodingMonkey.Serialization
 {
+    /// <summary>Class which contains the configuration details of a field/property that is created either using Attributes or Fluent Configuration</summary>
     public abstract class Field
     {
+        /// <summary>Default Constructor</summary>
         public Field()
         {
             Position = -1;
@@ -36,8 +38,12 @@ namespace TheCodingMonkey.Serialization
             }
         }
 
+        /// <summary>The reflected MemberInfo details of the field/property that this configures.</summary>
         public MemberInfo Member { get; set; }
+
+        /// <summary>The Formatter to be used for Serialization/Deserialization if the default formatting is not used.</summary>
         public ITextFormatter Formatter { get; private set; }
+        /// <summary>Defines the allowed characters that can be used for a field in the file.</summary>
         public object[] AllowedValues { get; set; }
 
         internal Type GetNativeType()

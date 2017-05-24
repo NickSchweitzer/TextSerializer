@@ -3,14 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization
 {
-    /// <summary>Base class that contains common code for the <see cref="CsvSerializer">CSVSerializer</see> and 
-    /// <see cref="FixedWidthSerializer">FixedWidthSerializer</see> class.</summary>
+    /// <summary>Base class that contains common code for the <see cref="CsvSerializer{TTargetType}">CSVSerializer</see> and 
+    /// <see cref="FixedWidthSerializer{TTargetType}">FixedWidthSerializer</see> class.</summary>
     /// <typeparam name="TTargetType">The type of object that will be serialized.  TargetType must have the 
-    /// <see cref="TextSerializable">TextSerializable attribute</see> applied, and any fields contained must have the 
+    /// <see cref="TextSerializableAttribute">TextSerializable attribute</see> applied, and any fields contained must have the 
     /// <see cref="TextFieldAttribute">TextField attribute</see> applied to them.</typeparam>
     public abstract class TextSerializer<TTargetType>
         where TTargetType : new()

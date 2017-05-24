@@ -6,7 +6,7 @@ using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization.Utilities
 {
-    public static class ReflectionHelper
+    internal static class ReflectionHelper
     {
         public static MemberInfo GetFieldOrProperty(LambdaExpression expression)
         {

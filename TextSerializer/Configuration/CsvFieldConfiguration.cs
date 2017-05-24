@@ -2,6 +2,7 @@
 
 namespace TheCodingMonkey.Serialization.Configuration
 {
+    /// <summary>Fluent Configuration class used to configure fields and properties which are serialized using the <see cref="CsvSerializer{TTargetType}">CsvSerialize</see> class.</summary>
     public class CsvFieldConfiguration
     {
         internal CsvField Field { get; set; }

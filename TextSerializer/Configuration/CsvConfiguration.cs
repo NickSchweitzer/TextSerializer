@@ -6,6 +6,7 @@ using TheCodingMonkey.Serialization.Utilities;
 
 namespace TheCodingMonkey.Serialization.Configuration
 {
+    /// <summary>Fluent Configuration class for the <see cref="CsvSerializer{TTargetType}">CsvSerializer</see> class.</summary>
     public class CsvConfiguration<TTargetType> : TextConfiguration<TTargetType>
         where TTargetType : new()
     {
