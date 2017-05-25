@@ -27,6 +27,12 @@ namespace TheCodingMonkey.Serialization.Tests
         }
 
         [TestMethod]
+        public void DeserializeArrayCountTest()
+        {
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvPipeDelimitedRecords, 2);
+        }
+
+        [TestMethod]
         public void DeserializeEnumerableTest()
         {
             Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvPipeDelimitedRecords);

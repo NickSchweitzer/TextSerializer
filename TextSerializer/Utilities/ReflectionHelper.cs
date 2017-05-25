@@ -8,14 +8,6 @@ namespace TheCodingMonkey.Serialization.Utilities
 {
     internal static class ReflectionHelper
     {
-        public static MemberInfo GetFieldOrProperty(LambdaExpression expression)
-        {
-            var memberExpression = expression.Body as MemberExpression;
-            return memberExpression != null
-                ? memberExpression.Member
-                : throw new ArgumentOutOfRangeException(nameof(expression), "Expected a property/field access expression, not " + expression);
-        }
-
         public static MemberInfo FindProperty(LambdaExpression lambdaExpression)
         {
             Expression expressionToCheck = lambdaExpression;

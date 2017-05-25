@@ -9,8 +9,9 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvIgnoreConfigurationTests
     {
-        protected CsvSerializer<PocoWithExtraFieldsRecord> Serializer;
-        private string TestFile = "CsvWithOptionsFile.csv";
+        protected TextSerializer<PocoWithExtraFieldsRecord> Serializer;
+        protected string DeserializeTestFile = "CsvWithOptionsFile.csv";
+        protected string SerializeTestFile = "CsvFile.csv";
 
         public CsvIgnoreConfigurationTests()
         {
@@ -22,25 +23,25 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void DeserializeArrayTest()
         {
-            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.PocoWithExtraFieldsRecords);
+            Helpers.Tests.DeserializeArrayTest(DeserializeTestFile, Serializer, Records.PocoWithExtraFieldsRecords);
         }
 
         [TestMethod]
         public void DeserializeEnumerableTest()
         {
-            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.PocoWithExtraFieldsRecords);
+            Helpers.Tests.DeserializeEnumerableTest(DeserializeTestFile, Serializer, Records.PocoWithExtraFieldsRecords);
         }
 
         [TestMethod]
         public void SerializeTest()
         {
-            Helpers.Tests.SerializeTest("CsvFile.csv", Serializer, Records.PocoWithExtraFieldsRecords);
+            Helpers.Tests.SerializeTest(SerializeTestFile, Serializer, Records.PocoWithExtraFieldsRecords);
         }
 
         [TestMethod]
         public void SerializeArrayTest()
         {
-            Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.PocoWithExtraFieldsRecords);
+            Helpers.Tests.SerializeArrayTest(SerializeTestFile, Serializer, Records.PocoWithExtraFieldsRecords);
         }
     }
 }

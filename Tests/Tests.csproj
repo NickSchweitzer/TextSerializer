@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FixedWidthIgnoreConfigurationTests.cs" />
     <Compile Include="FixedWidthFluentConfigurationTests.cs" />
     <Compile Include="CsvStructConfigurationTests.cs" />
     <Compile Include="CsvFluentMixedConfigurationTests.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="FixedWidthTests.cs" />
     <Compile Include="Helpers\Records.cs" />
     <Compile Include="Helpers\Tests.cs" />
+    <Compile Include="Models\FixedWidthInvalidSizeRecord.cs" />
     <Compile Include="Models\PocoMixedRecord.cs" />
     <Compile Include="Models\PocoStructRecord.cs" />
     <Compile Include="Models\PocoWithExtraFieldsRecord.cs" />

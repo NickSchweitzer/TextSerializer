@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using TheCodingMonkey.Serialization.Tests.Models;
 using TheCodingMonkey.Serialization.Tests.Helpers;
+using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
@@ -34,6 +35,12 @@ namespace TheCodingMonkey.Serialization.Tests
         public void SerializeArrayTest()
         {
             Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.FixedWidthRecords);
+        }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        public void ZeroSizeTest()
+        {
+            var serializer = new FixedWidthSerializer<FixedWidthInvalidSizeRecord>();
         }
     }
 }

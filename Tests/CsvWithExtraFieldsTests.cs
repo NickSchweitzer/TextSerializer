@@ -35,5 +35,21 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.CsvWithExtraFieldsRecords);
         }
+
+        [TestMethod]
+        public void DeserializeCallerCreationTest()
+        {
+            CsvWithExtraFieldsRecord myRecord = new CsvWithExtraFieldsRecord
+            {
+                ExtraField = "Created By Caller"
+            };
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile(TestFile))
+            {
+                Serializer.Deserialize(reader.ReadLine(), myRecord);
+            }
+            var expectedResult = Records.CsvWithExtraFieldsRecords[0];
+            expectedResult.ExtraField = "Created By Caller";
+            Assert.AreEqual(0, new ReflectionComparer().Compare(expectedResult, myRecord));
+        }
     }
 }

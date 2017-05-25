@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,13 +12,28 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
     {
         public static ReflectionComparer GenericComparer = new ReflectionComparer();
 
-        public static void DeserializeArrayTest<T>(string testFile, TextSerializer<T> serializer, ICollection expectedResults)
+        public static void DeserializeArrayTest<T>(string testFile, TextSerializer<T> serializer, ICollection expectedResults, int count = -1)
             where T: new()
         {
             ICollection csvRecords;
             using (var reader = Utilities.OpenEmbeddedFile(testFile))
             {
-                csvRecords = (ICollection)serializer.DeserializeArray(reader);
+                if (count > 0)
+                    csvRecords = (ICollection)serializer.DeserializeArray(reader, count);
+                else
+                    csvRecords = (ICollection)serializer.DeserializeArray(reader);
+            }
+
+            if (count > 0)
+            {
+                T[] countArray = new T[count];
+                IEnumerator resultsEnum = expectedResults.GetEnumerator();
+                for (int i = 0; i < count; i++)
+                {
+                    resultsEnum.MoveNext();
+                    countArray[i] = (T)resultsEnum.Current;
+                }
+                expectedResults = countArray;
             }
 
             CollectionAssert.AreEqual(expectedResults, csvRecords, GenericComparer);
