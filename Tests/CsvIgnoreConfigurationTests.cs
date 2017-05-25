@@ -9,12 +9,12 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvIgnoreConfigurationTests
     {
-        protected CsvSerializer<CsvPocoWithExtraFieldsRecord> Serializer;
+        protected CsvSerializer<PocoWithExtraFieldsRecord> Serializer;
         private string TestFile = "CsvWithOptionsFile.csv";
 
         public CsvIgnoreConfigurationTests()
         {
-            Serializer = new CsvSerializer<CsvPocoWithExtraFieldsRecord>(config => config.ByConvention()
+            Serializer = new CsvSerializer<PocoWithExtraFieldsRecord>(config => config.ByConvention()
                 .Ignore(field => field.ExtraField)
                 .ForMember(field => field.Enabled, opt => opt.Optional()));
         }
@@ -22,25 +22,25 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void DeserializeArrayTest()
         {
-            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvPocoWithExtraFieldsRecords);
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.PocoWithExtraFieldsRecords);
         }
 
         [TestMethod]
         public void DeserializeEnumerableTest()
         {
-            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvPocoWithExtraFieldsRecords);
+            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.PocoWithExtraFieldsRecords);
         }
 
         [TestMethod]
         public void SerializeTest()
         {
-            Helpers.Tests.SerializeTest("CsvFile.csv", Serializer, Records.CsvPocoWithExtraFieldsRecords);
+            Helpers.Tests.SerializeTest("CsvFile.csv", Serializer, Records.PocoWithExtraFieldsRecords);
         }
 
         [TestMethod]
         public void SerializeArrayTest()
         {
-            Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.CsvPocoWithExtraFieldsRecords);
+            Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.PocoWithExtraFieldsRecords);
         }
     }
 }

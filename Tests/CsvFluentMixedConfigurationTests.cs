@@ -10,12 +10,12 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvFluentMixedConfigurationTests
     {
-        protected CsvSerializer<CsvPocoMixedRecord> Serializer;
+        protected CsvSerializer<PocoMixedRecord> Serializer;
         protected string TestFile = "CsvWithOptionsFile.csv";
 
         public CsvFluentMixedConfigurationTests()
         {
-            Serializer = new CsvSerializer<CsvPocoMixedRecord>(config => config
+            Serializer = new CsvSerializer<PocoMixedRecord>(config => config
                 .ForMember(field => field.Id, opt => opt.Position(0))
                 .ForMember(field => field.Name, opt => opt.Position(1))
                 .ForMember(field => field.Description, opt => opt.Position(2))
@@ -26,31 +26,31 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void DeserializeArrayTest()
         {
-            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvPocoMixedRecords);
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.PocoMixedRecords);
         }
 
         [TestMethod]
         public void DeserializeEnumerableTest()
         {
-            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvPocoMixedRecords);
+            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.PocoMixedRecords);
         }
 
         [TestMethod]
         public void SerializeTest()
         {
-            Helpers.Tests.SerializeTest("CsvFile.csv", Serializer, Records.CsvPocoMixedRecords);
+            Helpers.Tests.SerializeTest("CsvFile.csv", Serializer, Records.PocoMixedRecords);
         }
 
         [TestMethod]
         public void SerializeArrayTest()
         {
-            Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.CsvPocoMixedRecords);
+            Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.PocoMixedRecords);
         }
 
         [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
         public void CantConfigureMixedPocoByConventionTest()
         {
-            Serializer = new CsvSerializer<CsvPocoMixedRecord>(config => config.ByConvention());
+            Serializer = new CsvSerializer<PocoMixedRecord>(config => config.ByConvention());
         }
     }
 }

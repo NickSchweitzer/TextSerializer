@@ -149,7 +149,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             {
                 Id = 2,
                 Name = "Second Record",
-                Description = "Long Description, with a Comma",
+                Description = "Long Description without a Comma",
                 Value = 123.4567,
                 Enabled = false
             }
@@ -169,15 +169,15 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             {
                 Id = 2,
                 Name = "Second Record",
-                Description = "Long Description, with a Comma",
+                Description = "Long Description without a Comma",
                 Value = 123.4567,
                 Enabled = false
             }
         };
 
-        public static readonly List<CsvPocoRecord> CsvPocoRecords = new List<CsvPocoRecord>
+        public static readonly List<PocoRecord> PocoRecords = new List<PocoRecord>
         {
-            new CsvPocoRecord
+            new PocoRecord
             {
                 Id = 1,
                 Name = "First Record",
@@ -185,7 +185,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Value = 3.14159,
                 Enabled = true
             },
-            new CsvPocoRecord
+            new PocoRecord
             {
                 Id = 2,
                 Name = "Second Record",
@@ -195,9 +195,9 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         };
 
-        public static readonly List<CsvPocoStructRecord> CsvPocoStructRecords = new List<CsvPocoStructRecord>
+        public static readonly List<PocoStructRecord> PocoStructRecords = new List<PocoStructRecord>
         {
-            new CsvPocoStructRecord
+            new PocoStructRecord
             {
                 Id = 1,
                 Name = "First Record",
@@ -205,7 +205,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Value = 3.14159,
                 Enabled = true
             },
-            new CsvPocoStructRecord
+            new PocoStructRecord
             {
                 Id = 2,
                 Name = "Second Record",
@@ -215,9 +215,9 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         };
 
-        public static readonly List<CsvPocoMixedRecord> CsvPocoMixedRecords = new List<CsvPocoMixedRecord>
+        public static readonly List<PocoMixedRecord> PocoMixedRecords = new List<PocoMixedRecord>
         {
-            new CsvPocoMixedRecord
+            new PocoMixedRecord
             {
                 Id = 1,
                 Name = "First Record",
@@ -225,7 +225,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Value = 3.14159,
                 Enabled = true
             },
-            new CsvPocoMixedRecord
+            new PocoMixedRecord
             {
                 Id = 2,
                 Name = "Second Record",
@@ -235,9 +235,9 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         };
 
-        public static readonly List<CsvPocoWithExtraFieldsRecord> CsvPocoWithExtraFieldsRecords = new List<CsvPocoWithExtraFieldsRecord>
+        public static readonly List<PocoWithExtraFieldsRecord> PocoWithExtraFieldsRecords = new List<PocoWithExtraFieldsRecord>
         {
-            new CsvPocoWithExtraFieldsRecord
+            new PocoWithExtraFieldsRecord
             {
                 Id = 1,
                 Name = "First Record",
@@ -245,7 +245,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Value = 3.14159,
                 Enabled = true
             },
-            new CsvPocoWithExtraFieldsRecord
+            new PocoWithExtraFieldsRecord
             {
                 Id = 2,
                 Name = "Second Record",

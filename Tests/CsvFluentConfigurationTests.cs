@@ -9,12 +9,13 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvFluentConfigurationTests
     {
-        protected CsvSerializer<CsvPocoRecord> Serializer;
-        protected string TestFile = "CsvWithOptionsFile.csv";
+        protected TextSerializer<PocoRecord> Serializer;
+        protected string DeserializeTestFile = "CsvWithOptionsFile.csv";
+        protected string SerializeTestFile = "CsvFile.csv";
 
         public CsvFluentConfigurationTests()
         {
-            Serializer = new CsvSerializer<CsvPocoRecord>(config => config
+            Serializer = new CsvSerializer<PocoRecord>(config => config
                 .ForMember(field => field.Id, opt => opt.Position(0))
                 .ForMember(field => field.Name, opt => opt.Position(1))
                 .ForMember(field => field.Description, opt => opt.Position(2))
@@ -25,25 +26,25 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void DeserializeArrayTest()
         {
-            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvPocoRecords);
+            Helpers.Tests.DeserializeArrayTest(DeserializeTestFile, Serializer, Records.PocoRecords);
         }
 
         [TestMethod]
         public void DeserializeEnumerableTest()
         {
-            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvPocoRecords);
+            Helpers.Tests.DeserializeEnumerableTest(DeserializeTestFile, Serializer, Records.PocoRecords);
         }
 
         [TestMethod]
         public void SerializeTest()
         {
-            Helpers.Tests.SerializeTest("CsvFile.csv", Serializer, Records.CsvPocoRecords);
+            Helpers.Tests.SerializeTest(SerializeTestFile, Serializer, Records.PocoRecords);
         }
 
         [TestMethod]
         public void SerializeArrayTest()
         {
-            Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.CsvPocoRecords);
+            Helpers.Tests.SerializeArrayTest(SerializeTestFile, Serializer, Records.PocoRecords);
         }
     }
 }

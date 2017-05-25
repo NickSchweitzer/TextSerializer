@@ -2,7 +2,7 @@
 
 namespace TheCodingMonkey.Serialization.Tests.Models
 {
-    public class CsvPocoStructRecord
+    public class PocoStructRecord
     {
         public int Id;
         public string Name;

@@ -14,7 +14,6 @@ namespace TheCodingMonkey.Serialization
             Field = new FixedWidthField();
             Position = position;
             Size = size;
-            Padding = ' ';
         }
 
         /// <summary>Default constructor.</summary>

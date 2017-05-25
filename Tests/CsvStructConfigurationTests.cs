@@ -9,37 +9,37 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvStructConfigurationTests
     {
-        protected CsvSerializer<CsvPocoStructRecord> Serializer;
+        protected CsvSerializer<PocoStructRecord> Serializer;
         protected string TestFile = "CsvFile.csv";
 
         public CsvStructConfigurationTests()
         {
-            Serializer = new CsvSerializer<CsvPocoStructRecord>(config => config.ByConvention()
+            Serializer = new CsvSerializer<PocoStructRecord>(config => config.ByConvention()
                 .ForMember(field => field.Enabled, opt => opt.Optional()));
         }
 
         [TestMethod]
         public void DeserializeArrayTest()
         {
-            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.CsvPocoStructRecords);
+            Helpers.Tests.DeserializeArrayTest(TestFile, Serializer, Records.PocoStructRecords);
         }
 
         [TestMethod]
         public void DeserializeEnumerableTest()
         {
-            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.CsvPocoStructRecords);
+            Helpers.Tests.DeserializeEnumerableTest(TestFile, Serializer, Records.PocoStructRecords);
         }
 
         [TestMethod]
         public void SerializeTest()
         {
-            Helpers.Tests.SerializeTest(TestFile, Serializer, Records.CsvPocoStructRecords);
+            Helpers.Tests.SerializeTest(TestFile, Serializer, Records.PocoStructRecords);
         }
 
         [TestMethod]
         public void SerializeArrayTest()
         {
-            Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.CsvPocoStructRecords);
+            Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.PocoStructRecords);
         }
     }
 }

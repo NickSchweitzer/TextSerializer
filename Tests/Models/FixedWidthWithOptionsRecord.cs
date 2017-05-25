@@ -9,7 +9,7 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public int Id { get; set; }
         [FixedWidthField(1, 15)]
         public string Name { get; set; }
-        [FixedWidthField(2, 30)]
+        [FixedWidthField(2, 35)]
         public string Description { get; set; }
         [FixedWidthField(3, 8, Padding = '0')]
         public double Value { get; set; }

@@ -1,2 +1,2 @@
-﻿00001   First RecordLong Description, with a Comma03.14159 True
-00002  Second RecordLong Description, with a Comma123.4567False
+﻿00001   First Record     Long Description, with a Comma03.14159 True
+00002  Second Record   Long Description without a Comma123.4567False

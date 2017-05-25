@@ -10,8 +10,7 @@ namespace TheCodingMonkey.Serialization.Tests
     {
         public CsvConventionConfigurationTests()
         {
-            TestFile = "CsvWithOptionsFile.csv";
-            Serializer = new CsvSerializer<CsvPocoRecord>(config => config.ByConvention()
+            Serializer = new CsvSerializer<PocoRecord>(config => config.ByConvention()
                 .ForMember(field => field.Enabled, opt => opt.Optional()));
         }
     }
