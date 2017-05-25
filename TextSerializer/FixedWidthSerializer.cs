@@ -26,6 +26,12 @@ namespace TheCodingMonkey.Serialization
         {
             FixedWidthConfiguration<TTargetType> completedConfig = new FixedWidthConfiguration<TTargetType>(this);
             config.Invoke(completedConfig);
+
+            foreach (var field in Fields.Values)
+            {
+                if (field.Size <= 0)
+                    throw new TextSerializationConfigurationException("TextField Size must be specified for Fixed Width");
+            }
         }
 
         /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>
@@ -36,7 +42,12 @@ namespace TheCodingMonkey.Serialization
             // Check to see if they've marked up this field/property with the attribute for serialization
             object[] fieldAttrs = member.GetCustomAttributes(typeof(FixedWidthFieldAttribute), false);
             if (fieldAttrs.Length > 0)
-                return ((FixedWidthFieldAttribute)fieldAttrs[0]).Field;
+            {
+                var attr = ((FixedWidthFieldAttribute)fieldAttrs[0]).Field;
+                if (attr.Size <= 0)
+                    throw new TextSerializationConfigurationException("TextField Size must be specified for Fixed Width");
+                return attr;
+            }
             else
                 return null;
         }
@@ -57,8 +68,8 @@ namespace TheCodingMonkey.Serialization
                 int fieldLen = field.Size;
 
                 // Double check that the field length attribute on the property or field is positive.
-                if ( fieldLen < 0 )
-                    throw new TextSerializationException( "TextField Size must be specified for Fixed Width" );
+                if ( fieldLen <= 0 )
+                    throw new TextSerializationConfigurationException( "TextField Size must be specified for Fixed Width" );
 
                 // Double check that the field length for the property won't make us go over the total record length.
                 if (startPos + fieldLen > text.Length)

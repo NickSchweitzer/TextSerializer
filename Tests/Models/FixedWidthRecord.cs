@@ -11,7 +11,7 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public string Name { get; set; }
         [FixedWidthField(2, 35)]
         public string Description;
-        [FixedWidthField(3, 8, Padding = '0')]
+        [FixedWidthField(3, 8, '0')]
         public double Value { get; set; }
         [FixedWidthField(4, 5)]
         public bool Enabled { get; set; }
