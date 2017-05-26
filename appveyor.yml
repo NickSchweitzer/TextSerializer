@@ -1,0 +1,25 @@
+version: 1.2.1.{build}
+image: Visual Studio 2017
+configuration: Release
+skip_commits:
+  files:
+  - Docs/*
+  - '**/*.md'
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- cmd: nuget restore
+build:
+  project: TextSerializer.sln
+  publish_nuget: true
+  verbosity: minimal
+deploy:
+- provider: NuGet
+  api_key:
+    secure: ai/g0WuHv/JtjbTwCaVEwpNX6eeqp6Dxk6/aV7rjWA4f4888l1lWEe7Oi5evc4e4
+  on:
+    branch: master
