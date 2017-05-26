@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ECD41AF2-6C4B-47FF-B01B-67F01CAD5022}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
 		GenerateDocs.bat = GenerateDocs.bat
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
