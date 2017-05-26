@@ -48,7 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvFluentEnumIntTests.cs" />
+    <Compile Include="CsvFluentEnumStringTests.cs" />
     <Compile Include="CsvFluentRenamedHeaderTests.cs" />
+    <Compile Include="BasicExceptionTests.cs" />
     <Compile Include="CsvWithRenamedHeaderTests.cs" />
     <Compile Include="FixedWidthIgnoreConfigurationTests.cs" />
     <Compile Include="FixedWidthFluentConfigurationTests.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Models\CsvRenamedHeaderRecord.cs" />
     <Compile Include="Models\FixedWidthInvalidSizeRecord.cs" />
     <Compile Include="Models\PocoMixedRecord.cs" />
+    <Compile Include="Models\PocoWithEnumRecord.cs" />
     <Compile Include="Models\PocoStructRecord.cs" />
     <Compile Include="Models\PocoWithExtraFieldsRecord.cs" />
     <Compile Include="Models\PocoRecord.cs" />
@@ -95,6 +99,8 @@
     <EmbeddedResource Include="Files\CsvPipeDelimitedFile.csv" />
     <EmbeddedResource Include="Files\CsvWithoutQualifierFile.csv" />
     <EmbeddedResource Include="Files\CsvWithRenamedHeaderFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithEnumStringFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithEnumIntFile.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

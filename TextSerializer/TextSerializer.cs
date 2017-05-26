@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using TheCodingMonkey.Serialization.Formatters;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -61,6 +62,18 @@ namespace TheCodingMonkey.Serialization
                     {
                         AllowedValuesAttribute allowedAttr = (AllowedValuesAttribute)allowedAttrs[0];
                         textField.AllowedValues = allowedAttr.AllowedValues;
+                    }
+
+                    if (memberType.IsEnum)
+                    {
+                        object[] enumAttrs = member.GetCustomAttributes(typeof(FormatEnumAttribute), false);
+                        if (enumAttrs.Length > 0)
+                        {
+                            FormatEnumAttribute enumAttr = (FormatEnumAttribute)enumAttrs[0];
+                            textField.Formatter = new EnumFormatter(memberType, enumAttr.Options);
+                        }
+                        else
+                            textField.Formatter = new EnumFormatter(memberType);
                     }
 
                     textField.Member = member;

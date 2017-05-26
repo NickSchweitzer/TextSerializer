@@ -16,5 +16,9 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public double Value { get; set; }
         [TextField(4, FormatterType = typeof(BooleanIntFormatter))]
         public bool Enabled { get; set; }
+        [TextField(5), FormatEnum(EnumOptions.Integer)]
+        public OptionsEnum IntOptions { get; set; }
+        [TextField(6)]
+        public OptionsEnum StringOptions { get; set; }
     }
 }

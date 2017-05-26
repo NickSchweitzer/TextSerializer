@@ -123,7 +123,9 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Name = "First Record",
                 Description = "Long Description, with a Comma",
                 Value = 3.14159,
-                Enabled = true
+                Enabled = true,
+                IntOptions = OptionsEnum.FirstOption,
+                StringOptions = OptionsEnum.SecondOption
             },
             new CsvWithFormattingRecord
             {
@@ -131,7 +133,9 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Name = "Second Record",
                 Description = "Long Description, with a Comma",
                 Value = 123.4567,
-                Enabled = false
+                Enabled = false,
+                IntOptions = OptionsEnum.SecondOption,
+                StringOptions = OptionsEnum.FirstOption
             }
         };
 
@@ -212,6 +216,26 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Description = "Long Description without a Comma",
                 Value = 123.4567,
                 Enabled = false
+            }
+        };
+
+        public static readonly List<PocoWithEnumRecord> PocoWithEnumRecords = new List<PocoWithEnumRecord>
+        {
+            new PocoWithEnumRecord
+            {
+                Id = 1,
+                Name = "First Record",
+                Description = "Long Description, with a Comma",
+                Value = 3.14159,
+                Options = OptionsEnum.FirstOption
+            },
+            new PocoWithEnumRecord
+            {
+                Id = 2,
+                Name = "Second Record",
+                Description = "Long Description without a Comma",
+                Value = 123.4567,
+                Options = OptionsEnum.SecondOption
             }
         };
 

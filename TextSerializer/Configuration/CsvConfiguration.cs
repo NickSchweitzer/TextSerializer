@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-
+using TheCodingMonkey.Serialization.Formatters;
 using TheCodingMonkey.Serialization.Utilities;
 
 namespace TheCodingMonkey.Serialization.Configuration
@@ -56,6 +56,9 @@ namespace TheCodingMonkey.Serialization.Configuration
                         Member = member,
                         Position = position
                     };
+
+                    if (memberType.IsEnum)
+                        textField.Formatter = new EnumFormatter(memberType);
 
                     Serializer.Fields.Add(position++, textField);
                 }

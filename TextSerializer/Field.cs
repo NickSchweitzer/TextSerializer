@@ -15,6 +15,7 @@ namespace TheCodingMonkey.Serialization
         }
 
         private Type _formatterType;
+        private ITextFormatter _formatter;
 
         /// <summary>Position (column) where this field is serialized in the CSV file.</summary>
         public int Position { get; set; }
@@ -42,7 +43,15 @@ namespace TheCodingMonkey.Serialization
         public MemberInfo Member { get; set; }
 
         /// <summary>The Formatter to be used for Serialization/Deserialization if the default formatting is not used.</summary>
-        public ITextFormatter Formatter { get; private set; }
+        public ITextFormatter Formatter {
+            get { return _formatter; }
+            internal set
+            {
+                _formatter = value;
+                _formatterType = value.GetType();
+            }
+        }
+
         /// <summary>Defines the allowed characters that can be used for a field in the file.</summary>
         public object[] AllowedValues { get; set; }
 

@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\AllowedValuesAttribute.cs" />
+    <Compile Include="Attributes\FormatEnumAttribute.cs" />
     <Compile Include="Configuration\CsvConfiguration.cs" />
     <Compile Include="Configuration\FixedWidthFieldConfiguration.cs" />
     <Compile Include="Configuration\FixedWidthConfiguration.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="FixedWidthField.cs" />
     <Compile Include="FixedWidthSerializer.cs" />
     <Compile Include="Formatters\BooleanIntFormatter.cs" />
+    <Compile Include="Formatters\EnumFormatter.cs" />
     <Compile Include="ITextFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Attributes\TextFieldAttribute.cs" />

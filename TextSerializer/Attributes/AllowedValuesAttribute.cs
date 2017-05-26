@@ -3,6 +3,7 @@ using System;
 namespace TheCodingMonkey.Serialization
 {
     /// <summary>Defines the allowed characters that can be used for a field in the file.</summary>
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     class AllowedValuesAttribute : Attribute
     {
         /// <summary>Default Constructor.</summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using TheCodingMonkey.Serialization.Formatters;
 
 namespace TheCodingMonkey.Serialization.Configuration
 {
@@ -47,6 +48,12 @@ namespace TheCodingMonkey.Serialization.Configuration
         public CsvFieldConfiguration FormatterType(Type formatter)
         {
             Field.FormatterType = formatter;
+            return this;
+        }
+
+        public CsvFieldConfiguration FormatEnum(EnumOptions options)
+        {
+            Field.Formatter = new EnumFormatter(Field.GetNativeType(), options);
             return this;
         }
     }
