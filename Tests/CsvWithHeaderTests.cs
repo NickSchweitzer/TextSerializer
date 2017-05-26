@@ -41,5 +41,11 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             Helpers.Tests.DeserializeArrayWithHeaderTest("CsvFile.csv", Serializer, Records.CsvRecords);
         }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        public void DeserializeWithWrongHeaderTest()
+        {
+            Helpers.Tests.DeserializeArrayWithHeaderTest("CsvWithRenamedHeaderFile.csv", Serializer, Records.CsvRecords);
+        }
     }
 }
