@@ -48,10 +48,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicFixedWidthExceptionTests.cs" />
     <Compile Include="CsvFluentEnumIntTests.cs" />
     <Compile Include="CsvFluentEnumStringTests.cs" />
     <Compile Include="CsvFluentRenamedHeaderTests.cs" />
-    <Compile Include="BasicExceptionTests.cs" />
+    <Compile Include="BasicCsvExceptionTests.cs" />
     <Compile Include="CsvWithRenamedHeaderTests.cs" />
     <Compile Include="FixedWidthIgnoreConfigurationTests.cs" />
     <Compile Include="FixedWidthFluentConfigurationTests.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="CsvTests.cs" />
     <Compile Include="FixedWidthWithOptionsTests.cs" />
     <Compile Include="FixedWidthTests.cs" />
+    <Compile Include="FluentConfigurationTests.cs" />
     <Compile Include="Helpers\Records.cs" />
     <Compile Include="Helpers\Tests.cs" />
     <Compile Include="Models\CsvRenamedHeaderRecord.cs" />

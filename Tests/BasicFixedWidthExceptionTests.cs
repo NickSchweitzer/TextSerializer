@@ -2,14 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using TheCodingMonkey.Serialization.Tests.Models;
-using TheCodingMonkey.Serialization.Tests.Helpers;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
-    [TestClass, TestCategory("CSV")]
-    public class BasicExceptionTests
+    [TestClass, TestCategory("Fixed Width")]
+    public class BasicFixedWidthExceptionTests
     {
-        private TextSerializer<CsvRecord> Serializer = new CsvSerializer<CsvRecord>();
+        private TextSerializer<FixedWidthRecord> Serializer = new FixedWidthSerializer<FixedWidthRecord>();
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void DeserializeNullStringTest()
@@ -26,7 +25,14 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod, ExpectedException(typeof(TextSerializationException))]
         public void DeserializeIncompleteRecordTest()
         {
-            string incompleteRecord = "\"1\",\"First Record\",\"Long Description, with a Comma\",\"3.14159\"";
+            string incompleteRecord = "00001   First Record     Long Description, with a Comma03.14159";
+            Serializer.Deserialize(incompleteRecord);
+        }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        public void DeserializeBadPaddingRecordTest()
+        {
+            string incompleteRecord = "00001 First Record   Long Description, with a Comma03.14159True";
             Serializer.Deserialize(incompleteRecord);
         }
     }

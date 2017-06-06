@@ -11,13 +11,9 @@ namespace TheCodingMonkey.Serialization.Configuration
     public class FixedWidthConfiguration<TTargetType> : TextConfiguration<TTargetType>
         where TTargetType : new()
     {
-        private FixedWidthSerializer<TTargetType> FixedWidthSerializer { get; set; }
-
         internal FixedWidthConfiguration(FixedWidthSerializer<TTargetType> serializer)
         : base(serializer)
-        {
-            FixedWidthSerializer = serializer;
-        }
+        { }
 
         /// <summary>Sets the serialization properties of a member of the class. If ByConvention was called first, this will override those inferred settings.</summary>
         /// <param name="field">Field in the class to configure.</param>

@@ -24,9 +24,11 @@ namespace TheCodingMonkey.Serialization
             TargetType = GetType().GetGenericArguments()[0];
         }
 
-        internal Dictionary<int, Field> Fields { get; private set; }
+        /// <summary>Dictionary of Fields which have been configured for this Serializer. The Key is the Position, and the Value is the Field definition class.</summary>
+        public Dictionary<int, Field> Fields { get; private set; }
 
-        internal Type TargetType { get; private set; }
+        /// <summary>The type which will be created for each record in the file.</summary>
+        public Type TargetType { get; private set; }
 
         /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>
         /// <param name="member">Property or Field to return a configuration for.</param>

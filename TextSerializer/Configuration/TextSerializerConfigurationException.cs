@@ -6,21 +6,10 @@ namespace TheCodingMonkey.Serialization.Configuration
     [Serializable]
     public class TextSerializationConfigurationException : Exception
     {
-        /// <summary>Default Constructor</summary>
-        public TextSerializationConfigurationException()
-        { }
-
         /// <summary>Standard Constructor</summary>
         /// <param name="message">Exception Message</param>
         public TextSerializationConfigurationException(string message) 
         : base(message)
-        { }
-
-        /// <summary>Standard Constructor</summary>
-        /// <param name="message">Exception Message</param>
-        /// <param name="innerException">Additional exception thrown with more information</param>
-        public TextSerializationConfigurationException(string message, Exception innerException) 
-        : base(message, innerException)
         { }
     }
 }
