@@ -10,8 +10,7 @@ public class TextSerializationConfigurationException : Exception
 
 | name | description |
 | --- | --- |
-| [TextSerializationConfigurationException](TextSerializationConfigurationException/TextSerializationConfigurationException.md)() | Default Constructor |
-| [TextSerializationConfigurationException](TextSerializationConfigurationException/TextSerializationConfigurationException.md)(…) | Standard Constructor (2 constructors) |
+| [TextSerializationConfigurationException](TextSerializationConfigurationException/TextSerializationConfigurationException.md)(…) | Standard Constructor |
 
 ## See Also
 

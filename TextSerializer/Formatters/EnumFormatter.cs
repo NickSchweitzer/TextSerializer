@@ -26,9 +26,12 @@ namespace TheCodingMonkey.Serialization.Formatters
         }
     }
 
+    /// <summary>Used to control how Enumerations are serialized to files.</summary>
     public enum EnumOptions
     {
+        /// <summary>Enumerations will be Serialized using the Name of the Enum</summary>
         String,
+        /// <summary>Enumerations will be Serialized using the Integer value of the Enum</summary>
         Integer
     }
 }

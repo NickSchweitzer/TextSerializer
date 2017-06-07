@@ -9,7 +9,7 @@ public class FixedWidthSerializer<TTargetType> : TextSerializer<TTargetType>
 
 | parameter | description |
 | --- | --- |
-| TTargetType | The type of object that will be serialized. TargetType must have the [`TextSerializable attribute`](TextSerializableAttribute.md) applied, and any fields contained must have the [`TextField attribute`](FixedWidthFieldAttribute.md) applied to them. |
+| TTargetType | The type of object that will be serialized. Either TargetType must have the [`TextSerializable attribute`](TextSerializableAttribute.md) applied, and any fields contained must have the [`FixedWidthField attribute`](FixedWidthFieldAttribute.md) applied to them, or [`Fluent Configuration`](../TheCodingMonkey.Serialization.Configuration/FixedWidthConfiguration-1.md)must be used. |
 
 ## Public Members
 

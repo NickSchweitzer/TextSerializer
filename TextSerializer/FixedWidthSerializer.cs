@@ -7,9 +7,10 @@ using TheCodingMonkey.Serialization.Configuration;
 namespace TheCodingMonkey.Serialization
 {
     /// <summary>Used to serialize a TargetType object to a CSV file.</summary>
-    /// <typeparam name="TTargetType">The type of object that will be serialized.  TargetType must have the 
+    /// <typeparam name="TTargetType">The type of object that will be serialized. Either TargetType must have the 
     /// <see cref="TextSerializableAttribute">TextSerializable attribute</see> applied, and any fields contained must have the 
-    /// <see cref="FixedWidthFieldAttribute">TextField attribute</see> applied to them.</typeparam>
+    /// <see cref="FixedWidthFieldAttribute">FixedWidthField attribute</see> applied to them, or <see cref="FixedWidthConfiguration{TTargetType}">Fluent Configuration</see>
+    /// must be used.</typeparam>
     public class FixedWidthSerializer<TTargetType> : TextSerializer<TTargetType>
         where TTargetType : new()
     {

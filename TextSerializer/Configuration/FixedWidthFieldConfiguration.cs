@@ -3,7 +3,7 @@
 namespace TheCodingMonkey.Serialization.Configuration
 {
     /// <summary>Fluent Configuration class used to configure fields and properties which are serialized using the 
-    /// <see cref="FixedWidthSerializer{TTargetType}">FixedWidthSerialize</see> class.</summary>
+    /// <see cref="FixedWidthSerializer{TTargetType}">FixedWidthSerializer</see> class.</summary>
     public class FixedWidthFieldConfiguration
     {
         internal FixedWidthField Field { get; set; }

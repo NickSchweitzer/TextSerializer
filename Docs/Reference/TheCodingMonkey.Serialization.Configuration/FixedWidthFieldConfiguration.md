@@ -1,6 +1,6 @@
 # FixedWidthFieldConfiguration class
 
-Fluent Configuration class used to configure fields and properties which are serialized using the [`FixedWidthSerialize`](../TheCodingMonkey.Serialization/FixedWidthSerializer-1.md) class.
+Fluent Configuration class used to configure fields and properties which are serialized using the [`FixedWidthSerializer`](../TheCodingMonkey.Serialization/FixedWidthSerializer-1.md) class.
 
 ```csharp
 public class FixedWidthFieldConfiguration

@@ -1,6 +1,6 @@
 # CsvFieldConfiguration class
 
-Fluent Configuration class used to configure fields and properties which are serialized using the [`CsvSerialize`](../TheCodingMonkey.Serialization/CsvSerializer-1.md) class.
+Fluent Configuration class used to configure fields and properties which are serialized using the [`CsvSerializer`](../TheCodingMonkey.Serialization/CsvSerializer-1.md) class.
 
 ```csharp
 public class CsvFieldConfiguration
@@ -10,6 +10,7 @@ public class CsvFieldConfiguration
 
 | name | description |
 | --- | --- |
+| [FormatEnum](CsvFieldConfiguration/FormatEnum.md)(…) |  |
 | [FormatterType](CsvFieldConfiguration/FormatterType.md)(…) | Optional class which is used to control custom serialization/deserialization of this field. This class must implement the [`ITextFormatter`](../TheCodingMonkey.Serialization/ITextFormatter.md) interface. |
 | [Name](CsvFieldConfiguration/Name.md)(…) | Name of this field. If not specified, then the property/field name of the class/struct is used. If a header is written to the CSV file, then this is the value that is used. |
 | [Optional](CsvFieldConfiguration/Optional.md)(…) | Determines whether this field is optional. Because of the nature of CSV and FixedWidth file formats, optional fields should only be a the end of the record. |

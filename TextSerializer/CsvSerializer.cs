@@ -8,9 +8,10 @@ using System.Reflection;
 namespace TheCodingMonkey.Serialization
 {
     /// <summary>Used to serialize a TargetType object to a CSV file.</summary>
-    /// <typeparam name="TTargetType">The type of object that will be serialized.  TargetType must have the 
+    /// <typeparam name="TTargetType">The type of object that will be serialized.  TargetType either must have the 
     /// <see cref="TextSerializableAttribute">TextSerializable attribute</see> applied, and any fields contained must have the 
-    /// <see cref="TextFieldAttribute">TextField attribute</see> applied to them.</typeparam>
+    /// <see cref="TextFieldAttribute">TextField attribute</see> applied to them, or <see cref="CsvConfiguration{TTargetType}">Fluent Configuration</see>
+    /// must be used.</typeparam>
     public class CsvSerializer<TTargetType> : TextSerializer<TTargetType>
         where TTargetType : new()
     {

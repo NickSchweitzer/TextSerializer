@@ -7,11 +7,11 @@ using TheCodingMonkey.Serialization.Formatters;
 
 namespace TheCodingMonkey.Serialization
 {
-    /// <summary>Base class that contains common code for the <see cref="CsvSerializer{TTargetType}">CSVSerializer</see> and 
+    /// <summary>Base class that contains common code for the <see cref="CsvSerializer{TTargetType}">CsvSerializer</see> and 
     /// <see cref="FixedWidthSerializer{TTargetType}">FixedWidthSerializer</see> class.</summary>
-    /// <typeparam name="TTargetType">The type of object that will be serialized.  TargetType must have the 
+    /// <typeparam name="TTargetType">The type of object that will be serialized. Either TargetType must have the 
     /// <see cref="TextSerializableAttribute">TextSerializable attribute</see> applied, and any fields contained must have the 
-    /// <see cref="TextFieldAttribute">TextField attribute</see> applied to them.</typeparam>
+    /// <see cref="TextFieldAttribute">TextField attribute</see> applied to them, or the Fluent Configuration model must be used.</typeparam>
     public abstract class TextSerializer<TTargetType>
         where TTargetType : new()
     {
@@ -35,7 +35,7 @@ namespace TheCodingMonkey.Serialization
         /// <returns>Field configuration if this property should be serialized, otherwise null to ignore.</returns>
         protected abstract Field GetFieldFromAttribute(MemberInfo member);
 
-        /// <summary>Initializes the field definitions for this class using Attributes, which occurs if a Configuration is not passed into the Constructor.</summary>
+        /// <summary>Initializes the field definitions for this class using Attributes, which occurs if a Fluent Configuration is not passed into the Constructor.</summary>
         protected void InitializeFromAttributes()
         {
             // Double check that the TextSerializableAttribute has been attached to the TargetType

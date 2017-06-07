@@ -1,6 +1,6 @@
 # BooleanIntFormatter class
 
-Interface which allows an object to be seralized/deserialized according to custom rules depending a given file format.
+Formatter which allows serialization and deserialization of Booleans to Integer values in a file.
 
 ```csharp
 public class BooleanIntFormatter : ITextFormatter

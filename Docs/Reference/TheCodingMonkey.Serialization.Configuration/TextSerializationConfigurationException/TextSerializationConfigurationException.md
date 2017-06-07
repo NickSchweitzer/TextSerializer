@@ -1,19 +1,4 @@
-# TextSerializationConfigurationException constructor (1 of 3)
-
-Default Constructor
-
-```csharp
-public TextSerializationConfigurationException()
-```
-
-## See Also
-
-* class [TextSerializationConfigurationException](../TextSerializationConfigurationException.md)
-* namespace [TheCodingMonkey.Serialization.Configuration](../../TextSerializer.md)
-
----
-
-# TextSerializationConfigurationException constructor (2 of 3)
+# TextSerializationConfigurationException constructor
 
 Standard Constructor
 
@@ -24,26 +9,6 @@ public TextSerializationConfigurationException(string message)
 | parameter | description |
 | --- | --- |
 | message | Exception Message |
-
-## See Also
-
-* class [TextSerializationConfigurationException](../TextSerializationConfigurationException.md)
-* namespace [TheCodingMonkey.Serialization.Configuration](../../TextSerializer.md)
-
----
-
-# TextSerializationConfigurationException constructor (3 of 3)
-
-Standard Constructor
-
-```csharp
-public TextSerializationConfigurationException(string message, Exception innerException)
-```
-
-| parameter | description |
-| --- | --- |
-| message | Exception Message |
-| innerException | Additional exception thrown with more information |
 
 ## See Also
 

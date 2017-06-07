@@ -1,6 +1,6 @@
 # TextSerializer&lt;TTargetType&gt; class
 
-Base class that contains common code for the [`CSVSerializer`](CsvSerializer-1.md) and [`FixedWidthSerializer`](FixedWidthSerializer-1.md) class.
+Base class that contains common code for the [`CsvSerializer`](CsvSerializer-1.md) and [`FixedWidthSerializer`](FixedWidthSerializer-1.md) class.
 
 ```csharp
 public abstract class TextSerializer<TTargetType>
@@ -9,12 +9,14 @@ public abstract class TextSerializer<TTargetType>
 
 | parameter | description |
 | --- | --- |
-| TTargetType | The type of object that will be serialized. TargetType must have the [`TextSerializable attribute`](TextSerializableAttribute.md) applied, and any fields contained must have the [`TextField attribute`](TextFieldAttribute.md) applied to them. |
+| TTargetType | The type of object that will be serialized. Either TargetType must have the [`TextSerializable attribute`](TextSerializableAttribute.md) applied, and any fields contained must have the [`TextField attribute`](TextFieldAttribute.md) applied to them, or the Fluent Configuration model must be used. |
 
 ## Public Members
 
 | name | description |
 | --- | --- |
+| [Fields](TextSerializer-1/Fields.md) { get; } | Dictionary of Fields which have been configured for this Serializer. The Key is the Position, and the Value is the Field definition class. |
+| [TargetType](TextSerializer-1/TargetType.md) { get; } | The type which will be created for each record in the file. |
 | [Deserialize](TextSerializer-1/Deserialize.md)(…) | Creates a single TargetType object given a record string. |
 | [DeserializeArray](TextSerializer-1/DeserializeArray.md)(…) | Creates a collection of TargetType objects from the data in the passed in stream. (2 methods) |
 | [DeserializeEnumerable](TextSerializer-1/DeserializeEnumerable.md)(…) | Deserializes a file one record at a time suitable for usage in a foreach loop. |
@@ -28,7 +30,7 @@ public abstract class TextSerializer<TTargetType>
 | [TextSerializer](TextSerializer-1/TextSerializer.md)() | Default constructor for the base type. Does only basic initialization of the TargetType. |
 | abstract [FormatOutput](TextSerializer-1/FormatOutput.md)(…) | Write out a list of fields in the correct format. |
 | abstract [GetFieldFromAttribute](TextSerializer-1/GetFieldFromAttribute.md)(…) | Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied. |
-| [InitializeFromAttributes](TextSerializer-1/InitializeFromAttributes.md)() | Initializes the field definitions for this class using Attributes, which occurs if a Configuration is not passed into the Constructor. |
+| [InitializeFromAttributes](TextSerializer-1/InitializeFromAttributes.md)() | Initializes the field definitions for this class using Attributes, which occurs if a Fluent Configuration is not passed into the Constructor. |
 | abstract [Parse](TextSerializer-1/Parse.md)(…) | Parses a line of text as a record and returns the fields. |
 
 ## See Also

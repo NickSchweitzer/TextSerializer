@@ -2,8 +2,7 @@
 
 namespace TheCodingMonkey.Serialization.Formatters
 {
-    /// <summary>Interface which allows an object to be seralized/deserialized according to custom rules depending a given
-    /// file format.</summary>
+    /// <summary>Formatter which allows serialization and deserialization of Booleans to Integer values in a file.</summary>
     public class BooleanIntFormatter : ITextFormatter
     {
         /// <summary>Deserializes a string and returns the boolean equivalent.</summary>

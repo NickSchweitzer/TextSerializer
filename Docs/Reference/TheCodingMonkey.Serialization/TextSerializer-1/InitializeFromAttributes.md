@@ -1,6 +1,6 @@
 # TextSerializer&lt;TTargetType&gt;.InitializeFromAttributes method
 
-Initializes the field definitions for this class using Attributes, which occurs if a Configuration is not passed into the Constructor.
+Initializes the field definitions for this class using Attributes, which occurs if a Fluent Configuration is not passed into the Constructor.
 
 ```csharp
 protected void InitializeFromAttributes()
