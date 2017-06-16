@@ -227,6 +227,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Name = "First Record",
                 Description = "Long Description, with a Comma",
                 Value = 3.14159,
+                Enabled = true,
                 Options = OptionsEnum.FirstOption
             },
             new PocoWithEnumRecord
@@ -235,6 +236,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
                 Name = "Second Record",
                 Description = "Long Description without a Comma",
                 Value = 123.4567,
+                Enabled = false,
                 Options = OptionsEnum.SecondOption
             }
         };

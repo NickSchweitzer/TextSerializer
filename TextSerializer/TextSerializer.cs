@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using TheCodingMonkey.Serialization.Formatters;
+using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -18,14 +19,14 @@ namespace TheCodingMonkey.Serialization
         /// <summary>Default constructor for the base type. Does only basic initialization of the TargetType.</summary>
         protected TextSerializer()
         {
-            Fields = new Dictionary<int, Field>();
+            Fields = new List<Field>();
 
             // Get the Reflection type for the Generic Argument
             TargetType = GetType().GetGenericArguments()[0];
         }
 
         /// <summary>Dictionary of Fields which have been configured for this Serializer. The Key is the Position, and the Value is the Field definition class.</summary>
-        public Dictionary<int, Field> Fields { get; private set; }
+        public List<Field> Fields { get; private set; }
 
         /// <summary>The type which will be created for each record in the file.</summary>
         public Type TargetType { get; private set; }
@@ -66,7 +67,7 @@ namespace TheCodingMonkey.Serialization
                         textField.AllowedValues = allowedAttr.AllowedValues;
                     }
 
-                    if (memberType.IsEnum)
+                    if (memberType.IsEnum && textField.FormatterType == null)
                     {
                         object[] enumAttrs = member.GetCustomAttributes(typeof(FormatEnumAttribute), false);
                         if (enumAttrs.Length > 0)
@@ -79,9 +80,18 @@ namespace TheCodingMonkey.Serialization
                     }
 
                     textField.Member = member;
-                    Fields.Add(textField.Position, textField);
+                    Fields.Add(textField);
                 }
             }
+
+            // Guarantee that all fields are in order with no gaps
+            Fields.Sort((x, y) => x.Position.CompareTo(y.Position));
+            for (int i = 0; i < Fields.Count; i++)
+            {
+                if (Fields[i].Position != i)
+                    throw new TextSerializationConfigurationException($"Missing field definition for Position {i}");
+            }
+
         }
 
         /// <summary>Serializes a single TargetType object into a properly formatted record string.</summary>
@@ -141,7 +151,7 @@ namespace TheCodingMonkey.Serialization
 
             // Parse the record into it's individual fields depending on the type of serializer this is
             List<string> parseList = Parse( text );
-            int requiredCount = Fields.Values.Count(attr => !attr.Optional);
+            int requiredCount = Fields.Count(attr => !attr.Optional);
             if ( parseList.Count < requiredCount || parseList.Count > Fields.Count )
                 throw new TextSerializationException( "TargetType field count doesn't match number of items in text" );
 

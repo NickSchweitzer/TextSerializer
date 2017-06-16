@@ -9,6 +9,7 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public double Value { get; set; }
+        public bool Enabled { get; set; }
         public OptionsEnum Options { get; set; }
     }
 

@@ -2,6 +2,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TheCodingMonkey.Serialization.Tests.Models;
+using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
@@ -17,14 +18,14 @@ namespace TheCodingMonkey.Serialization.Tests
                 .ForMember(field => field.Enabled, opt => opt.Optional().Position(4))
                 .ForMember(field => field.Name, opt => opt.Size(20).Position(1))
                 .ForMember(field => field.Description, opt => opt.Position(2))
-
                 .Ignore(field => field.ExtraField));
 
+            // Guarantee that all fields are in order with no gaps
             Assert.AreEqual(5, serializer.Fields.Count);
-
-            // Make sure all the Positions line up with Keys
-            foreach (var kvp in serializer.Fields)
-                Assert.AreEqual(kvp.Key, kvp.Value.Position);
+            for (int i = 0; i < serializer.Fields.Count; i++)
+            {
+                Assert.AreEqual(i, serializer.Fields[i].Position);
+            }
 
             Assert.AreEqual("UniqueId", ((CsvField)serializer.Fields[0]).Name);
             Assert.AreEqual(20, serializer.Fields[1].Size);
@@ -43,11 +44,12 @@ namespace TheCodingMonkey.Serialization.Tests
                 .ForMember(field => field.Description, opt => opt.Size(35))
                 .Ignore(field => field.ExtraField));
 
+            // Guarantee that all fields are in order with no gaps
             Assert.AreEqual(5, serializer.Fields.Count);
-
-            // Make sure all the Positions line up with Keys
-            foreach (var kvp in serializer.Fields)
-                Assert.AreEqual(kvp.Key, kvp.Value.Position);
+            for (int i = 0; i < serializer.Fields.Count; i++)
+            {
+                Assert.AreEqual(i, serializer.Fields[i].Position);
+            }
 
             Assert.AreEqual(5, serializer.Fields[0].Size);
             Assert.AreEqual(15, serializer.Fields[1].Size);
@@ -60,6 +62,29 @@ namespace TheCodingMonkey.Serialization.Tests
             Assert.AreEqual(' ', ((FixedWidthField)serializer.Fields[1]).Padding);
 
             Assert.AreEqual(true, serializer.Fields[4].Optional);
+        }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        public void MissingFieldTest()
+        {
+            CsvSerializer<PocoWithExtraFieldsRecord> serializer = new CsvSerializer<PocoWithExtraFieldsRecord>(config => config
+                .ForMember(field => field.Id, opt => opt.Name("UniqueId").Position(0))
+                .ForMember(field => field.Enabled, opt => opt.Optional().Position(4))
+                .ForMember(field => field.Name, opt => opt.Size(20).Position(1))
+                .ForMember(field => field.Description, opt => opt.Position(2))
+                .Ignore(field => field.ExtraField));
+        }
+
+        [TestMethod]
+        public void ConfigureEventExceptionTest()
+        {
+            CsvSerializer<PocoWithExtraFieldsRecord> serializer = new CsvSerializer<PocoWithExtraFieldsRecord>(config => config
+                .ForMember(field => field.Id, opt => opt.Name("UniqueId").Position(0))
+                .ForMember(field => field.Value, opt => opt.Position(3))
+                .ForMember(field => field.Enabled, opt => opt.Optional().Position(4))
+                .ForMember(field => field.Name, opt => opt.Size(20).Position(1))
+                .ForMember(field => field.Description, opt => opt.Position(2))
+                .Ignore(field => field.ExtraField));
         }
     }
 }

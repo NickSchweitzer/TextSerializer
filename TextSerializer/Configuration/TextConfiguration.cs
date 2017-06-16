@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -24,26 +25,17 @@ namespace TheCodingMonkey.Serialization.Configuration
         protected void InternalIgnore(Expression<Func<TTargetType, object>> field)
         {
             var member = ReflectionHelper.FindProperty(field);
-            var kvp = GetFieldPair(member);
-            if (kvp != null)
-                Serializer.Fields.Remove(kvp.Value.Key);
+            var foundField = GetField(member);
+            if (foundField != null)
+                Serializer.Fields.Remove(foundField);
         }
 
         /// <summary>Retrieves the Field configuration for the specified member, along with the position in the file where it should be serialized.</summary>
         /// <param name="member">The Reflection MemberInfo for the field to find in this configuration</param>
         /// <returns>A KeyValuePair containing the configured member if its already been configured, otherwise null.</returns>
-        protected KeyValuePair<int, Field>? GetFieldPair(MemberInfo member)
+        protected Field GetField(MemberInfo member)
         {
-            KeyValuePair<int, Field>? foundKvp = null;
-            foreach (var kvp in Serializer.Fields)
-            {
-                if (kvp.Value.Member.Name == member.Name)
-                {
-                    foundKvp = kvp;
-                    break;
-                }
-            }
-            return foundKvp;
+            return Serializer.Fields.Where(f => f.Member.Name == member.Name).FirstOrDefault();
         }
     }
 }

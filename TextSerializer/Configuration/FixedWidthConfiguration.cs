@@ -21,10 +21,10 @@ namespace TheCodingMonkey.Serialization.Configuration
         public FixedWidthConfiguration<TTargetType> ForMember(Expression<Func<TTargetType, object>> field, Action<FixedWidthFieldConfiguration> opt)
         {
             var member = ReflectionHelper.FindProperty(field);
-            var kvp = GetFieldPair(member);
+            var foundField = GetField(member);
 
             FixedWidthField textField;
-            if (kvp == null)
+            if (foundField == null)
             {
                 textField = new FixedWidthField
                 {
@@ -33,13 +33,13 @@ namespace TheCodingMonkey.Serialization.Configuration
             }
             else
             {
-                textField = (FixedWidthField)kvp.Value.Value;
-                Serializer.Fields.Remove(kvp.Value.Key);
+                textField = (FixedWidthField)foundField;
+                Serializer.Fields.Remove(foundField);
             }
 
             FixedWidthFieldConfiguration fieldConfig = new FixedWidthFieldConfiguration(textField);
             opt.Invoke(fieldConfig);
-            Serializer.Fields.Add(fieldConfig.Field.Position, fieldConfig.Field);
+            Serializer.Fields.Add(fieldConfig.Field);
             return this;
         }
 

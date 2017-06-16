@@ -1,0 +1,2 @@
+﻿00001   First Record     Long Description, with a Comma03.1415910
+00002  Second Record   Long Description without a Comma123.456701

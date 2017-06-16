@@ -40,6 +40,13 @@ namespace TheCodingMonkey.Serialization
         {
             CsvConfiguration<TTargetType> completedConfig = new CsvConfiguration<TTargetType>(this);
             config.Invoke(completedConfig);
+            Fields.Sort((x, y) => x.Position.CompareTo(y.Position));
+
+            for (int i = 0; i < Fields.Count; i++)
+            {
+                if (Fields[i].Position != i)
+                    throw new TextSerializationConfigurationException($"Missing field definition for Position {i}");
+            }
         }
 
         /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>

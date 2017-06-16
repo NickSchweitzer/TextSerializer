@@ -15,5 +15,14 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public double Value { get; set; }
         public bool Enabled { get; set; }
         public string ExtraField { get; set; }
+
+        public void ExtraMethod()
+        {
+            ExtraField = "Do Not Call";
+        }
+
+        public event ExtraFieldChangedHandler ExtraEvent;
     }
+
+    public delegate void ExtraFieldChangedHandler(object sender, EventArgs e);
 }

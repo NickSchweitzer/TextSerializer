@@ -27,10 +27,14 @@ namespace TheCodingMonkey.Serialization
         {
             FixedWidthConfiguration<TTargetType> completedConfig = new FixedWidthConfiguration<TTargetType>(this);
             config.Invoke(completedConfig);
+            Fields.Sort((x, y) => x.Position.CompareTo(y.Position));
 
-            foreach (var field in Fields.Values)
+            for (int i = 0; i < Fields.Count; i++)
             {
-                if (field.Size <= 0)
+                if (Fields[i].Position != i)
+                    throw new TextSerializationConfigurationException($"Missing field definition for Position {i}");
+
+                if (Fields[i].Size <= 0)
                     throw new TextSerializationConfigurationException("TextField Size must be specified for Fixed Width");
             }
         }

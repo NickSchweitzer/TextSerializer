@@ -13,6 +13,7 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             TestFile = "CsvWithEnumIntFile.csv";
             Serializer = new CsvSerializer<PocoWithEnumRecord>(config => config.ByConvention()
+                .ForMember(field => field.Enabled, opt => opt.FormatterType(typeof(BooleanIntFormatter)))
                 .ForMember(field => field.Options, opt => opt.FormatEnum(EnumOptions.Integer)));
         }
     }

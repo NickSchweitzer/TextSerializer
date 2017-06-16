@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicFixedWidthExceptionTests.cs" />
+    <Compile Include="FixedWidthWithEnumIntTests.cs" />
     <Compile Include="CsvFluentEnumIntTests.cs" />
     <Compile Include="CsvFluentEnumStringTests.cs" />
     <Compile Include="CsvFluentRenamedHeaderTests.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="FluentConfigurationTests.cs" />
     <Compile Include="Helpers\Records.cs" />
     <Compile Include="Helpers\Tests.cs" />
+    <Compile Include="Models\CsvRecordWithMissingFields.cs" />
     <Compile Include="Models\CsvRenamedHeaderRecord.cs" />
     <Compile Include="Models\FixedWidthInvalidSizeRecord.cs" />
     <Compile Include="Models\PocoMixedRecord.cs" />
@@ -116,6 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Files\FixedWidthWithOptionsFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Files\FixedWidthWithEnumIntFile.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

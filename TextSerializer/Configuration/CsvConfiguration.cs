@@ -54,13 +54,13 @@ namespace TheCodingMonkey.Serialization.Configuration
                     {
                         Name = member.Name,
                         Member = member,
-                        Position = position
+                        Position = position++
                     };
 
                     if (memberType.IsEnum)
                         textField.Formatter = new EnumFormatter(memberType);
 
-                    Serializer.Fields.Add(position++, textField);
+                    Serializer.Fields.Add(textField);
                 }
             }
 
@@ -95,10 +95,10 @@ namespace TheCodingMonkey.Serialization.Configuration
         public CsvConfiguration<TTargetType> ForMember(Expression<Func<TTargetType, object>> field, Action<CsvFieldConfiguration> opt)
         {
             var member = ReflectionHelper.FindProperty(field);
-            var kvp = GetFieldPair(member);
+            var foundField = GetField(member);
 
             CsvField textField;
-            if (kvp == null)
+            if (foundField == null)
             {
                 textField = new CsvField
                 {
@@ -108,13 +108,13 @@ namespace TheCodingMonkey.Serialization.Configuration
             }
             else
             {
-                textField = (CsvField)kvp.Value.Value;
-                Serializer.Fields.Remove(kvp.Value.Key);
+                textField = (CsvField)foundField;
+                Serializer.Fields.Remove(foundField);
             }
 
             CsvFieldConfiguration fieldConfig = new CsvFieldConfiguration(textField);
             opt.Invoke(fieldConfig);
-            CsvSerializer.Fields.Add(fieldConfig.Field.Position, fieldConfig.Field);
+            CsvSerializer.Fields.Add(fieldConfig.Field);
             return this;
         }
 

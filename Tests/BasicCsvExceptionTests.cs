@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using TheCodingMonkey.Serialization.Tests.Models;
+using TheCodingMonkey.Serialization.Configuration;
 
 namespace TheCodingMonkey.Serialization.Tests
 {
@@ -27,6 +28,12 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             string incompleteRecord = "\"1\",\"First Record\",\"Long Description, with a Comma\",\"3.14159\"";
             Serializer.Deserialize(incompleteRecord);
+        }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        public void MissingFieldExceptionTest()
+        {
+            var serializer = new CsvSerializer<CsvRecordWithMissingFields>();
         }
     }
 }

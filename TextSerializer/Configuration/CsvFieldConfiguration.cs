@@ -51,6 +51,9 @@ namespace TheCodingMonkey.Serialization.Configuration
             return this;
         }
 
+        /// <summary>For fields which are enumerations, controls how they are serialized and deserialized,
+        /// either using the String representation or the Integer representation.</summary>
+        /// <param name="options">Method to use for Serialization</param>
         public CsvFieldConfiguration FormatEnum(EnumOptions options)
         {
             Field.Formatter = new EnumFormatter(Field.GetNativeType(), options);

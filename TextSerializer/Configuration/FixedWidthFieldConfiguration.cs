@@ -1,4 +1,5 @@
 ﻿using System;
+using TheCodingMonkey.Serialization.Formatters;
 
 namespace TheCodingMonkey.Serialization.Configuration
 {
@@ -47,6 +48,15 @@ namespace TheCodingMonkey.Serialization.Configuration
         public FixedWidthFieldConfiguration Padding(char pad)
         {
             Field.Padding = pad;
+            return this;
+        }
+
+        /// <summary>For fields which are enumerations, controls how they are serialized and deserialized,
+        /// either using the String representation or the Integer representation.</summary>
+        /// <param name="options">Method to use for Serialization</param>
+        public FixedWidthFieldConfiguration FormatEnum(EnumOptions options)
+        {
+            Field.Formatter = new EnumFormatter(Field.GetNativeType(), options);
             return this;
         }
     }

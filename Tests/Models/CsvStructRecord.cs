@@ -10,7 +10,7 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         [TextField(1)]
         public string Name;
         [TextField(2)]
-        public string Description;
+        public string Description { get; set; } // Can have properties on Structs too
         [TextField(3)]
         public double Value;
         [TextField(4)]
