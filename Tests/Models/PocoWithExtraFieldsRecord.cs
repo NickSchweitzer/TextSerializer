@@ -21,7 +21,9 @@ namespace TheCodingMonkey.Serialization.Tests.Models
             ExtraField = "Do Not Call";
         }
 
+#pragma warning disable 67
         public event ExtraFieldChangedHandler ExtraEvent;
+#pragma warning restore 67
     }
 
     public delegate void ExtraFieldChangedHandler(object sender, EventArgs e);
