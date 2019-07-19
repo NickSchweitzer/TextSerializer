@@ -20,6 +20,6 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public double Value { get; set; }
         [TextField(4)]
         public bool Enabled { get; set; }
-        public string ExtraField { get; set; }  // Should be serialized
+        public string ExtraField { get; set; }  // Should not be serialized
     }
 }

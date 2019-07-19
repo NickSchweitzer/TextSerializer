@@ -3,7 +3,7 @@
 Dictionary of Fields which have been configured for this Serializer. The Key is the Position, and the Value is the Field definition class.
 
 ```csharp
-public Dictionary<int, Field> Fields { get; }
+public List<Field> Fields { get; }
 ```
 
 ## See Also

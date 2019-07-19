@@ -10,7 +10,7 @@ public class CsvFieldConfiguration
 
 | name | description |
 | --- | --- |
-| [FormatEnum](CsvFieldConfiguration/FormatEnum.md)(…) |  |
+| [FormatEnum](CsvFieldConfiguration/FormatEnum.md)(…) | For fields which are enumerations, controls how they are serialized and deserialized, either using the String representation or the Integer representation. |
 | [FormatterType](CsvFieldConfiguration/FormatterType.md)(…) | Optional class which is used to control custom serialization/deserialization of this field. This class must implement the [`ITextFormatter`](../TheCodingMonkey.Serialization/ITextFormatter.md) interface. |
 | [Name](CsvFieldConfiguration/Name.md)(…) | Name of this field. If not specified, then the property/field name of the class/struct is used. If a header is written to the CSV file, then this is the value that is used. |
 | [Optional](CsvFieldConfiguration/Optional.md)(…) | Determines whether this field is optional. Because of the nature of CSV and FixedWidth file formats, optional fields should only be a the end of the record. |

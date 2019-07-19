@@ -10,6 +10,7 @@ public class FixedWidthFieldConfiguration
 
 | name | description |
 | --- | --- |
+| [FormatEnum](FixedWidthFieldConfiguration/FormatEnum.md)(…) | For fields which are enumerations, controls how they are serialized and deserialized, either using the String representation or the Integer representation. |
 | [FormatterType](FixedWidthFieldConfiguration/FormatterType.md)(…) | Optional class which is used to control custom serialization/deserialization of this field. This class must implement the [`ITextFormatter`](../TheCodingMonkey.Serialization/ITextFormatter.md) interface. |
 | [Optional](FixedWidthFieldConfiguration/Optional.md)(…) | Determines whether this field is optional. Because of the nature of CSV and FixedWidth file formats, optional fields should only be a the end of the record. |
 | [Padding](FixedWidthFieldConfiguration/Padding.md)(…) | Position (column) where this field is serialized in the CSV file. |
