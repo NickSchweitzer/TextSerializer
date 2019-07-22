@@ -8,8 +8,8 @@
 *.Debug.config
 **/appsettings.*.json
 
-# Sphinx Documentation
-Docs/_build/
+# MkDocs Documentation
+site/
 
 # User-specific files
 *.suo
