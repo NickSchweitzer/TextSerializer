@@ -3,7 +3,8 @@
 Sets the serialization properties of a member of the class. If ByConvention was called first, this will override those inferred settings.
 
 ```csharp
-public FixedWidthConfiguration ForMember(Expression<Func<TTargetType, object>> field, Action<FixedWidthFieldConfiguration> opt)
+public FixedWidthConfiguration ForMember(Expression<Func<TTargetType, object>> field, 
+    Action<FixedWidthFieldConfiguration> opt)
 ```
 
 | parameter | description |

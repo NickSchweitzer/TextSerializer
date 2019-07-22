@@ -1,7 +1,5 @@
 # TextSerializer assembly
 
-The assembly `TextSerializer.dll` has 20 public types in 3 namespaces.
-
 ## TheCodingMonkey.Serialization namespace
 
 | public type | description |

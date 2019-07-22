@@ -3,7 +3,8 @@
 Sets the serialization properties of a member of the class. If ByConvention was called first, this will override those inferred settings.
 
 ```csharp
-public CsvConfiguration ForMember(Expression<Func<TTargetType, object>> field, Action<CsvFieldConfiguration> opt)
+public CsvConfiguration ForMember(Expression<Func<TTargetType, object>> field, 
+    Action<CsvFieldConfiguration> opt)
 ```
 
 | parameter | description |

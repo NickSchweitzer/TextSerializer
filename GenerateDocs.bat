@@ -1,2 +1,2 @@
-.\packages\XmlDocMarkdown.0.5.0\tools\xmldocmarkdown .\TextSerializer\bin\Debug\TextSerializer.dll .\Docs\Reference
+.\packages\XmlDocMarkdown.1.5.1\tools\xmldocmarkdown .\TextSerializer\bin\Debug\TextSerializer.dll .\Docs\Reference
 mkdocs build
