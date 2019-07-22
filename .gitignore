@@ -6,8 +6,10 @@
 # Config Files that contain sensitive information
 *.Release.config
 *.Debug.config
-Edison/config.*
 **/appsettings.*.json
+
+# Sphinx Documentation
+Docs/_build/
 
 # User-specific files
 *.suo
