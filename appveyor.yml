@@ -5,6 +5,7 @@ skip_commits:
   files:
   - Docs/*
   - '**/*.md'
+  - 'mkdocs.yml'
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
