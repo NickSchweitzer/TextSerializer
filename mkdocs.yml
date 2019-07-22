@@ -1,2 +1,6 @@
 site_name: TextSerializer Documentation
 docs_dir: 'Docs'
+theme: 'readthedocs'
+
+markdown_extensions:
+    - sane_lists
