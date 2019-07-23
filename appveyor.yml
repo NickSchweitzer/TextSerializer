@@ -8,6 +8,7 @@ skip_commits:
   - 'mkdocs.yml'
   - '.readthedocs.yml'
   - '**/*.bat'
+  - '.gitignore'
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
