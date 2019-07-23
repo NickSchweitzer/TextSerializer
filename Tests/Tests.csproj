@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TheCodingMonkey.Serialization.Tests</RootNamespace>
     <AssemblyName>TextSerializerTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -108,12 +108,6 @@
     <EmbeddedResource Include="Files\CsvWithEnumIntFile.csv" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TextSerializer\TextSerializer.csproj">
-      <Project>{3c00760e-d0a4-4035-bea4-70086eefba71}</Project>
-      <Name>TextSerializer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Files\FixedWidthFile.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +118,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TextSerializer\TextSerializer.csproj">
+      <Project>{5094d22a-8860-46cd-a3ee-82832aa54361}</Project>
+      <Name>TextSerializer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

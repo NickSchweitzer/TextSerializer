@@ -1,4 +1,4 @@
-version: 2.0.0.{build}
+version: 2.1.0.{build}
 image: Visual Studio 2019
 configuration: Release
 skip_commits:
@@ -7,12 +7,14 @@ skip_commits:
   - '**/*.md'
   - 'mkdocs.yml'
   - '.readthedocs.yml'
-assembly_info:
+dotnet_csproj:
   patch: true
-  file: '**\AssemblyInfo.*'
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
   assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 before_build:
 - cmd: nuget restore
 build:
