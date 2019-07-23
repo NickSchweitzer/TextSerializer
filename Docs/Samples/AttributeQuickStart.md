@@ -1,5 +1,7 @@
 # Attribute Based Configuration
 
+Attribute based configuration is designed to be similar to the .NET XML Serializer. This requires your model class to be marked up with CSV or FixedWidth specific attributes.
+
 ```csharp
 [TextSerializable]
 public class MyCsvRecord
