@@ -7,6 +7,8 @@ skip_commits:
   - '**/*.md'
   - 'mkdocs.yml'
   - '.readthedocs.yml'
+  - '**/*.bat'
+  - '.gitignore'
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
