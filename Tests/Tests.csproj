@@ -1,138 +1,67 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ABEE10A9-8EAE-4131-9D52-CFD1BBBEA496}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>netcoreapp2.0;net45;net46;net47</TargetFrameworks>
+
+    <IsPackable>false</IsPackable>
+
     <RootNamespace>TheCodingMonkey.Serialization.Tests</RootNamespace>
-    <AssemblyName>TextSerializerTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0'">
+    <DefineConstants>NETCORE;NETCORE2_0</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
+    <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net46'">
+    <DefineConstants>NET46;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net47'">
+    <DefineConstants>NET47;NETFULL</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <None Remove="Files\CsvFile.csv" />
+    <None Remove="Files\CsvPipeDelimitedFile.csv" />
+    <None Remove="Files\CsvWithEnumIntFile.csv" />
+    <None Remove="Files\CsvWithEnumStringFile.csv" />
+    <None Remove="Files\CsvWithFormattingFile.csv" />
+    <None Remove="Files\CsvWithHeaderFile.csv" />
+    <None Remove="Files\CsvWithOptionsFile.csv" />
+    <None Remove="Files\CsvWithoutQualifierFile.csv" />
+    <None Remove="Files\CsvWithRenamedHeaderFile.csv" />
+    <None Remove="Files\FixedWidthFile.txt" />
+    <None Remove="Files\FixedWidthWithEnumIntFile.txt" />
+    <None Remove="Files\FixedWidthWithOptionsFile.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BasicFixedWidthExceptionTests.cs" />
-    <Compile Include="FixedWidthWithEnumIntTests.cs" />
-    <Compile Include="CsvFluentEnumIntTests.cs" />
-    <Compile Include="CsvFluentEnumStringTests.cs" />
-    <Compile Include="CsvFluentRenamedHeaderTests.cs" />
-    <Compile Include="BasicCsvExceptionTests.cs" />
-    <Compile Include="CsvWithRenamedHeaderTests.cs" />
-    <Compile Include="FixedWidthIgnoreConfigurationTests.cs" />
-    <Compile Include="FixedWidthFluentConfigurationTests.cs" />
-    <Compile Include="CsvStructConfigurationTests.cs" />
-    <Compile Include="CsvFluentMixedConfigurationTests.cs" />
-    <Compile Include="CsvIgnoreConfigurationTests.cs" />
-    <Compile Include="CsvConventionConfigurationTests.cs" />
-    <Compile Include="CsvFluentConfigurationTests.cs" />
-    <Compile Include="CsvPipeDelimitedTests.cs" />
-    <Compile Include="CsvStructTests.cs" />
-    <Compile Include="CsvWithExtraFieldsTests.cs" />
-    <Compile Include="CsvWithoutQualifierTests.cs" />
-    <Compile Include="CsvWithOptionsTests.cs" />
-    <Compile Include="CsvWithHeaderTests.cs" />
-    <Compile Include="CsvWithFormattingTests.cs" />
-    <Compile Include="CsvTests.cs" />
-    <Compile Include="FixedWidthWithOptionsTests.cs" />
-    <Compile Include="FixedWidthTests.cs" />
-    <Compile Include="FluentConfigurationTests.cs" />
-    <Compile Include="Helpers\Records.cs" />
-    <Compile Include="Helpers\Tests.cs" />
-    <Compile Include="Models\CsvRecordWithMissingFields.cs" />
-    <Compile Include="Models\CsvRenamedHeaderRecord.cs" />
-    <Compile Include="Models\FixedWidthInvalidSizeRecord.cs" />
-    <Compile Include="Models\PocoMixedRecord.cs" />
-    <Compile Include="Models\PocoWithEnumRecord.cs" />
-    <Compile Include="Models\PocoStructRecord.cs" />
-    <Compile Include="Models\PocoWithExtraFieldsRecord.cs" />
-    <Compile Include="Models\PocoRecord.cs" />
-    <Compile Include="Models\CsvStructRecord.cs" />
-    <Compile Include="Models\CsvWithExtraFieldsRecord.cs" />
-    <Compile Include="Models\CsvWithOptionsRecord.cs" />
-    <Compile Include="Models\CsvWithFormattingRecord.cs" />
-    <Compile Include="Models\CsvRecord.cs" />
-    <Compile Include="Models\FixedWidthWithOptionsRecord.cs" />
-    <Compile Include="Models\FixedWidthRecord.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BooleanIntFormatterTests.cs" />
-    <Compile Include="Helpers\ReflectionComparer.cs" />
-    <Compile Include="Helpers\Utilities.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Files\CsvFile.csv" />
+    <EmbeddedResource Include="Files\CsvPipeDelimitedFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithEnumIntFile.csv" />
+    <EmbeddedResource Include="Files\CsvWithEnumStringFile.csv" />
     <EmbeddedResource Include="Files\CsvWithFormattingFile.csv" />
     <EmbeddedResource Include="Files\CsvWithHeaderFile.csv" />
     <EmbeddedResource Include="Files\CsvWithOptionsFile.csv" />
-    <EmbeddedResource Include="Files\CsvPipeDelimitedFile.csv" />
     <EmbeddedResource Include="Files\CsvWithoutQualifierFile.csv" />
     <EmbeddedResource Include="Files\CsvWithRenamedHeaderFile.csv" />
-    <EmbeddedResource Include="Files\CsvWithEnumStringFile.csv" />
-    <EmbeddedResource Include="Files\CsvWithEnumIntFile.csv" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Files\FixedWidthFile.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="Files\FixedWidthWithEnumIntFile.txt" />
     <EmbeddedResource Include="Files\FixedWidthWithOptionsFile.txt" />
   </ItemGroup>
+  
   <ItemGroup>
-    <EmbeddedResource Include="Files\FixedWidthWithEnumIntFile.txt" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\TextSerializer\TextSerializer.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TextSerializer\TextSerializer.csproj">
-      <Project>{5094d22a-8860-46cd-a3ee-82832aa54361}</Project>
-      <Name>TextSerializer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.targets'))" />
-  </Target>
-  <Import Project="..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.4.0\build\net45\MSTest.TestAdapter.targets')" />
+
 </Project>
