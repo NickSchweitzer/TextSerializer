@@ -1,6 +1,6 @@
 # Text Serializer Library
-![AppVeyor](https://img.shields.io/appveyor/ci/NickSchweitzer/TextSerializer.svg?logo=appveyor&style=for-the-badge)
-![AppVeyor tests](https://img.shields.io/appveyor/tests/NickSchweitzer/TextSerializer.svg?logo=appveyor&style=for-the-badge)
+[![AppVeyor](https://img.shields.io/appveyor/ci/NickSchweitzer/TextSerializer.svg?logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/NickSchweitzer/textserializer)
+[![AppVeyor tests](https://img.shields.io/appveyor/tests/NickSchweitzer/TextSerializer.svg?logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/NickSchweitzer/textserializer/build/tests)
 [![Nuget](https://img.shields.io/nuget/v/TheCodingMonkey.Serialization.svg?logo=nuget&style=for-the-badge)](https://www.nuget.org/packages/TheCodingMonkey.Serialization/)
 [![Nuget](https://img.shields.io/nuget/dt/TheCodingMonkey.Serialization.svg?logo=nuget&style=for-the-badge)](https://www.nuget.org/packages/TheCodingMonkey.Serialization/)
 [![GitHub](https://img.shields.io/github/license/NickSchweitzer/TextSerializer.svg?logo=github&style=for-the-badge)](https://github.com/NickSchweitzer/TextSerializer/blob/master/LICENSE.txt)
