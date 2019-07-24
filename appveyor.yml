@@ -43,7 +43,7 @@ build:
   verbosity: minimal
 
 test_script:
-- OpenCover.Console.exe -register:user -target:"vstest.console" -targetargs:".\Tests\bin\Release\net45\Tests.dll" .\Tests\bin\Release\net46\Tests.dll .\Tests\bin\Release\net47\Tests.dll" -output:".\Tests_coverage.xml"
+- OpenCover.Console.exe -register:user -target:"vstest.console" -targetargs:".\Tests\bin\Release\net45\Tests.dll .\Tests\bin\Release\net46\Tests.dll .\Tests\bin\Release\net47\Tests.dll" -output:".\Tests_coverage.xml"
 - codecov -f "Tests_coverage.xml"
 
 deploy:
