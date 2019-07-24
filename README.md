@@ -5,6 +5,7 @@
 [![Nuget](https://img.shields.io/nuget/dt/TheCodingMonkey.Serialization.svg?logo=nuget&style=for-the-badge)](https://www.nuget.org/packages/TheCodingMonkey.Serialization/)
 [![GitHub](https://img.shields.io/github/license/NickSchweitzer/TextSerializer.svg?logo=github&style=for-the-badge)](https://github.com/NickSchweitzer/TextSerializer/blob/master/LICENSE.txt)
 [![Read the Docs](https://img.shields.io/readthedocs/textserializer.svg?style=for-the-badge)](https://textserializer.readthedocs.io/en/latest/)
+[![Codecov](https://img.shields.io/codecov/c/github/NickSchweitzer/TextSerializer.svg?logo=codecov&style=for-the-badge)](https://codecov.io/gh/NickSchweitzer/TextSerializer/)
 
 Library for reading and writing CSV and Fixed Width files into a class or struct similar to XmlSerializer.
 
