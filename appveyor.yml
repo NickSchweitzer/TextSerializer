@@ -10,7 +10,7 @@ skip_commits:
   - '**/*.bat'
   - '.gitignore'
 install:
-  -ps: |
+  - ps: |
      function install-devpack ($version, $location) {
          Write-Host ".NET Framework $($version) Developer Pack..." -ForegroundColor Cyan
          Write-Host "Downloading..."
