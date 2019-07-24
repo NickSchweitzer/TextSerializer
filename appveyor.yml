@@ -10,17 +10,18 @@ skip_commits:
   - '**/*.bat'
   - '.gitignore'
 install:
-  -ps: function install-devpack ($version, $location) {
-     Write-Host ".NET Framework $($version) Developer Pack..." -ForegroundColor Cyan
-     Write-Host "Downloading..."
-     $exePath = "$env:TEMP\$($version)-devpack.exe"
-     (New-Object Net.WebClient).DownloadFile($location, $exePath)
-     Write-Host "Installing..."
-     cmd /c start /wait "$exePath" /quiet /norestart
-     del $exePath
-     Write-Host "Installed" -ForegroundColor Green
-   }
-   install-devpack -version "4.7" -location "https://download.microsoft.com/download/A/1/D/A1D07600-6915-4CB8-A931-9A980EF47BB7/NDP47-DevPack-KB3186612-ENU.exe"
+  -ps: |
+     function install-devpack ($version, $location) {
+         Write-Host ".NET Framework $($version) Developer Pack..." -ForegroundColor Cyan
+         Write-Host "Downloading..."
+         $exePath = "$env:TEMP\$($version)-devpack.exe"
+         (New-Object Net.WebClient).DownloadFile($location, $exePath)
+         Write-Host "Installing..."
+         cmd /c start /wait "$exePath" /quiet /norestart
+         del $exePath
+         Write-Host "Installed" -ForegroundColor Green
+     }
+     install-devpack -version "4.7" -location "https://download.microsoft.com/download/A/1/D/A1D07600-6915-4CB8-A931-9A980EF47BB7/NDP47-DevPack-KB3186612-ENU.exe"
 
 dotnet_csproj:
   patch: true
