@@ -12,7 +12,7 @@ namespace TheCodingMonkey.Serialization
     /// <see cref="TextSerializableAttribute">TextSerializable attribute</see> applied, and any fields contained must have the 
     /// <see cref="TextFieldAttribute">TextField attribute</see> applied to them, or <see cref="CsvConfiguration{TTargetType}">Fluent Configuration</see>
     /// must be used.</typeparam>
-    public class CsvSerializer<TTargetType> : TextSerializer<TTargetType>
+    public class CsvSerializer<TTargetType> : RecordSerializer<TTargetType>
         where TTargetType : new()
     {
         /// <summary>Initializes a new instance of the CSVSerializer class with default values, using Attributes on the target type

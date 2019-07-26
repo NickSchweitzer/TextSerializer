@@ -9,7 +9,7 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvIgnoreConfigurationTests
     {
-        protected TextSerializer<PocoWithExtraFieldsRecord> Serializer;
+        protected RecordSerializer<PocoWithExtraFieldsRecord> Serializer;
         protected string DeserializeTestFile = "CsvWithOptionsFile.csv";
         protected string SerializeTestFile = "CsvFile.csv";
 

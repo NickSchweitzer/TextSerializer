@@ -8,7 +8,7 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fixed Width")]
     public class BasicFixedWidthExceptionTests
     {
-        private TextSerializer<FixedWidthRecord> Serializer = new FixedWidthSerializer<FixedWidthRecord>();
+        private RecordSerializer<FixedWidthRecord> Serializer = new FixedWidthSerializer<FixedWidthRecord>();
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void DeserializeNullStringTest()

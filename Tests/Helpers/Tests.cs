@@ -12,7 +12,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
     {
         public static ReflectionComparer GenericComparer = new ReflectionComparer();
 
-        public static void DeserializeArrayTest<T>(string testFile, TextSerializer<T> serializer, ICollection expectedResults, int count = -1)
+        public static void DeserializeArrayTest<T>(string testFile, RecordSerializer<T> serializer, ICollection expectedResults, int count = -1)
             where T: new()
         {
             ICollection csvRecords;
@@ -51,7 +51,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             CollectionAssert.AreEqual(expectedResults, csvRecords, GenericComparer);
         }
 
-        public static void DeserializeEnumerableTest<T>(string testFile, TextSerializer<T> serializer, ICollection expectedResults)
+        public static void DeserializeEnumerableTest<T>(string testFile, RecordSerializer<T> serializer, ICollection expectedResults)
             where T : new()
         {
             var expectedArray = expectedResults.ToArray<T>();
@@ -81,7 +81,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         }
 
-        public static void SerializeTest<T>(string testFile, TextSerializer<T> serializer, ICollection testRecords)
+        public static void SerializeTest<T>(string testFile, RecordSerializer<T> serializer, ICollection testRecords)
             where T : new()
         {
             var expectedRecords = testRecords.ToArray<T>();
@@ -110,7 +110,7 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             }
         }
 
-        public static void SerializeArrayTest<T>(string testFile, TextSerializer<T> serializer, ICollection testRecords)
+        public static void SerializeArrayTest<T>(string testFile, RecordSerializer<T> serializer, ICollection testRecords)
             where T : new()
         {
             var expectedRecords = testRecords.ToArray<T>();

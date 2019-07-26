@@ -9,7 +9,7 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvFluentConfigurationTests
     {
-        protected TextSerializer<PocoRecord> Serializer;
+        protected RecordSerializer<PocoRecord> Serializer;
         protected string DeserializeTestFile = "CsvWithOptionsFile.csv";
         protected string SerializeTestFile = "CsvFile.csv";
 

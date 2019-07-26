@@ -9,7 +9,7 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("Fluent")]
     public class CsvFluentEnumStringTests
     {
-        protected TextSerializer<PocoWithEnumRecord> Serializer;
+        protected RecordSerializer<PocoWithEnumRecord> Serializer;
         protected string TestFile = "CsvWithEnumStringFile.csv";
 
         public CsvFluentEnumStringTests()

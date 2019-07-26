@@ -9,7 +9,7 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("CSV")]
     public class BasicCsvExceptionTests
     {
-        private TextSerializer<CsvRecord> Serializer = new CsvSerializer<CsvRecord>();
+        private RecordSerializer<CsvRecord> Serializer = new CsvSerializer<CsvRecord>();
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void DeserializeNullStringTest()

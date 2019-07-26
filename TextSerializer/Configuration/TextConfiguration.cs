@@ -13,9 +13,9 @@ namespace TheCodingMonkey.Serialization.Configuration
         where TTargetType : new()
     {
         /// <summary>Serializer which is being configured by this class.</summary>
-        protected TextSerializer<TTargetType> Serializer { get; set; }
+        protected RecordSerializer<TTargetType> Serializer { get; set; }
 
-        internal TextConfiguration(TextSerializer<TTargetType> serializer)
+        internal TextConfiguration(RecordSerializer<TTargetType> serializer)
         {
             Serializer = serializer;
         }
