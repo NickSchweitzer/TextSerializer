@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
+using TheCodingMonkey.Serialization.Utilities;
+using TheCodingMonkey.Serialization.Configuration;
+using System.Linq;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -14,6 +17,22 @@ namespace TheCodingMonkey.Serialization
     public class IniSerializer<TTargetType> : BaseSerializer<TTargetType>
         where TTargetType : new()
     {
+        /// <summary>Initializes a new instance of the IniSerializer class with default values, using Attributes on the target type
+        /// to determine the configuration of fields and properties.</summary>
+        public IniSerializer()
+        { }
+
+        /// <summary>Initializes a new instance of the CSVSerializer class using Fluent configuration.</summary>
+        ///<param name="config">Fluent configuration for the serializer.</param>
+        public IniSerializer(Action<IniConfiguration<TTargetType>> config)
+        {
+            IniConfiguration<TTargetType> completedConfig = new IniConfiguration<TTargetType>(this);
+            config.Invoke(completedConfig);
+            Fields.Sort((x, y) => x.Position.CompareTo(y.Position));
+
+            
+        }
+
         /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>
         /// <param name="member">Property or Field to return a configuration for.</param>
         /// <returns>Field configuration if this property should be serialized, otherwise null to ignore.</returns>
@@ -53,7 +72,72 @@ namespace TheCodingMonkey.Serialization
                 returnStruct = (ValueType)tempObj;
             }
 
-            // TODO: Write Deserialize Code Here
+            // Create objects that maintain what Ini Section we're currently operating in
+            // Until we get a Section declaration line, we'll assume that all lines should get deserialized into return object
+            string currentSectionName = string.Empty;
+            object sectionObj = returnObj;
+            ValueType sectionStruct = null;
+            if (sectionObj.GetType().IsValueType)
+            {
+                object tempSectionObj = sectionObj;
+                sectionStruct = (ValueType)tempSectionObj;
+            }
+
+            bool bContinue = true;
+            while (bContinue)
+            {
+                string strRow = reader.ReadLine();
+                if (!string.IsNullOrEmpty(strRow))
+                {
+                    var parsedLine = ParseLine(strRow);
+                    if (parsedLine.Item1 == IniLineType.BlankLine || parsedLine.Item1 == IniLineType.Comment)
+                        continue;
+
+                    if (parsedLine.Item1 == IniLineType.KeyValuePair)
+                    {
+                        IniField field = GetFieldByName(currentSectionName, parsedLine.Item2);
+                        if (field == null)
+                            throw new TextSerializationException($"Missing property {currentSectionName}/{parsedLine.Item2}");
+                        else
+                        {
+                            // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
+                            object fieldObj = field.Formatter != null ? field.Formatter.Deserialize(parsedLine.Item2) : Convert.ChangeType(parsedLine.Item2, field.GetNativeType());
+
+                            // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
+                            if (sectionObj.GetType().IsValueType)
+                                AssignToStruct(returnStruct, fieldObj, field.Member);
+                            else
+                                AssignToClass(returnObj, fieldObj, field.Member);
+                        }
+                    }
+                    else if (parsedLine.Item1 == IniLineType.Item)
+                    {
+                        Field field = GetListField(currentSectionName);
+                        object objList;
+                        // Get the object from the field
+                        if (field.Member is PropertyInfo)
+                            objList = ((PropertyInfo)field.Member).GetValue(sectionObj.GetType().IsValueType ? sectionStruct : sectionObj, null);
+                        else if (field.Member is FieldInfo)
+                            objList = ((FieldInfo)field.Member).GetValue(sectionObj.GetType().IsValueType ? sectionStruct : sectionObj);
+                        else
+                            throw new TextSerializationException("Invalid MemberInfo type encountered");
+
+                        IList list = objList as IList;
+                        if (list == null)
+                            throw new TextSerializationException($"Field mapped for {parsedLine.Item2} does not implement IList");
+
+                        // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
+                        object fieldObj = field.Formatter != null ? field.Formatter.Deserialize(parsedLine.Item3) : Convert.ChangeType(parsedLine.Item3, field.GetNativeType());
+                        list.Add(fieldObj);
+                    }
+                    else if (parsedLine.Item1 == IniLineType.Section)
+                    {
+                        // TODO - Handle Changing Sections
+                    }
+                }
+                else if (strRow == null)    // EOF
+                    bContinue = false;
+            }
 
             // If this was a value type, need to do a little more magic so can be returned properly
             if (TargetType.IsValueType)
@@ -63,6 +147,46 @@ namespace TheCodingMonkey.Serialization
             }
 
             return returnObj;
+        }
+
+        private IniField GetFieldByName(string sectionName, string propertyName)
+        {
+            return Fields.Where(f => ((IniField)f).Name == propertyName && ((IniField)f).SectionName == sectionName).FirstOrDefault() as IniField;
+        }
+
+        private Field GetListField(string sectionName)
+        {
+            return Fields.Where(f => ((IniField)f).IsList && ((IniField)f).SectionName == sectionName).FirstOrDefault();
+        }
+
+        private Tuple<IniLineType, string, string> ParseLine(string text)
+        {
+            text = text.Trim();
+            if (string.IsNullOrEmpty(text))
+                return new Tuple<IniLineType, string, string>(IniLineType.BlankLine, null, null);
+
+            if (text.StartsWith(";"))
+                return new Tuple<IniLineType, string, string>(IniLineType.Comment, text, null);
+
+            if (text.StartsWith("[") && text.EndsWith("]"))
+                return new Tuple<IniLineType, string, string>(IniLineType.Section, text.Substring(1, text.Length - 2), null);
+
+            List<string> parsedLine = ParsingHelper.ParseDelimited(text, '\"', '=');
+            if (parsedLine.Count == 1)
+                return new Tuple<IniLineType, string, string>(IniLineType.Item, parsedLine[0].Trim(), null);
+            else if (parsedLine.Count == 2)
+                return new Tuple<IniLineType, string, string>(IniLineType.KeyValuePair, parsedLine[0].Trim(), parsedLine[1].Trim());
+
+            throw new TextSerializationException($"Cannot parse line in INI file '{text}'");
+        }
+
+        private enum IniLineType
+        {
+            BlankLine,
+            Comment,
+            Section,
+            Item,
+            KeyValuePair
         }
     }
 }
