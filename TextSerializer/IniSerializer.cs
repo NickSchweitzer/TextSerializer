@@ -9,7 +9,7 @@ namespace TheCodingMonkey.Serialization
     /// <summary>Used to serialize a TargetType object to an INI file.</summary>
     /// <typeparam name="TTargetType">The type of object that will be serialized.  TargetType either must have the 
     /// <see cref="TextSerializableAttribute">TextSerializable attribute</see> applied, and any fields contained must have the 
-    /// <see cref="IniFieldAttribute">IniTextField attribute</see> applied to them, or <see cref="IniConfiguration{TTargetType}">Fluent Configuration</see>
+    /// <see cref="IniFieldAttribute">IniField attribute</see>/<see cref="IniSectionAttribute">IniSection attribute</see> applied to them, or <see cref="IniConfiguration{TTargetType}">Fluent Configuration</see>
     /// must be used.</typeparam>
     public class IniSerializer<TTargetType> : BaseSerializer<TTargetType>
         where TTargetType : new()

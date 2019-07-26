@@ -1,9 +1,9 @@
 using System;
 using System.IO;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
 using TheCodingMonkey.Serialization.Configuration;
-using System.Reflection;
 
 namespace TheCodingMonkey.Serialization
 {

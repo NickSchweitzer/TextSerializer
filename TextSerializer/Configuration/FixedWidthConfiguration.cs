@@ -8,7 +8,7 @@ using TheCodingMonkey.Serialization.Utilities;
 namespace TheCodingMonkey.Serialization.Configuration
 {
     /// <summary>Fluent Configuration class for the <see cref="FixedWidthSerializer{TTargetType}">FixedWidthSerializer</see> class.</summary>
-    public class FixedWidthConfiguration<TTargetType> : TextConfiguration<TTargetType>
+    public class FixedWidthConfiguration<TTargetType> : BaseConfiguration<TTargetType>
         where TTargetType : new()
     {
         internal FixedWidthConfiguration(FixedWidthSerializer<TTargetType> serializer)

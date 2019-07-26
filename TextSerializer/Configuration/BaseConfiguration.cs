@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -9,13 +8,13 @@ using TheCodingMonkey.Serialization.Utilities;
 namespace TheCodingMonkey.Serialization.Configuration
 {
     /// <summary>Base class for Fluent Configuration classes</summary>
-    public abstract class TextConfiguration<TTargetType>
+    public abstract class BaseConfiguration<TTargetType>
         where TTargetType : new()
     {
         /// <summary>Serializer which is being configured by this class.</summary>
-        protected RecordSerializer<TTargetType> Serializer { get; set; }
+        protected BaseSerializer<TTargetType> Serializer { get; set; }
 
-        internal TextConfiguration(RecordSerializer<TTargetType> serializer)
+        internal BaseConfiguration(BaseSerializer<TTargetType> serializer)
         {
             Serializer = serializer;
         }
