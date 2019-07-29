@@ -10,6 +10,7 @@ namespace TheCodingMonkey.Serialization
     /// <summary>Contains configuration properties for a class/struct that represents a section in an INI file</summary>
     public class IniSection
     {
+        /// <summary>Default Constructor for the IniSection</summary>
         public IniSection()
         {
             Fields = new List<IniField>();
@@ -32,6 +33,11 @@ namespace TheCodingMonkey.Serialization
         internal IniField GetListField()
         {
             return Fields.Where(f => f.IsList).FirstOrDefault();
+        }
+
+        internal IniField GetDictionaryField()
+        {
+            return Fields.Where(f => f.IsDictionary).FirstOrDefault();
         }
 
         internal void InitializeClassFromAttributes(Type type)
@@ -71,8 +77,13 @@ namespace TheCodingMonkey.Serialization
                         iniField.AllowedValues = allowedAttr.AllowedValues;
                     }
 
+                    // TODO - The code below doesn't handle the case where the property is declared as an Interface itself. Need to fix that
+
+                    // Check to see if this is a List or a Dictionary - We do special things with those
                     if (memberType.GetInterface("System.Collections.IList") != null)
-                        iniField.IsList = true;
+                            iniField.IsList = true;
+                    if (memberType.GetInterface("System.Collections.IDictionary") != null)
+                        iniField.IsDictionary = true;
 
                     if (memberType.IsEnum && iniField.FormatterType == null)
                     {

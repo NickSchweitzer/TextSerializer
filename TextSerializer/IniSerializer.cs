@@ -118,12 +118,12 @@ namespace TheCodingMonkey.Serialization
                     if (parsedLine.Item1 == IniLineType.BlankLine || parsedLine.Item1 == IniLineType.Comment)
                         continue;
 
+                    // TODO - IList and IDictionary code assumes that the List and Dictionary were already created by the Model creator. Should handle the case wehre the Serializer creates it.
+
                     if (parsedLine.Item1 == IniLineType.KeyValuePair)
                     {
                         IniField field = currentSection.GetFieldByName(parsedLine.Item2);
-                        if (field == null)
-                            throw new TextSerializationException($"Missing property {currentSection.Name}/{parsedLine.Item2}");
-                        else
+                        if (field != null)
                         {
                             // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
                             object fieldObj = field.Formatter != null ? field.Formatter.Deserialize(parsedLine.Item3) : Convert.ChangeType(parsedLine.Item3, field.GetNativeType());
@@ -133,6 +133,41 @@ namespace TheCodingMonkey.Serialization
                                 Utilities.ReflectionHelper.AssignToStruct(returnStruct, fieldObj, field.Member);
                             else
                                 Utilities.ReflectionHelper.AssignToClass(returnObj, fieldObj, field.Member);
+                        }
+                        else
+                        {
+                            // Check to see if one of the properties is a Dictionary and add it to that
+                            IniField dictField = currentSection.GetDictionaryField();
+                            if (dictField != null)
+                            {
+                                object objDictionary;
+                                // Get the object from the field
+                                if (dictField.Member is PropertyInfo)
+                                    objDictionary = ((PropertyInfo)dictField.Member).GetValue(sectionObj.GetType().IsValueType ? sectionStruct : sectionObj, null);
+                                else if (dictField.Member is FieldInfo)
+                                    objDictionary = ((FieldInfo)dictField.Member).GetValue(sectionObj.GetType().IsValueType ? sectionStruct : sectionObj);
+                                else
+                                    throw new TextSerializationException("Invalid MemberInfo type encountered");
+
+                                IDictionary dictionary = objDictionary as IDictionary;
+                                if (dictionary == null)
+                                    throw new TextSerializationException($"Field mapped for {parsedLine.Item2} does not implement IDictionary");
+
+                                // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
+                                object fieldObj = null;
+                                if (dictField.Formatter != null)
+                                    fieldObj = dictField.Formatter.Deserialize(parsedLine.Item3);
+                                else
+                                {
+                                    Type listType = dictField.GetNativeType();
+                                    Type innerType = listType.GenericTypeArguments[1];
+                                    fieldObj = Convert.ChangeType(parsedLine.Item3, innerType);
+                                }
+                                dictionary.Add(parsedLine.Item2, fieldObj);
+                            }
+                            else
+                                throw new TextSerializationException($"Missing property {currentSection.Name}/{parsedLine.Item2}");
+
                         }
                     }
                     else if (parsedLine.Item1 == IniLineType.Item)
@@ -154,7 +189,7 @@ namespace TheCodingMonkey.Serialization
                         // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
                         object fieldObj = null;
                         if (field.Formatter != null)
-                            field.Formatter.Deserialize(parsedLine.Item2);
+                            fieldObj = field.Formatter.Deserialize(parsedLine.Item2);
                         else
                         {
                             Type listType = field.GetNativeType();
@@ -175,8 +210,9 @@ namespace TheCodingMonkey.Serialization
                         }
                         else
                         {
-                            // Check to see if this is a section acting as a list property
-                            if (currentSection.GetListField().Name != parsedLine.Item2)
+                            // Check to see if this is a section acting as a list or dictionary property
+                            IniField field = currentSection.GetFieldByName(parsedLine.Item2);
+                            if (field == null || (!field.IsList && !field.IsDictionary))
                                 throw new TextSerializationException($"Invalid Section Encountered {parsedLine.Item2}");
                         }
                     }

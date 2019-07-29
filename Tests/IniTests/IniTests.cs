@@ -46,5 +46,20 @@ namespace TheCodingMonkey.Serialization.Tests
                 CollectionAssert.AreEqual(expectedList, model.StringList);
             }
         }
+
+        [TestMethod]
+        public void DeserializeSimpleDictionaryIniTest()
+        {
+            IniSerializer<IniSimpleDictionaryModel> iniSerializer = new IniSerializer<IniSimpleDictionaryModel>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleDictionary.ini"))
+            {
+                var model = iniSerializer.Deserialize(reader);
+                for (int i = 1; i < 5; i++)
+                {
+                    Assert.IsTrue(model.Dictionary.ContainsKey($"Key{i}"));
+                    Assert.AreEqual(model.Dictionary[$"Key{i}"], $"Value{i}");
+                }
+            }
+        }
     }
 }

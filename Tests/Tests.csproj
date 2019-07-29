@@ -37,6 +37,7 @@
     <None Remove="Files\FixedWidthFile.txt" />
     <None Remove="Files\FixedWidthWithEnumIntFile.txt" />
     <None Remove="Files\FixedWidthWithOptionsFile.txt" />
+    <None Remove="Files\IniSimpleDictionary.ini" />
     <None Remove="Files\NoSectionIniFile.ini" />
     <None Remove="Files\SingleSectionAndListIniFile.ini" />
   </ItemGroup>
@@ -54,6 +55,7 @@
     <EmbeddedResource Include="Files\FixedWidthFile.txt" />
     <EmbeddedResource Include="Files\FixedWidthWithEnumIntFile.txt" />
     <EmbeddedResource Include="Files\FixedWidthWithOptionsFile.txt" />
+    <EmbeddedResource Include="Files\IniSimpleDictionary.ini" />
     <EmbeddedResource Include="Files\NoSectionIniFile.ini" />
     <EmbeddedResource Include="Files\SingleSectionAndListIniFile.ini" />
   </ItemGroup>
