@@ -6,7 +6,7 @@ namespace TheCodingMonkey.Serialization
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class IniFieldAttribute : Attribute
     {
-        internal Field Field { get; set; }
+        internal IniField Field { get; set; }
 
         /// <summary>Default constructor.</summary>
         public IniFieldAttribute()

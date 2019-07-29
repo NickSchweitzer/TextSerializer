@@ -8,13 +8,13 @@ using TheCodingMonkey.Serialization.Utilities;
 namespace TheCodingMonkey.Serialization.Configuration
 {
     /// <summary>Base class for Fluent Configuration classes</summary>
-    public abstract class BaseConfiguration<TTargetType>
+    public abstract class RecordConfiguration<TTargetType>
         where TTargetType : new()
     {
         /// <summary>Serializer which is being configured by this class.</summary>
-        protected BaseSerializer<TTargetType> Serializer { get; set; }
+        protected RecordSerializer<TTargetType> Serializer { get; set; }
 
-        internal BaseConfiguration(BaseSerializer<TTargetType> serializer)
+        internal RecordConfiguration(RecordSerializer<TTargetType> serializer)
         {
             Serializer = serializer;
         }

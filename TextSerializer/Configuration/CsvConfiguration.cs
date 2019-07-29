@@ -7,7 +7,7 @@ using TheCodingMonkey.Serialization.Utilities;
 namespace TheCodingMonkey.Serialization.Configuration
 {
     /// <summary>Fluent Configuration class for the <see cref="CsvSerializer{TTargetType}">CsvSerializer</see> class.</summary>
-    public class CsvConfiguration<TTargetType> : BaseConfiguration<TTargetType>
+    public class CsvConfiguration<TTargetType> : RecordConfiguration<TTargetType>
         where TTargetType : new()
     {
         private CsvSerializer<TTargetType> CsvSerializer { get; set; }

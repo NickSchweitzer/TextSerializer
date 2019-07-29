@@ -14,9 +14,6 @@ namespace TheCodingMonkey.Serialization
             set { _Name = value; }
         }
 
-        /// <summary>Section that this field belongs to</summary>
-        public string SectionName { get; set; } = string.Empty;
-
         /// <summary>True if this property accepts list items for this INI section, i.e. lines that
         /// are not key value pairs</summary>
         public bool IsList { get; set; } = false;
