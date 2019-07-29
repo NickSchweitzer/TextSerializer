@@ -37,6 +37,8 @@
     <None Remove="Files\FixedWidthFile.txt" />
     <None Remove="Files\FixedWidthWithEnumIntFile.txt" />
     <None Remove="Files\FixedWidthWithOptionsFile.txt" />
+    <None Remove="Files\NoSectionKvpIniFile.ini" />
+    <None Remove="Files\SingleSectionKvpAndListIniFile.ini" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +54,8 @@
     <EmbeddedResource Include="Files\FixedWidthFile.txt" />
     <EmbeddedResource Include="Files\FixedWidthWithEnumIntFile.txt" />
     <EmbeddedResource Include="Files\FixedWidthWithOptionsFile.txt" />
+    <EmbeddedResource Include="Files\NoSectionKvpIniFile.ini" />
+    <EmbeddedResource Include="Files\SingleSectionKvpAndListIniFile.ini" />
   </ItemGroup>
   
   <ItemGroup>
@@ -62,6 +66,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TextSerializer\TextSerializer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IniTests\" />
   </ItemGroup>
 
 </Project>
