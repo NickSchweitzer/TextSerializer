@@ -5,7 +5,7 @@ using System.Text;
 namespace TheCodingMonkey.Serialization.Tests.Models
 {
     [TextSerializable]
-    public class IniModel
+    public struct IniModel  // Test to make sure Structs work
     {
         [IniField]
         public int IntValue { get; set; }
@@ -17,6 +17,6 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public string StringValue { get; set; }
 
         [IniField]
-        public bool BoolValue { get; set; }
+        public bool BoolValue;  // Test to make sure Fields work too
     }
 }
