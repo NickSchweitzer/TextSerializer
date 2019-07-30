@@ -205,7 +205,7 @@ namespace TheCodingMonkey.Serialization
                             IniSection newSection = Sections[parsedLine.Item2];
                             if (newSection != currentSection)
                             {
-                                // TODO - Do some object assignments here and create new section objections
+                                // TODO - Do some object assignments here and create new section objects
                             }
                         }
                         else

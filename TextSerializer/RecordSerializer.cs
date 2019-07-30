@@ -42,7 +42,7 @@ namespace TheCodingMonkey.Serialization
             // Double check that the TextSerializableAttribute has been attached to the TargetType
             object[] serAttrs = TargetType.GetCustomAttributes(typeof(TextSerializableAttribute), false);
             if (serAttrs.Length == 0)
-                throw new TextSerializationException("TargetType must have a TextSerializableAttribute attached");
+                throw new TextSerializationConfigurationException("TargetType must have a TextSerializableAttribute attached");
 
             // Get all the public properties and fields on the class
             MemberInfo[] members = TargetType.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField | BindingFlags.GetProperty);
@@ -57,7 +57,7 @@ namespace TheCodingMonkey.Serialization
                     else if (member is PropertyInfo)
                         memberType = ((PropertyInfo)member).PropertyType;
                     else
-                        throw new TextSerializationException("Invalid MemberInfo type encountered");
+                        throw new TextSerializationConfigurationException("Invalid MemberInfo type encountered");
 
                     // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
                     object[] allowedAttrs = member.GetCustomAttributes(typeof(AllowedValuesAttribute), false);

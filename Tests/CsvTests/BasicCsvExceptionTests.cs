@@ -35,5 +35,11 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             var serializer = new CsvSerializer<CsvRecordWithMissingFields>();
         }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        public void MissingTextSerializableAttributeTest()
+        {
+            var serializer = new CsvSerializer<PocoRecord>();
+        }
     }
 }
