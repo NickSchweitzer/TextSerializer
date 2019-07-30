@@ -13,7 +13,7 @@ namespace TheCodingMonkey.Serialization.Tests
         public void DeserializeNoSectionIniTest()
         {
             IniSerializer<IniModel> iniSerializer = new IniSerializer<IniModel>();
-            using (var reader = Helpers.Utilities.OpenEmbeddedFile("NoSectionIniFile.ini"))
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniNoSectionFile.ini"))
             {
                 var model = iniSerializer.Deserialize(reader);
                 Assert.AreEqual(1, model.IntValue);
@@ -27,7 +27,7 @@ namespace TheCodingMonkey.Serialization.Tests
         public void DeserializeSingleSectionAndListIniTest()
         {
             IniSerializer<IniModelWithList> iniSerializer = new IniSerializer<IniModelWithList>();
-            using (var reader = Helpers.Utilities.OpenEmbeddedFile("SingleSectionAndListIniFile.ini"))
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSingleSectionAndListFile.ini"))
             {
                 var model = iniSerializer.Deserialize(reader);
                 Assert.AreEqual(1, model.IntValue);
