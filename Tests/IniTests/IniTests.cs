@@ -20,7 +20,7 @@ namespace TheCodingMonkey.Serialization.Tests
                 Assert.AreEqual(2.2, model.DoubleValue);
                 Assert.AreEqual("Test String", model.StringValue);
                 Assert.AreEqual(true, model.BoolValue);
-            }               
+            }
         }
 
         [TestMethod]
@@ -97,6 +97,29 @@ namespace TheCodingMonkey.Serialization.Tests
                 Assert.AreEqual(3, model.Subclass.MyValue);
                 Assert.AreEqual(true, model.Subclass.BooleanValue);
                 Assert.AreEqual("Subclass", model.Subclass.TestString);
+            }
+        }
+
+        [TestMethod]
+        public void DeserializeModelWithSubclassDictionaryTest()
+        {
+            IniSerializer<IniModelWithSubclassDictionary> iniSerializer = new IniSerializer<IniModelWithSubclassDictionary>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniModelWithSubclassDictionaryFile.ini"))
+            {
+                var model = iniSerializer.Deserialize(reader);
+                Assert.AreEqual(1, model.IntValue);
+                Assert.AreEqual(2.2, model.DoubleValue);
+                Assert.AreEqual("Test String", model.StringValue);
+                Assert.AreEqual(true, model.BoolValue);
+
+                for (int i = 1; i < 5; i++)
+                {
+                    Assert.IsTrue(model.Dictionary.ContainsKey($"Instance {i}"));
+                    var subclass = model.Dictionary[$"Instance {i}"];
+                    Assert.AreEqual(i, subclass.MyValue);
+                    Assert.AreEqual(true, subclass.BooleanValue);
+                    Assert.AreEqual($"Test Instance {i}", subclass.TestString);
+                }
             }
         }
     }

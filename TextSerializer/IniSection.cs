@@ -93,9 +93,21 @@ namespace TheCodingMonkey.Serialization
 
                     // Check to see if this is a List or a Dictionary - We do special things with those
                     if (memberType.GetInterface("System.Collections.IList") != null)
-                            iniField.IsList = true;
+                    {
+                        iniField.IsList = true;
+                        // Catch the case where its a list of complex objects, not primitives
+                        Type innerType = memberType.GenericTypeArguments[0];
+                        if (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct())
+                            iniField.Section = new IniSection(innerType);
+                    }
                     else if (memberType.GetInterface("System.Collections.IDictionary") != null)
+                    {
                         iniField.IsDictionary = true;
+                        // Catch the case where its a dictionary of complex objects, not primitives
+                        Type innerType = memberType.GenericTypeArguments[1];
+                        if (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct())
+                            iniField.Section = new IniSection(innerType);
+                    }
                     else if (memberType.IsEnum && iniField.FormatterType == null)
                     {
                         object[] enumAttrs = member.GetCustomAttributes(typeof(FormatEnumAttribute), false);

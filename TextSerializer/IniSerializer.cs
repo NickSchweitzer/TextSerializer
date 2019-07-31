@@ -71,7 +71,7 @@ namespace TheCodingMonkey.Serialization
 
             // Create the correct return objects depending on whether this is a value or reference type
             // This makes a difference for reflection later on when populating the fields dynamically.
-            TTargetType returnObj = returnMaybe == null || returnMaybe.Equals(default(TTargetType)) ? new TTargetType() : returnMaybe;
+            object returnObj = returnMaybe == null || returnMaybe.Equals(default(TTargetType)) ? new TTargetType() : returnMaybe;
             ValueType returnStruct = null;
             if (TargetType.IsValueType)
             {
@@ -91,13 +91,40 @@ namespace TheCodingMonkey.Serialization
                 {
                     // TODO - IList and IDictionary code assumes that the List and Dictionary were already created by the Model owner. Should handle the case wehre the Serializer creates it.
                     IniField field = Section.GetFieldByName(SectionName);
-                    if (field.IsList)
+                    if (field == null)
+                    {
+                        // Handle the case where sections are instances of a subclass that get added to a list or a dictionary
+                        IniField dictionaryField = Section.GetDictionaryField();
+                        if (dictionaryField != null)
+                        {
+                            object objDictionary;
+                            // Get the object from the field
+                            if (dictionaryField.Member is PropertyInfo)
+                                objDictionary = ((PropertyInfo)dictionaryField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj, null);
+                            else if (dictionaryField.Member is FieldInfo)
+                                objDictionary = ((FieldInfo)dictionaryField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj);
+                            else
+                                throw new TextSerializationException("Invalid MemberInfo type encountered");
+
+                            IDictionary dictionary = objDictionary as IDictionary;
+                            object sectionObj = Activator.CreateInstance(dictionaryField.Section.SectionType);
+                            ValueType sectionStruct = null;
+                            if (dictionaryField.Section.SectionType.IsValueType)
+                            {
+                                object tempObj = sectionObj;
+                                sectionStruct = (ValueType)tempObj;
+                            }
+
+                            DeserializeClass(Text, dictionaryField.Section, sectionObj, sectionStruct);
+                            dictionary.Add(SectionName, sectionObj.GetType().IsValueType ? sectionStruct : sectionObj);
+                        }
+                    }
+                    else if (field.IsList)
                         DeserializeList(field, Text, returnObj, returnStruct);
                     else if (field.IsDictionary)
                         DeserializeDictionary(field, Text, returnObj, returnStruct);
                     else if (field.Section != null)
                     {
-                        // TODO - Determine if this is a multi-instance class section where the Section Name is mapped to a Class Property
                         object sectionObj = Activator.CreateInstance(field.Section.SectionType);
                         ValueType sectionStruct = null;
                         if (field.Section.SectionType.IsValueType)
@@ -124,7 +151,7 @@ namespace TheCodingMonkey.Serialization
                 returnObj = (TTargetType)tempObj;
             }
 
-            return returnObj;
+            return (TTargetType)returnObj;
         }
 
         private static void DeserializeClass(string text, IniSection section, object returnObj, ValueType returnStruct)
@@ -232,8 +259,8 @@ namespace TheCodingMonkey.Serialization
                     fieldObj = field.Formatter.Deserialize(parsedLine.Value);
                 else
                 {
-                    Type listType = field.GetNativeType();
-                    Type innerType = listType.GenericTypeArguments[1];
+                    Type dictionaryType = field.GetNativeType();
+                    Type innerType = dictionaryType.GenericTypeArguments[1];
                     fieldObj = Convert.ChangeType(parsedLine.Value, innerType);
                 }
                 dictionary.Add(parsedLine.Key, fieldObj);
