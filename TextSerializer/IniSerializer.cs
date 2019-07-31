@@ -152,6 +152,7 @@ namespace TheCodingMonkey.Serialization
                             DeserializeDictionary(dictionaryField, text, returnObj, returnStruct);
                         else
                             DeserializeList(listField, text, returnObj, returnStruct);
+
                         return;
                     }
                 }

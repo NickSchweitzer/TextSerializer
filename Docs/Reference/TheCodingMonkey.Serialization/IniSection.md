@@ -10,7 +10,7 @@ public class IniSection
 
 | name | description |
 | --- | --- |
-| [IniSection](IniSection/IniSection.md)() | The default constructor. |
+| [IniSection](IniSection/IniSection.md)() | Default Constructor for the IniSection |
 | [Fields](IniSection/Fields.md) { get; set; } | List of Fields in this Section, with the corresponding data about the class Properties/Fields |
 | [Name](IniSection/Name.md) { get; set; } | Section Name as it appears in the INI file |
 | [SectionType](IniSection/SectionType.md) { get; set; } | Class or Struct that this Section will be Serialized From/Deserialized To |

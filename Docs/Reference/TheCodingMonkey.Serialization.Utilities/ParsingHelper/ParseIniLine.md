@@ -3,7 +3,7 @@
 Parses a single line from an INI file and determines the type of item it is. Also trims whitespace apropriately, and removes quotes
 
 ```csharp
-public static Tuple<IniLineType, string, string> ParseIniLine(string text)
+public static ValueTuple<IniLineType, string, string> ParseIniLine(string text)
 ```
 
 | parameter | description |
@@ -12,7 +12,7 @@ public static Tuple<IniLineType, string, string> ParseIniLine(string text)
 
 ## Return Value
 
-A Tuple which contains the parsed line: Item1 - [`IniLineType`](../../TheCodingMonkey.Serialization/IniLineType.md) for this line Item2 - For Blank Line, null. For Comment and Item, trimmed text. For KeyValuePair, the trimmed Key. Item3 - For KeyValuePair, the trimmed value. For all others null.
+A Tuple which contains the parsed line: LineType - [`IniLineType`](../../TheCodingMonkey.Serialization/IniLineType.md) for this line Key - For Blank Line, null. For Comment and Item, trimmed text. For KeyValuePair, the trimmed Key. Value - For KeyValuePair, the trimmed value. For all others null.
 
 ## See Also
 

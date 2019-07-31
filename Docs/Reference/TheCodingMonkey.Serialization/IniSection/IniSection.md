@@ -1,6 +1,6 @@
 # IniSection constructor
 
-The default constructor.
+Default Constructor for the IniSection
 
 ```csharp
 public IniSection()

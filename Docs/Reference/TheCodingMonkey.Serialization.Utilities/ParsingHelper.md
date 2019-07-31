@@ -12,6 +12,7 @@ public static class ParsingHelper
 | --- | --- |
 | static [ParseDelimited](ParsingHelper/ParseDelimited.md)(…) | Parses a single line of text as a CSV record into component strings for each column. |
 | static [ParseIniLine](ParsingHelper/ParseIniLine.md)(…) | Parses a single line from an INI file and determines the type of item it is. Also trims whitespace apropriately, and removes quotes |
+| static [SplitIniSections](ParsingHelper/SplitIniSections.md)(…) | Parses an INI file into its different sections for easier parsing later. Also strips out comments and blank lines |
 | static [Truncate](ParsingHelper/Truncate.md)(…) | Helper method which safely truncates a string to a given length |
 
 ## See Also

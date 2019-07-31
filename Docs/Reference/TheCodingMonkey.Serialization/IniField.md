@@ -11,6 +11,7 @@ public class IniField : Field
 | name | description |
 | --- | --- |
 | [IniField](IniField/IniField.md)() | The default constructor. |
+| [IsDictionary](IniField/IsDictionary.md) { get; set; } | True if this property accepts key value pairs for this INI section. This allows someone to deserialize an INI file as a Property Bag, instead of having named properties for every single Key entry. |
 | [IsList](IniField/IsList.md) { get; set; } | True if this property accepts list items for this INI section, i.e. lines that are not key value pairs |
 | [Name](IniField/Name.md) { get; set; } | Name of this field. If not specified, then the property/field name of the class/struct is used. |
 
