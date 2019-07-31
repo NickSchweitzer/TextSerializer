@@ -54,7 +54,7 @@ namespace TheCodingMonkey.Serialization
             // Double check that the TextSerializableAttribute has been attached to the TargetType
             object[] serAttrs = type.GetCustomAttributes(typeof(TextSerializableAttribute), false);
             if (serAttrs.Length == 0)
-                throw new TextSerializationException($"{type.Name} must have a TextSerializableAttribute attached");
+                throw new TextSerializationConfigurationException($"{type.Name} must have a TextSerializableAttribute attached");
 
             // Look for a custom Ini Section Name
             object[] sectionAttrs = type.GetCustomAttributes(typeof(IniSectionAttribute), false);

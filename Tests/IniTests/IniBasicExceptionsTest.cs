@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TheCodingMonkey.Serialization.Configuration;
 using TheCodingMonkey.Serialization.Tests.Models;
 
 namespace TheCodingMonkey.Serialization.Tests
@@ -12,6 +13,12 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             IniSerializer<IniModel> iniSerializer = new IniSerializer<IniModel>();
             iniSerializer.Deserialize(null);
+        }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        public void MissingTextSerializableExceptionTest()
+        {
+            IniSerializer<PocoRecord> iniSerializer = new IniSerializer<PocoRecord>();
         }
     }
 }

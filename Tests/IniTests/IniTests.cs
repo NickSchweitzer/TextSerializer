@@ -20,6 +20,8 @@ namespace TheCodingMonkey.Serialization.Tests
                 Assert.AreEqual(2.2, model.DoubleValue);
                 Assert.AreEqual("Test String", model.StringValue);
                 Assert.AreEqual(true, model.BoolValue);
+                Assert.AreEqual(IniModel.MyEnum.Second, model.EnumIntValue);
+                Assert.AreEqual(IniModel.MyEnum.Third, model.EnumStringValue);
             }
         }
 
