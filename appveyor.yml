@@ -44,7 +44,7 @@ build:
 
 test_script:
 - vstest.console /logger:Appveyor ".\Tests\bin\Release\net45\Tests.dll" ".\Tests\bin\Release\net46\Tests.dll" ".\Tests\bin\Release\net47\Tests.dll" ".\Tests\bin\Release\netcoreapp2.0\Tests.dll"
-- OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:".\Tests\bin\Release\netcoreapp2.0\Tests.dll" -output:".\Tests_coverage.xml"
+- OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:".\Tests\bin\Release\net47\Tests.dll" -output:".\Tests_coverage.xml"
 - codecov -f "Tests_coverage.xml"
 
 deploy:
