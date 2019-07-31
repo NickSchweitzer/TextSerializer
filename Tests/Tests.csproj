@@ -37,6 +37,7 @@
     <None Remove="Files\FixedWidthFile.txt" />
     <None Remove="Files\FixedWidthWithEnumIntFile.txt" />
     <None Remove="Files\FixedWidthWithOptionsFile.txt" />
+    <None Remove="Files\IniDictionarySectionFile.ini" />
     <None Remove="Files\IniListOfModelClassesFile.ini" />
     <None Remove="Files\IniModelWithSubclassFile.ini" />
     <None Remove="Files\IniNoSectionFile.ini" />
@@ -59,6 +60,7 @@
     <EmbeddedResource Include="Files\FixedWidthWithOptionsFile.txt" />
     <EmbeddedResource Include="Files\IniListOfModelClassesFile.ini" />
     <EmbeddedResource Include="Files\IniModelWithSubclassFile.ini" />
+    <EmbeddedResource Include="Files\IniDictionarySectionFile.ini" />
     <EmbeddedResource Include="Files\IniSimpleDictionary.ini" />
     <EmbeddedResource Include="Files\IniNoSectionFile.ini" />
     <EmbeddedResource Include="Files\IniSingleSectionAndListFile.ini" />

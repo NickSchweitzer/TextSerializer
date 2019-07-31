@@ -142,12 +142,16 @@ namespace TheCodingMonkey.Serialization
                 if (field == null)
                 {
                     IniField dictionaryField = section.GetDictionaryField();
-                    if (dictionaryField == null)
+                    IniField listField = section.GetListField();
+                    if (dictionaryField == null && listField == null)
                         throw new TextSerializationException($"Missing Property mapping for Key {parsedLine.Key}");
                     else
                     {
-                        // Catches the case where the object just contains a single Dictionary as a catch all for everything in the section
-                        DeserializeDictionary(dictionaryField, text, returnObj, returnStruct);
+                        // Catches the case where the object just contains a single Dictionary or List as a catch all for everything in the section
+                        if (dictionaryField != null)
+                            DeserializeDictionary(dictionaryField, text, returnObj, returnStruct);
+                        else
+                            DeserializeList(listField, text, returnObj, returnStruct);
                         return;
                     }
                 }

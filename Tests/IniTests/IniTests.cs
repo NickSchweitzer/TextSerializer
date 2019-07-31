@@ -63,6 +63,26 @@ namespace TheCodingMonkey.Serialization.Tests
         }
 
         [TestMethod]
+        public void DeserializeDictionarySectionIniTest()
+        {
+            IniSerializer<IniDictionarySectionModel> iniSerializer = new IniSerializer<IniDictionarySectionModel>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniDictionarySectionFile.ini"))
+            {
+                var model = iniSerializer.Deserialize(reader);
+                Assert.AreEqual(1, model.IntValue);
+                Assert.AreEqual(2.2, model.DoubleValue);
+                Assert.AreEqual("Test String", model.StringValue);
+                Assert.AreEqual(true, model.BoolValue);
+
+                for (int i = 1; i < 5; i++)
+                {
+                    Assert.IsTrue(model.Dictionary.ContainsKey($"Key{i}"));
+                    Assert.AreEqual(i, model.Dictionary[$"Key{i}"]);
+                }
+            }
+        }
+
+        [TestMethod]
         public void DeserializeModelWithSubclassTest()
         {
             IniSerializer<IniModelWithSubclass> iniSerializer = new IniSerializer<IniModelWithSubclass>();
