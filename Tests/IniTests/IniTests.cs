@@ -61,5 +61,23 @@ namespace TheCodingMonkey.Serialization.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public void DeserializeModelWithSubclassTest()
+        {
+            IniSerializer<IniModelWithSubclass> iniSerializer = new IniSerializer<IniModelWithSubclass>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniModelWithSubclassFile.ini"))
+            {
+                var model = iniSerializer.Deserialize(reader);
+                Assert.AreEqual(1, model.IntValue);
+                Assert.AreEqual(2.2, model.DoubleValue);
+                Assert.AreEqual("Test String", model.StringValue);
+                Assert.AreEqual(true, model.BoolValue);
+
+                Assert.AreEqual(3, model.Subclass.MyValue);
+                Assert.AreEqual(true, model.Subclass.BooleanValue);
+                Assert.AreEqual("Subclass", model.Subclass.TestString);
+            }
+        }
     }
 }

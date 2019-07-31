@@ -8,9 +8,14 @@ namespace TheCodingMonkey.Serialization.Utilities
 {
     internal static class ReflectionHelper
     {
-        public static bool IsStruct(this Type type)
+        public static bool IsUserDefinedStruct(this Type type)
         {
             return type.IsValueType && !type.IsPrimitive && !type.IsEnum;
+        }
+
+        public static bool IsUserDefinedClass(this Type type)
+        {
+            return type.IsClass && type.FullName != "System.String";
         }
 
         public static MemberInfo FindProperty(LambdaExpression lambdaExpression)

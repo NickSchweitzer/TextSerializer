@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace TheCodingMonkey.Serialization.Utilities
@@ -68,28 +69,72 @@ namespace TheCodingMonkey.Serialization.Utilities
         /// <summary>Parses a single line from an INI file and determines the type of item it is. Also trims whitespace apropriately, and removes quotes</summary>
         /// <param name="text">Complete line of text to be parsed</param>
         /// <returns>A Tuple which contains the parsed line:
-        /// Item1 - <see cref="IniLineType">IniLineType</see> for this line
-        /// Item2 - For Blank Line, null. For Comment and Item, trimmed text. For KeyValuePair, the trimmed Key.
-        /// Item3 - For KeyValuePair, the trimmed value. For all others null.</returns>
-        public static Tuple<IniLineType, string, string> ParseIniLine(string text)
+        /// LineType - <see cref="IniLineType">IniLineType</see> for this line
+        /// Key - For Blank Line, null. For Comment and Item, trimmed text. For KeyValuePair, the trimmed Key.
+        /// Value - For KeyValuePair, the trimmed value. For all others null.</returns>
+        public static (IniLineType LineType, string Key, string Value) ParseIniLine(string text)
         {
             text = text.Trim();
             if (string.IsNullOrEmpty(text))
-                return new Tuple<IniLineType, string, string>(IniLineType.BlankLine, null, null);
+                return (IniLineType.BlankLine, null, null);
 
             if (text.StartsWith(";"))
-                return new Tuple<IniLineType, string, string>(IniLineType.Comment, text.Substring(1, text.Length - 1).Trim(), null);
+                return (IniLineType.Comment, text.Substring(1, text.Length - 1).Trim(), null);
 
             if (text.StartsWith("[") && text.EndsWith("]"))
-                return new Tuple<IniLineType, string, string>(IniLineType.Section, text.Substring(1, text.Length - 2), null);
+                return (IniLineType.Section, text.Substring(1, text.Length - 2), null);
 
             List<string> parsedLine = ParsingHelper.ParseDelimited(text, '\"', '=');
             if (parsedLine.Count == 1)
-                return new Tuple<IniLineType, string, string>(IniLineType.Item, parsedLine[0].Trim(), null);
+                return (IniLineType.Item, parsedLine[0].Trim(), null);
             else if (parsedLine.Count == 2)
-                return new Tuple<IniLineType, string, string>(IniLineType.KeyValuePair, parsedLine[0].Trim(), parsedLine[1].Trim());
+                return (IniLineType.KeyValuePair, parsedLine[0].Trim(), parsedLine[1].Trim());
 
             throw new TextSerializationException($"Cannot parse line in INI file '{text}'");
+        }
+
+        /// <summary>Parses an INI file into its different sections for easier parsing later. Also strips out comments and blank lines</summary>
+        /// <param name="reader">Reader which contains the original INI file</param>
+        /// <returns>Tuple List which contains the sections split out by Section Name
+        /// SectionName - Section Name or String.Empty if the top nameless section
+        /// Text - Text of the section with blank lines and comments stripped out</returns>
+        public static List<(string SectionName, string Text)> SplitIniSections(TextReader reader)
+        {
+            List<(string Name, string Text)> sections = new List<(string Name, string Text)>();
+            StringBuilder sectionBuilder = new StringBuilder();
+            string sectionName = string.Empty;
+            while (true)
+            {
+                string strRow = reader.ReadLine();
+                if (strRow == null)
+                    break;
+
+                var parsedLine = ParseIniLine(strRow);
+
+                // Throw out comments and blank lines
+                if (parsedLine.LineType == IniLineType.BlankLine || parsedLine.LineType == IniLineType.Comment)
+                    continue;
+
+                // Keep items and key value pairs
+                if (parsedLine.LineType == IniLineType.Item || parsedLine.LineType == IniLineType.KeyValuePair)
+                    sectionBuilder.AppendLine(strRow);
+
+                // Section break - save the current section and start a new one
+                if (parsedLine.LineType == IniLineType.Section)
+                {
+                    if (sectionBuilder.Length > 0)
+                        sections.Add((sectionName, sectionBuilder.ToString()));
+
+                    sectionName = parsedLine.Key;
+                    sectionBuilder.Clear();
+                }
+            }
+
+            // Add whatever the last section we were working on to the return list
+            if (sectionBuilder.Length > 0)
+                sections.Add((sectionName, sectionBuilder.ToString()));
+
+            return sections;
         }
     }
 }

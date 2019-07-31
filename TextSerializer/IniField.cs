@@ -21,5 +21,7 @@ namespace TheCodingMonkey.Serialization
         /// <summary>True if this property accepts key value pairs for this INI section. This allows someone to deserialize an INI
         /// file as a Property Bag, instead of having named properties for every single Key entry.</summary>
         public bool IsDictionary { get; set; } = false;
+
+        internal IniSection Section { get; set; } = null;
     }
 }

@@ -22,9 +22,9 @@ namespace TheCodingMonkey.Serialization.Tests
             foreach (string comment in sampleComments)
             {
                 var result = ParsingHelper.ParseIniLine(comment);
-                Assert.AreEqual(IniLineType.Comment, result.Item1);
-                Assert.AreEqual("Comment Line", result.Item2);
-                Assert.IsNull(result.Item3);
+                Assert.AreEqual(IniLineType.Comment, result.LineType);
+                Assert.AreEqual("Comment Line", result.Key);
+                Assert.IsNull(result.Value);
             }
         }
 
@@ -42,9 +42,9 @@ namespace TheCodingMonkey.Serialization.Tests
             foreach (string kvp in sampleKvps)
             {
                 var result = ParsingHelper.ParseIniLine(kvp);
-                Assert.AreEqual(IniLineType.KeyValuePair, result.Item1);
-                Assert.AreEqual("Key", result.Item2);
-                Assert.AreEqual("Value", result.Item3);
+                Assert.AreEqual(IniLineType.KeyValuePair, result.LineType);
+                Assert.AreEqual("Key", result.Key);
+                Assert.AreEqual("Value", result.Value);
             }
         }
 
@@ -62,9 +62,9 @@ namespace TheCodingMonkey.Serialization.Tests
             foreach (string kvp in sampleKvps)
             {
                 var result = ParsingHelper.ParseIniLine(kvp);
-                Assert.AreEqual(IniLineType.KeyValuePair, result.Item1);
-                Assert.AreEqual("Space Key", result.Item2);
-                Assert.AreEqual("Space Value", result.Item3);
+                Assert.AreEqual(IniLineType.KeyValuePair, result.LineType);
+                Assert.AreEqual("Space Key", result.Key);
+                Assert.AreEqual("Space Value", result.Value);
             }
         }
 
@@ -82,9 +82,9 @@ namespace TheCodingMonkey.Serialization.Tests
             foreach (string item in sampleItems)
             {
                 var result = ParsingHelper.ParseIniLine(item);
-                Assert.AreEqual(IniLineType.Item, result.Item1);
-                Assert.AreEqual("Item", result.Item2);
-                Assert.IsNull(result.Item3);
+                Assert.AreEqual(IniLineType.Item, result.LineType);
+                Assert.AreEqual("Item", result.Key);
+                Assert.IsNull(result.Value);
             }
         }
 
@@ -102,9 +102,9 @@ namespace TheCodingMonkey.Serialization.Tests
             foreach (string item in sampleItems)
             {
                 var result = ParsingHelper.ParseIniLine(item);
-                Assert.AreEqual(IniLineType.Item, result.Item1);
-                Assert.AreEqual("Space Item", result.Item2);
-                Assert.IsNull(result.Item3);
+                Assert.AreEqual(IniLineType.Item, result.LineType);
+                Assert.AreEqual("Space Item", result.Key);
+                Assert.IsNull(result.Value);
             }
         }
 
@@ -123,9 +123,9 @@ namespace TheCodingMonkey.Serialization.Tests
             foreach (string item in sampleItems)
             {
                 var result = ParsingHelper.ParseIniLine(item);
-                Assert.AreEqual(IniLineType.BlankLine, result.Item1);
-                Assert.IsNull(result.Item2);
-                Assert.IsNull(result.Item3);
+                Assert.AreEqual(IniLineType.BlankLine, result.LineType);
+                Assert.IsNull(result.Key);
+                Assert.IsNull(result.Value);
             }
         }
     }

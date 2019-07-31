@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using TheCodingMonkey.Serialization.Configuration;
 using TheCodingMonkey.Serialization.Formatters;
+using TheCodingMonkey.Serialization.Utilities;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -14,6 +15,12 @@ namespace TheCodingMonkey.Serialization
         public IniSection()
         {
             Fields = new List<IniField>();
+        }
+
+        internal IniSection(Type type)
+        : this()
+        {
+            InitializeClassFromAttributes(type);
         }
 
         /// <summary>Class or Struct that this Section will be Serialized From/Deserialized To</summary>
@@ -40,9 +47,14 @@ namespace TheCodingMonkey.Serialization
             return Fields.Where(f => f.IsDictionary).FirstOrDefault();
         }
 
-        internal void InitializeClassFromAttributes(Type type)
+        private void InitializeClassFromAttributes(Type type)
         {
             SectionType = type;
+
+            // Double check that the TextSerializableAttribute has been attached to the TargetType
+            object[] serAttrs = type.GetCustomAttributes(typeof(TextSerializableAttribute), false);
+            if (serAttrs.Length == 0)
+                throw new TextSerializationException($"{type.Name} must have a TextSerializableAttribute attached");
 
             // Look for a custom Ini Section Name
             object[] sectionAttrs = type.GetCustomAttributes(typeof(IniSectionAttribute), false);
@@ -82,10 +94,9 @@ namespace TheCodingMonkey.Serialization
                     // Check to see if this is a List or a Dictionary - We do special things with those
                     if (memberType.GetInterface("System.Collections.IList") != null)
                             iniField.IsList = true;
-                    if (memberType.GetInterface("System.Collections.IDictionary") != null)
+                    else if (memberType.GetInterface("System.Collections.IDictionary") != null)
                         iniField.IsDictionary = true;
-
-                    if (memberType.IsEnum && iniField.FormatterType == null)
+                    else if (memberType.IsEnum && iniField.FormatterType == null)
                     {
                         object[] enumAttrs = member.GetCustomAttributes(typeof(FormatEnumAttribute), false);
                         if (enumAttrs.Length > 0)
@@ -96,6 +107,8 @@ namespace TheCodingMonkey.Serialization
                         else
                             iniField.Formatter = new EnumFormatter(memberType);
                     }
+                    else if (memberType.IsUserDefinedClass() || memberType.IsUserDefinedStruct())
+                        iniField.Section = new IniSection(memberType);
 
                     iniField.Member = member;
                     Fields.Add(iniField);
@@ -103,7 +116,7 @@ namespace TheCodingMonkey.Serialization
             }
 
             // Guarantee that all fields are in order with no gaps
-            // TODO - Determine if need to actually care about Position sorting or Gaps for INI files
+            // TODO - Determine if need to actually care about Position sorting or Gaps for INI files - More important during Serialization to guarantee same order as Deserialization?
             //Fields.Sort((x, y) => x.Position.CompareTo(y.Position));
             //for (int i = 0; i < Fields.Count; i++)
             //{
