@@ -95,6 +95,7 @@ namespace TheCodingMonkey.Serialization
                     {
                         // Handle the case where sections are instances of a subclass that get added to a list or a dictionary
                         IniField dictionaryField = Section.GetDictionaryField();
+                        IniField listField = Section.GetListField();
                         if (dictionaryField != null)
                         {
                             object objDictionary;
@@ -118,6 +119,46 @@ namespace TheCodingMonkey.Serialization
                             DeserializeClass(Text, dictionaryField.Section, sectionObj, sectionStruct);
                             dictionary.Add(SectionName, sectionObj.GetType().IsValueType ? sectionStruct : sectionObj);
                         }
+                        else if (listField != null)
+                        {
+                            object objList;
+                            // Get the object from the field
+                            if (listField.Member is PropertyInfo)
+                                objList = ((PropertyInfo)listField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj, null);
+                            else if (listField.Member is FieldInfo)
+                                objList = ((FieldInfo)listField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj);
+                            else
+                                throw new TextSerializationException("Invalid MemberInfo type encountered");
+
+                            IList list = objList as IList;
+                            object sectionObj = Activator.CreateInstance(listField.Section.SectionType);
+                            ValueType sectionStruct = null;
+                            if (listField.Section.SectionType.IsValueType)
+                            {
+                                object tempObj = sectionObj;
+                                sectionStruct = (ValueType)tempObj;
+                            }
+
+                            DeserializeClass(Text, listField.Section, sectionObj, sectionStruct);
+
+                            // If a field on this class was declared to store the Section Name, then deserialize it there
+                            IniField sectionNameField = listField.Section.GetSectionNameField();
+                            if (sectionNameField != null)
+                            {
+                                // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
+                                object sectionNameObj = sectionNameField.Formatter != null ? sectionNameField.Formatter.Deserialize(SectionName) : Convert.ChangeType(SectionName, sectionNameField.GetNativeType());
+
+                                // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
+                                if (sectionObj.GetType().IsValueType)
+                                    ReflectionHelper.AssignToStruct(sectionStruct, sectionNameObj, sectionNameField.Member);
+                                else
+                                    ReflectionHelper.AssignToClass(sectionObj, sectionNameObj, sectionNameField.Member);
+                            }
+
+                            list.Add(sectionObj.GetType().IsValueType ? sectionStruct : sectionObj);
+                        }
+                        else
+                            throw new TextSerializationException($"Cannot deserialize section {SectionName}");
                     }
                     else if (field.IsList)
                         DeserializeList(field, Text, returnObj, returnStruct);

@@ -11,6 +11,7 @@ public class IniSectionAttribute : Attribute
 
 | name | description |
 | --- | --- |
+| [IniSectionAttribute](IniSectionAttribute/IniSectionAttribute.md)() | Used when the section name is to be stored in a property of a class, and added to a list in another class. |
 | [IniSectionAttribute](IniSectionAttribute/IniSectionAttribute.md)(…) | Section name to be used. If no Name is provided, then the Class/Struct class name will be used, or the Property/Field name if applied at that level. |
 | [Name](IniSectionAttribute/Name.md) { get; set; } | Section name to be used. If no Name is provided, then the Class/Struct class name will be used, or the Property/Field name if applied at that level. |
 

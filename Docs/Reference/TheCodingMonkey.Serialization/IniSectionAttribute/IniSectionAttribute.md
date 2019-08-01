@@ -1,4 +1,19 @@
-# IniSectionAttribute constructor
+# IniSectionAttribute constructor (1 of 2)
+
+Used when the section name is to be stored in a property of a class, and added to a list in another class.
+
+```csharp
+public IniSectionAttribute()
+```
+
+## See Also
+
+* class [IniSectionAttribute](../IniSectionAttribute.md)
+* namespace [TheCodingMonkey.Serialization](../../TextSerializer.md)
+
+---
+
+# IniSectionAttribute constructor (2 of 2)
 
 Section name to be used. If no Name is provided, then the Class/Struct class name will be used, or the Property/Field name if applied at that level.
 

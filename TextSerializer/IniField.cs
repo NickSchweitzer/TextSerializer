@@ -22,6 +22,10 @@ namespace TheCodingMonkey.Serialization
         /// file as a Property Bag, instead of having named properties for every single Key entry.</summary>
         public bool IsDictionary { get; set; } = false;
 
+        /// <summary>True if this property is where the Section Name should be deserialized when there is a list of sections
+        /// all of the same type.</summary>
+        public bool IsSectionName { get; set; } = false;
+
         internal IniSection Section { get; set; } = null;
     }
 }

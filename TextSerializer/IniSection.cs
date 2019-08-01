@@ -47,6 +47,11 @@ namespace TheCodingMonkey.Serialization
             return Fields.Where(f => f.IsDictionary).FirstOrDefault();
         }
 
+        internal IniField GetSectionNameField()
+        {
+            return Fields.Where(f => f.IsSectionName).FirstOrDefault();
+        }
+
         private void InitializeClassFromAttributes(Type type)
         {
             SectionType = type;
@@ -89,8 +94,13 @@ namespace TheCodingMonkey.Serialization
                         iniField.AllowedValues = allowedAttr.AllowedValues;
                     }
 
-                    // TODO - The code below doesn't handle the case where the property is declared as an Interface itself. Need to fix that
+                    // Check to see if one of these properties is marked as the Section - This is used when creating a list of sections
+                    // of the parent object, and the section name will be stored as a property on the subclass
+                    object[] sectionNameAttrs = member.GetCustomAttributes(typeof(IniSectionAttribute), false);
+                    if (sectionNameAttrs.Length > 0)
+                        iniField.IsSectionName = true;
 
+                    // TODO - The code below doesn't handle the case where the property is declared as an Interface itself. Need to fix that
                     // Check to see if this is a List or a Dictionary - We do special things with those
                     if (memberType.GetInterface("System.Collections.IList") != null)
                     {
