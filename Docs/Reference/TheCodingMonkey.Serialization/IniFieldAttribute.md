@@ -14,7 +14,7 @@ public class IniFieldAttribute : Attribute
 | [IniFieldAttribute](IniFieldAttribute/IniFieldAttribute.md)() | Default constructor. |
 | [FormatterType](IniFieldAttribute/FormatterType.md) { get; set; } | Optional class which is used to control custom serialization/deserialization of this field. This class must implement the [`ITextFormatter`](ITextFormatter.md) interface. |
 | [Name](IniFieldAttribute/Name.md) { get; set; } | Name of this field. If not specified, then the property/field name of the class/struct is used. If a header is written to the CSV file, then this is the value that is used. |
-| [Size](IniFieldAttribute/Size.md) { get; set; } | Maximum length in the CSV file that this field should take up. |
+| [Size](IniFieldAttribute/Size.md) { get; set; } | Maximum length in the INI file that this field should take up. |
 
 ## See Also
 

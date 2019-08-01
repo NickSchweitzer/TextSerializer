@@ -1,6 +1,6 @@
 # IniFieldAttribute.Size property
 
-Maximum length in the CSV file that this field should take up.
+Maximum length in the INI file that this field should take up.
 
 ```csharp
 public int Size { get; set; }
