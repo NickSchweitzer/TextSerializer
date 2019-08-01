@@ -34,10 +34,9 @@ namespace TheCodingMonkey.Serialization
         : this()
         {
             // TODO - Want to somehow handle deserializing straight to a Dictionary or List without the wrapping class if possible. 
+            // TODO - Implement Flenty Configuration
             IniConfiguration<TTargetType> completedConfig = new IniConfiguration<TTargetType>(this);
             config.Invoke(completedConfig);
-
-            
         }
 
         /// <summary>Initializes the field definitions for this class using Attributes, which occurs if a Fluent Configuration is not passed into the Constructor.</summary>

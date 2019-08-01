@@ -22,7 +22,7 @@ namespace TheCodingMonkey.Serialization
             set { ((IniField)Field).Name = value; }
         }
 
-        /// <summary>Maximum length in the CSV file that this field should take up.</summary>
+        /// <summary>Maximum length in the INI file that this field should take up.</summary>
         public int Size
         {
             get { return Field.Size; }

@@ -32,25 +32,13 @@ namespace TheCodingMonkey.Serialization
         /// <summary>List of Fields in this Section, with the corresponding data about the class Properties/Fields</summary>
         public List<IniField> Fields { get; set; }
 
-        internal IniField GetFieldByName(string propertyName)
-        {
-            return Fields.Where(f => f.Name == propertyName).FirstOrDefault() as IniField;
-        }
+        internal IniField GetFieldByName(string propertyName) => Fields.Where(f => f.Name == propertyName).FirstOrDefault() as IniField;
 
-        internal IniField GetListField()
-        {
-            return Fields.Where(f => f.IsList).FirstOrDefault();
-        }
+        internal IniField GetListField() => Fields.Where(f => f.IsList).FirstOrDefault();
 
-        internal IniField GetDictionaryField()
-        {
-            return Fields.Where(f => f.IsDictionary).FirstOrDefault();
-        }
+        internal IniField GetDictionaryField() => Fields.Where(f => f.IsDictionary).FirstOrDefault();
 
-        internal IniField GetSectionNameField()
-        {
-            return Fields.Where(f => f.IsSectionName).FirstOrDefault();
-        }
+        internal IniField GetSectionNameField() => Fields.Where(f => f.IsSectionName).FirstOrDefault();
 
         private void InitializeClassFromAttributes(Type type)
         {

@@ -2,6 +2,7 @@
 
 namespace TheCodingMonkey.Serialization.Formatters
 {
+    // TODO - Consider making this public and writing unit tests around it
     internal class EnumFormatter : ITextFormatter
     {
         private readonly Type EnumType;

@@ -24,6 +24,9 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         [IniField]
         public MyEnum EnumStringValue { get; set; }
 
+        [IniField(FormatterType = typeof(BooleanIntFormatter))]
+        public bool BooleanAsIntValue { get; set; }
+
         public enum MyEnum
         {
             First = 1,
