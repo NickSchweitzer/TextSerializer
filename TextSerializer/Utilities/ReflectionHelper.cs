@@ -84,5 +84,34 @@ namespace TheCodingMonkey.Serialization.Utilities
             else
                 throw new TextSerializationException("Invalid MemberInfo type encountered");
         }
+
+        public static object GetPropertyFieldValue(MemberInfo member, object obj, ValueType valueStruct)
+        {
+            object returnObj = null;
+            // Get the object from the field
+            if (member is PropertyInfo)
+                returnObj = ((PropertyInfo)member).GetValue(obj.GetType().IsValueType && valueStruct != null ? valueStruct : obj, null);
+            else if (member is FieldInfo)
+                returnObj = ((FieldInfo)member).GetValue(obj.GetType().IsValueType && valueStruct != null ? valueStruct : obj);
+            else
+                throw new TextSerializationException("Invalid MemberInfo type encountered");
+
+            return returnObj;
+        }
+
+        public static object GetPropertyFieldValue(Field field, object obj, ValueType valueStruct)
+        {
+            return GetPropertyFieldValue(field.Member, obj, valueStruct);
+        }
+
+        public static AttributeType GetCustomAttribute<AttributeType>(this Type type)
+            where AttributeType : Attribute
+        {
+            object[] attrs = type.GetCustomAttributes(typeof(AttributeType), false);
+            if (attrs.Length > 0)
+                return (AttributeType)attrs[0];
+            else
+                return null;
+        }
     }
 }

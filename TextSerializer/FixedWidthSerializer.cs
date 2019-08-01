@@ -45,10 +45,10 @@ namespace TheCodingMonkey.Serialization
         protected override Field GetFieldFromAttribute(MemberInfo member)
         {
             // Check to see if they've marked up this field/property with the attribute for serialization
-            object[] fieldAttrs = member.GetCustomAttributes(typeof(FixedWidthFieldAttribute), false);
-            if (fieldAttrs.Length > 0)
+            FixedWidthFieldAttribute fieldAttr = member.GetCustomAttribute<FixedWidthFieldAttribute>();
+            if (fieldAttr != null)
             {
-                var attr = ((FixedWidthFieldAttribute)fieldAttrs[0]).Field;
+                var attr = fieldAttr.Field;
                 if (attr.Size <= 0)
                     throw new TextSerializationConfigurationException("TextField Size must be specified for Fixed Width");
                 return attr;

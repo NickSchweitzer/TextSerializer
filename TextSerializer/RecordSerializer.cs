@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using TheCodingMonkey.Serialization.Formatters;
 using TheCodingMonkey.Serialization.Configuration;
+using TheCodingMonkey.Serialization.Utilities;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -40,8 +41,8 @@ namespace TheCodingMonkey.Serialization
         protected virtual void InitializeFromAttributes()
         {
             // Double check that the TextSerializableAttribute has been attached to the TargetType
-            object[] serAttrs = TargetType.GetCustomAttributes(typeof(TextSerializableAttribute), false);
-            if (serAttrs.Length == 0)
+            TextSerializableAttribute serAttr = TargetType.GetCustomAttribute<TextSerializableAttribute>();
+            if (serAttr == null)
                 throw new TextSerializationConfigurationException("TargetType must have a TextSerializableAttribute attached");
 
             // Get all the public properties and fields on the class
@@ -60,21 +61,15 @@ namespace TheCodingMonkey.Serialization
                         throw new TextSerializationConfigurationException("Invalid MemberInfo type encountered");
 
                     // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
-                    object[] allowedAttrs = member.GetCustomAttributes(typeof(AllowedValuesAttribute), false);
-                    if (allowedAttrs.Length > 0)
-                    {
-                        AllowedValuesAttribute allowedAttr = (AllowedValuesAttribute)allowedAttrs[0];
+                    AllowedValuesAttribute allowedAttr = member.GetCustomAttribute<AllowedValuesAttribute>();
+                    if (allowedAttr != null)
                         textField.AllowedValues = allowedAttr.AllowedValues;
-                    }
 
                     if (memberType.IsEnum && textField.FormatterType == null)
                     {
-                        object[] enumAttrs = member.GetCustomAttributes(typeof(FormatEnumAttribute), false);
-                        if (enumAttrs.Length > 0)
-                        {
-                            FormatEnumAttribute enumAttr = (FormatEnumAttribute)enumAttrs[0];
+                        FormatEnumAttribute enumAttr = member.GetCustomAttribute<FormatEnumAttribute>();
+                        if (enumAttr != null)
                             textField.Formatter = new EnumFormatter(memberType, enumAttr.Options);
-                        }
                         else
                             textField.Formatter = new EnumFormatter(memberType);
                     }
@@ -105,19 +100,10 @@ namespace TheCodingMonkey.Serialization
             for ( int i = 0; i < Fields.Count; i++ )
             {
                 Field field = Fields[i];
-                object objValue;
 
-                // Get the object from the field
-                if ( field.Member is PropertyInfo )
-                    objValue = ( (PropertyInfo)field.Member ).GetValue( obj, null );
-                else if ( field.Member is FieldInfo )
-                    objValue = ( (FieldInfo)field.Member ).GetValue( obj );
-                else
-                    throw new TextSerializationException( "Invalid MemberInfo type encountered" );
-
-                // Get the string representation for the object.  If there is a custom formatter for this field, then
-                // use that, otherwise use the default ToString behavior.
-                string str = field.Formatter != null ? field.Formatter.Serialize( objValue ) : objValue.ToString();
+                // Get the object from the field and format it for output
+                object objValue = ReflectionHelper.GetPropertyFieldValue(field, obj, null);
+                string str = field.FormatString(objValue);
 
                 // Truncate the string if required
                 fieldList.Add( Utilities.ParsingHelper.Truncate( str, field.Size ) );
@@ -164,7 +150,7 @@ namespace TheCodingMonkey.Serialization
                     string strVal = Utilities.ParsingHelper.Truncate( parseList[i], field.Size );
 
                     // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
-                    object fieldObj = field.Formatter != null ? field.Formatter.Deserialize( strVal ) : Convert.ChangeType( strVal, field.GetNativeType() );
+                    object fieldObj = field.FormatValue(strVal);
 
                     // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
                     if ( TargetType.IsValueType )

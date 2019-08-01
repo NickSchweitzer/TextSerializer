@@ -64,5 +64,22 @@ namespace TheCodingMonkey.Serialization
             else
                 throw new TextSerializationException("Invalid MemberInfo type encountered");
         }
+
+        /// <summary>If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.</summary>
+        /// <param name="text">Deserialized text</param>
+        /// <returns>Properly converted object using the formatter if there is one</returns>
+        internal object FormatValue(string text)
+        {
+            return Formatter != null ? Formatter.Deserialize(text) : Convert.ChangeType(text, GetNativeType());
+        }
+
+        /// <summary>Get the string representation for the object.  If there is a custom formatter for this field, then use that, 
+        /// otherwise use the default ToString behavior.</summary>
+        /// <param name="objValue">Object to Serialize</param>
+        /// <returns>String value using the Formatter or Default .NET behavior</returns>
+        internal string FormatString(object objValue)
+        {
+            return Formatter != null ? Formatter.Serialize(objValue) : objValue.ToString();
+        }
     }
 }

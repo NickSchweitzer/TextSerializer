@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Linq;
 using TheCodingMonkey.Serialization.Utilities;
 using TheCodingMonkey.Serialization.Configuration;
-using TheCodingMonkey.Serialization.Formatters;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -37,6 +33,7 @@ namespace TheCodingMonkey.Serialization
         public IniSerializer(Action<IniConfiguration<TTargetType>> config)
         : this()
         {
+            // TODO - Want to somehow handle deserializing straight to a Dictionary or List without the wrapping class if possible. 
             IniConfiguration<TTargetType> completedConfig = new IniConfiguration<TTargetType>(this);
             config.Invoke(completedConfig);
 
@@ -55,7 +52,7 @@ namespace TheCodingMonkey.Serialization
         /// <exception cref="TextSerializationException">Thrown if an invalid class member is encountered.</exception>
         public void Serialize(TextWriter writer, TTargetType obj)
         {
-
+            // TODO - Implement Serialization
         }
 
         /// <summary>Creates a single TargetType object given a TextReader which has INI data.</summary>
@@ -84,12 +81,10 @@ namespace TheCodingMonkey.Serialization
             {
                 // We're in this classes key value pair properties
                 if (string.IsNullOrEmpty(SectionName) || SectionName == Section.Name)
-                {
                     DeserializeClass(Text, Section, returnObj, returnStruct);
-                }
                 else
                 {
-                    // TODO - IList and IDictionary code assumes that the List and Dictionary were already created by the Model owner. Should handle the case wehre the Serializer creates it.
+                    // TODO - IList and IDictionary code assumes that the List and Dictionary were already created by the Model owner. Should handle the case where the Serializer creates it.
                     IniField field = Section.GetFieldByName(SectionName);
                     if (field == null)
                     {
@@ -98,16 +93,8 @@ namespace TheCodingMonkey.Serialization
                         IniField listField = Section.GetListField();
                         if (dictionaryField != null)
                         {
-                            object objDictionary;
-                            // Get the object from the field
-                            if (dictionaryField.Member is PropertyInfo)
-                                objDictionary = ((PropertyInfo)dictionaryField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj, null);
-                            else if (dictionaryField.Member is FieldInfo)
-                                objDictionary = ((FieldInfo)dictionaryField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj);
-                            else
-                                throw new TextSerializationException("Invalid MemberInfo type encountered");
-
-                            IDictionary dictionary = objDictionary as IDictionary;
+                            // Get the dictionary from the field
+                            IDictionary dictionary = ReflectionHelper.GetPropertyFieldValue(dictionaryField, returnObj, returnStruct) as IDictionary;
                             object sectionObj = Activator.CreateInstance(dictionaryField.Section.SectionType);
                             ValueType sectionStruct = null;
                             if (dictionaryField.Section.SectionType.IsValueType)
@@ -121,16 +108,8 @@ namespace TheCodingMonkey.Serialization
                         }
                         else if (listField != null)
                         {
-                            object objList;
-                            // Get the object from the field
-                            if (listField.Member is PropertyInfo)
-                                objList = ((PropertyInfo)listField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj, null);
-                            else if (listField.Member is FieldInfo)
-                                objList = ((FieldInfo)listField.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj);
-                            else
-                                throw new TextSerializationException("Invalid MemberInfo type encountered");
-
-                            IList list = objList as IList;
+                            // Get the list from the field
+                            IList list = ReflectionHelper.GetPropertyFieldValue(listField, returnObj, returnStruct) as IList;
                             object sectionObj = Activator.CreateInstance(listField.Section.SectionType);
                             ValueType sectionStruct = null;
                             if (listField.Section.SectionType.IsValueType)
@@ -145,8 +124,7 @@ namespace TheCodingMonkey.Serialization
                             IniField sectionNameField = listField.Section.GetSectionNameField();
                             if (sectionNameField != null)
                             {
-                                // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
-                                object sectionNameObj = sectionNameField.Formatter != null ? sectionNameField.Formatter.Deserialize(SectionName) : Convert.ChangeType(SectionName, sectionNameField.GetNativeType());
+                                object sectionNameObj = sectionNameField.FormatValue(SectionName);
 
                                 // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
                                 if (sectionObj.GetType().IsValueType)
@@ -224,9 +202,8 @@ namespace TheCodingMonkey.Serialization
                         return;
                     }
                 }
-
-                // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
-                object fieldObj = field.Formatter != null ? field.Formatter.Deserialize(parsedLine.Value) : Convert.ChangeType(parsedLine.Value, field.GetNativeType());
+                                
+                object fieldObj = field.FormatValue(parsedLine.Value);
 
                 // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
                 if (returnObj.GetType().IsValueType)
@@ -238,17 +215,7 @@ namespace TheCodingMonkey.Serialization
 
         private static void DeserializeList(IniField field, string text, object returnObj, ValueType returnStruct)
         {
-            object objList;
-            // Get the object from the field
-            if (field.Member is PropertyInfo)
-                objList = ((PropertyInfo)field.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj, null);
-            else if (field.Member is FieldInfo)
-                objList = ((FieldInfo)field.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj);
-            else
-                throw new TextSerializationException("Invalid MemberInfo type encountered");
-
-            IList list = objList as IList;
-
+            IList list = ReflectionHelper.GetPropertyFieldValue(field, returnObj, returnStruct) as IList;
             foreach (string line in text.Split(Environment.NewLine.ToCharArray()))
             {
                 var parsedLine = ParsingHelper.ParseIniLine(line);
@@ -274,17 +241,7 @@ namespace TheCodingMonkey.Serialization
 
         private static void DeserializeDictionary(IniField field, string text, object returnObj, ValueType returnStruct)
         {
-            object objDictionary;
-            // Get the object from the field
-            if (field.Member is PropertyInfo)
-                objDictionary = ((PropertyInfo)field.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj, null);
-            else if (field.Member is FieldInfo)
-                objDictionary = ((FieldInfo)field.Member).GetValue(returnObj.GetType().IsValueType ? returnStruct : returnObj);
-            else
-                throw new TextSerializationException("Invalid MemberInfo type encountered");
-
-            IDictionary dictionary = objDictionary as IDictionary;
-
+            IDictionary dictionary = ReflectionHelper.GetPropertyFieldValue(field, returnObj, returnStruct) as IDictionary;
             foreach (string line in text.Split(Environment.NewLine.ToCharArray()))
             {
                 var parsedLine = ParsingHelper.ParseIniLine(line);

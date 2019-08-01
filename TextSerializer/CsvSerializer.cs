@@ -56,9 +56,9 @@ namespace TheCodingMonkey.Serialization
         protected override Field GetFieldFromAttribute(MemberInfo member)
         {
             // Check to see if they've marked up this field/property with the attribute for serialization
-            object[] fieldAttrs = member.GetCustomAttributes(typeof(TextFieldAttribute), false);
-            if (fieldAttrs.Length > 0)
-                return ((TextFieldAttribute)fieldAttrs[0]).Field;
+            TextFieldAttribute fieldAttr = member.GetCustomAttribute<TextFieldAttribute>();
+            if (fieldAttr != null)
+                return fieldAttr.Field;
             else
                 return null;
         }

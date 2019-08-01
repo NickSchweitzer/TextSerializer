@@ -87,17 +87,14 @@ namespace TheCodingMonkey.Serialization
                         throw new TextSerializationException("Invalid MemberInfo type encountered");
 
                     // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
-                    object[] allowedAttrs = member.GetCustomAttributes(typeof(AllowedValuesAttribute), false);
-                    if (allowedAttrs.Length > 0)
-                    {
-                        AllowedValuesAttribute allowedAttr = (AllowedValuesAttribute)allowedAttrs[0];
+                    AllowedValuesAttribute allowedAttr = member.GetCustomAttribute<AllowedValuesAttribute>();
+                    if (allowedAttr != null)
                         iniField.AllowedValues = allowedAttr.AllowedValues;
-                    }
 
                     // Check to see if one of these properties is marked as the Section - This is used when creating a list of sections
                     // of the parent object, and the section name will be stored as a property on the subclass
-                    object[] sectionNameAttrs = member.GetCustomAttributes(typeof(IniSectionAttribute), false);
-                    if (sectionNameAttrs.Length > 0)
+                    IniSectionAttribute sectionNameAttr = member.GetCustomAttribute<IniSectionAttribute>();
+                    if (sectionNameAttr != null)
                         iniField.IsSectionName = true;
 
                     // TODO - The code below doesn't handle the case where the property is declared as an Interface itself. Need to fix that
@@ -120,12 +117,9 @@ namespace TheCodingMonkey.Serialization
                     }
                     else if (memberType.IsEnum && iniField.FormatterType == null)
                     {
-                        object[] enumAttrs = member.GetCustomAttributes(typeof(FormatEnumAttribute), false);
-                        if (enumAttrs.Length > 0)
-                        {
-                            FormatEnumAttribute enumAttr = (FormatEnumAttribute)enumAttrs[0];
+                        FormatEnumAttribute enumAttr = member.GetCustomAttribute<FormatEnumAttribute>();
+                        if (enumAttr != null)
                             iniField.Formatter = new EnumFormatter(memberType, enumAttr.Options);
-                        }
                         else
                             iniField.Formatter = new EnumFormatter(memberType);
                     }
@@ -153,9 +147,9 @@ namespace TheCodingMonkey.Serialization
         protected IniField GetFieldFromAttribute(MemberInfo member)
         {
             // Check to see if they've marked up this field/property with the attribute for serialization
-            object[] fieldAttrs = member.GetCustomAttributes(typeof(IniFieldAttribute), false);
-            if (fieldAttrs.Length > 0)
-                return ((IniFieldAttribute)fieldAttrs[0]).Field;
+            IniFieldAttribute fieldAttr = member.GetCustomAttribute<IniFieldAttribute>();
+            if (fieldAttr != null)
+                return fieldAttr.Field;
             else
                 return null;
         }
