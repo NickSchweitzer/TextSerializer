@@ -20,6 +20,6 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public bool BoolValue { get; set; }
 
         [IniField(Name = "My Dictionary")]
-        public Dictionary<string, int> Dictionary { get; set; } = new Dictionary<string, int>();
+        public IDictionary<string, int> Dictionary { get; set; } = new Dictionary<string, int>();
     }
 }
