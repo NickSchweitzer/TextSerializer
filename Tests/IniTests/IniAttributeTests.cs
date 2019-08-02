@@ -26,6 +26,16 @@ namespace TheCodingMonkey.Serialization.Tests
             }
         }
 
+        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        public void DeserializeFileWithExtraPropertiesIniTest()
+        {
+            IniSerializer<IniModel> iniSerializer = new IniSerializer<IniModel>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniNoSectionWithExtraFile.ini"))
+            {
+                var model = iniSerializer.Deserialize(reader);
+            }
+        }
+
         [TestMethod]
         public void DeserializeSingleSectionAndListIniTest()
         {
@@ -38,15 +48,8 @@ namespace TheCodingMonkey.Serialization.Tests
                 Assert.AreEqual("Test String", model.StringValue);
                 Assert.AreEqual(true, model.BoolValue);
 
-                ICollection<string> expectedList = new List<string>
-                {
-                    "Thing 1",
-                    "Thing 2",
-                    "Thing 3",
-                    "Thing 4"
-                };
-
-                CollectionAssert.AreEqual(expectedList.ToList(), model.StringList.ToList());
+                List<string> expectedList = new List<string> { "Thing 1", "Thing 2", "Thing 3", "Thing 4" };
+                CollectionAssert.AreEqual(expectedList, model.StringList.ToList());
             }
         }
 
@@ -54,7 +57,7 @@ namespace TheCodingMonkey.Serialization.Tests
         public void DeserializeSimpleDictionaryIniTest()
         {
             IniSerializer<IniSimpleDictionaryModel> iniSerializer = new IniSerializer<IniSimpleDictionaryModel>();
-            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleDictionary.ini"))
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleDictionaryFile.ini"))
             {
                 var model = iniSerializer.Deserialize(reader);
                 for (int i = 1; i < 5; i++)
@@ -62,6 +65,18 @@ namespace TheCodingMonkey.Serialization.Tests
                     Assert.IsTrue(model.Dictionary.ContainsKey($"Key{i}"));
                     Assert.AreEqual(model.Dictionary[$"Key{i}"], $"Value{i}");
                 }
+            }
+        }
+
+        [TestMethod]
+        public void DeserializeSimpleListIniTest()
+        {
+            IniSerializer<IniSimpleListModel> iniSerializer = new IniSerializer<IniSimpleListModel>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleListFile.ini"))
+            {
+                List<string> expectedList = new List<string> { "Value1", "Value2", "Value3", "Value4" };
+                var model = iniSerializer.Deserialize(reader);
+                CollectionAssert.AreEqual(expectedList, model.MyList);
             }
         }
 

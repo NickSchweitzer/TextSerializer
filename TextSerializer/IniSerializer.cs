@@ -180,9 +180,6 @@ namespace TheCodingMonkey.Serialization
                 if (parsedLine.LineType == IniLineType.BlankLine || parsedLine.LineType == IniLineType.Comment)
                     continue;
 
-                if (parsedLine.LineType != IniLineType.KeyValuePair)
-                    throw new TextSerializationException($"Non Key Value Pair items can only be added to Lists");
-
                 IniField field = section.GetFieldByName(parsedLine.Key);
                 if (field == null)
                 {
