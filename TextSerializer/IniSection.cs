@@ -85,22 +85,21 @@ namespace TheCodingMonkey.Serialization
                     if (sectionNameAttr != null)
                         iniField.IsSectionName = true;
 
-                    // TODO - The code below doesn't handle the case where the property is declared as an Interface itself. Need to fix that
                     // Check to see if this is a List or a Dictionary - We do special things with those
-                    if (memberType.GetInterface("System.Collections.IList") != null)
+                    if (memberType.IsList())
                     {
                         iniField.IsList = true;
                         // Catch the case where its a list of complex objects, not primitives
                         Type innerType = memberType.GenericTypeArguments[0];
-                        if (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct())
+                        if (innerType != null && (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct()))
                             iniField.Section = new IniSection(innerType);
                     }
-                    else if (memberType.GetInterface("System.Collections.IDictionary") != null)
+                    else if (memberType.IsDictionary())
                     {
                         iniField.IsDictionary = true;
                         // Catch the case where its a dictionary of complex objects, not primitives
                         Type innerType = memberType.GenericTypeArguments[1];
-                        if (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct())
+                        if (innerType != null && (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct()))
                             iniField.Section = new IniSection(innerType);
                     }
                     else if (memberType.IsEnum && iniField.FormatterType == null)

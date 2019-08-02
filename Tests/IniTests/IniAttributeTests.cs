@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using TheCodingMonkey.Serialization.Tests.Models;
@@ -37,7 +38,7 @@ namespace TheCodingMonkey.Serialization.Tests
                 Assert.AreEqual("Test String", model.StringValue);
                 Assert.AreEqual(true, model.BoolValue);
 
-                List<string> expectedList = new List<string>
+                ICollection<string> expectedList = new List<string>
                 {
                     "Thing 1",
                     "Thing 2",
@@ -45,7 +46,7 @@ namespace TheCodingMonkey.Serialization.Tests
                     "Thing 4"
                 };
 
-                CollectionAssert.AreEqual(expectedList, model.StringList);
+                CollectionAssert.AreEqual(expectedList.ToList(), model.StringList.ToList());
             }
         }
 

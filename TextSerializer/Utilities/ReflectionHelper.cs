@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -112,6 +113,44 @@ namespace TheCodingMonkey.Serialization.Utilities
                 return (AttributeType)attrs[0];
             else
                 return null;
+        }
+
+        public static bool IsList(this Type type)
+        {
+            if (type.GetInterface("System.Collections.IList") != null)
+                return true;
+            else if (type.Name == "System.Collections.IList")
+                return true;
+            // The given type actually is IList<>
+            else if (type.IsInterface && type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>))
+                return true;
+            else
+            {
+                foreach (var testInterface in type.GetInterfaces())
+                    if (testInterface.IsGenericType && testInterface.GetGenericTypeDefinition() == typeof(IList<>))
+                        return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsDictionary(this Type type)
+        {
+            if (type.GetInterface("System.Collections.IDictionary") != null)
+                return true;
+            else if (type.Name == "System.Collections.IDictionary")
+                return true;
+            // The given type actually is IDictionary<>
+            else if (type.IsInterface && type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                return true;
+            else
+            {
+                foreach (var testInterface in type.GetInterfaces())
+                    if (testInterface.IsGenericType && testInterface.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                        return true;
+            }
+
+            return false;
         }
     }
 }

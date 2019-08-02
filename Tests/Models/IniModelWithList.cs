@@ -19,6 +19,6 @@ namespace TheCodingMonkey.Serialization.Tests.Models
         public bool BoolValue { get; set; }
 
         [IniField(Name = "List of Things")]
-        public List<string> StringList { get; set; } = new List<string>();
+        public IList<string> StringList { get; set; } = new List<string>();
     }
 }
