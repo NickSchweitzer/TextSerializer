@@ -48,10 +48,12 @@ namespace TheCodingMonkey.Serialization
             FixedWidthFieldAttribute fieldAttr = member.GetCustomAttribute<FixedWidthFieldAttribute>();
             if (fieldAttr != null)
             {
-                var attr = fieldAttr.Field;
-                if (attr.Size <= 0)
+                var field = fieldAttr.Field;
+                if (field.Size <= 0)
                     throw new TextSerializationConfigurationException("TextField Size must be specified for Fixed Width");
-                return attr;
+
+                field.Member = member;
+                return field;
             }
             else
                 return null;

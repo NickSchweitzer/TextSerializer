@@ -66,18 +66,8 @@ namespace TheCodingMonkey.Serialization
                 IniField iniField = GetFieldFromAttribute(member);
                 if (iniField != null)
                 {
-                    Type memberType;
-                    if (member is FieldInfo)
-                        memberType = ((FieldInfo)member).FieldType;
-                    else if (member is PropertyInfo)
-                        memberType = ((PropertyInfo)member).PropertyType;
-                    else
-                        throw new TextSerializationException("Invalid MemberInfo type encountered");
-
-                    // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
-                    AllowedValuesAttribute allowedAttr = member.GetCustomAttribute<AllowedValuesAttribute>();
-                    if (allowedAttr != null)
-                        iniField.AllowedValues = allowedAttr.AllowedValues;
+                    Type memberType = iniField.GetNativeType();
+                    iniField.InitializeFromAttributes();
 
                     // Check to see if one of these properties is marked as the Section - This is used when creating a list of sections
                     // of the parent object, and the section name will be stored as a property on the subclass
@@ -89,31 +79,16 @@ namespace TheCodingMonkey.Serialization
                     if (memberType.IsList())
                     {
                         iniField.IsList = true;
-                        // Catch the case where its a list of complex objects, not primitives
-                        Type innerType = memberType.GenericTypeArguments[0];
-                        if (innerType != null && (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct()))
-                            iniField.Section = new IniSection(innerType);
+                        PopulateInnerTypeConfiguration(iniField, memberType.GenericTypeArguments[0]);
                     }
                     else if (memberType.IsDictionary())
                     {
                         iniField.IsDictionary = true;
-                        // Catch the case where its a dictionary of complex objects, not primitives
-                        Type innerType = memberType.GenericTypeArguments[1];
-                        if (innerType != null && (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct()))
-                            iniField.Section = new IniSection(innerType);
-                    }
-                    else if (memberType.IsEnum && iniField.FormatterType == null)
-                    {
-                        FormatEnumAttribute enumAttr = member.GetCustomAttribute<FormatEnumAttribute>();
-                        if (enumAttr != null)
-                            iniField.Formatter = new EnumFormatter(memberType, enumAttr.Options);
-                        else
-                            iniField.Formatter = new EnumFormatter(memberType);
+                        PopulateInnerTypeConfiguration(iniField, memberType.GenericTypeArguments[1]);
                     }
                     else if (memberType.IsUserDefinedClass() || memberType.IsUserDefinedStruct())
                         iniField.Section = new IniSection(memberType);
 
-                    iniField.Member = member;
                     Fields.Add(iniField);
                 }
             }
@@ -128,6 +103,20 @@ namespace TheCodingMonkey.Serialization
             //}
         }
 
+        private static void PopulateInnerTypeConfiguration(IniField iniField, Type innerType)
+        {
+            if (innerType != null && (innerType.IsUserDefinedClass() || innerType.IsUserDefinedStruct()))
+                iniField.Section = new IniSection(innerType);
+            else if (innerType.IsEnum && iniField.FormatterType == null)
+            {
+                FormatEnumAttribute enumAttr = innerType.GetCustomAttribute<FormatEnumAttribute>();
+                if (enumAttr != null)
+                    iniField.Formatter = new EnumFormatter(innerType, enumAttr.Options);
+                else
+                    iniField.Formatter = new EnumFormatter(innerType);
+            }
+        }
+
         /// <summary>Used by a derived class to return a Field configuration specific to this serializer back for a given method based on the attributes applied.</summary>
         /// <param name="member">Property or Field to return a configuration for.</param>
         /// <returns>Field configuration if this property should be serialized, otherwise null to ignore.</returns>
@@ -136,7 +125,11 @@ namespace TheCodingMonkey.Serialization
             // Check to see if they've marked up this field/property with the attribute for serialization
             IniFieldAttribute fieldAttr = member.GetCustomAttribute<IniFieldAttribute>();
             if (fieldAttr != null)
-                return fieldAttr.Field;
+            {
+                IniField field = fieldAttr.Field;
+                field.Member = member;
+                return field;
+            }
             else
                 return null;
         }

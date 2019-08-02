@@ -8,7 +8,7 @@ using TheCodingMonkey.Serialization.Tests.Models;
 namespace TheCodingMonkey.Serialization.Tests
 {
     [TestClass, TestCategory("INI")]
-    public class IniTests
+    public class IniAttributeTests
     {
         [TestMethod]
         public void DeserializeNoSectionIniTest()
@@ -31,6 +31,26 @@ namespace TheCodingMonkey.Serialization.Tests
         {
             IniSerializer<IniModel> iniSerializer = new IniSerializer<IniModel>();
             using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniNoSectionWithExtraFile.ini"))
+            {
+                var model = iniSerializer.Deserialize(reader);
+            }
+        }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        public void DeserializeListToDictionaryIniTest()
+        {
+            IniSerializer<IniSimpleDictionaryModel> iniSerializer = new IniSerializer<IniSimpleDictionaryModel>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleListFile.ini"))
+            {
+                var model = iniSerializer.Deserialize(reader);
+            }
+        }
+
+        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        public void DeserializeDictionaryToListIniTest()
+        {
+            IniSerializer<IniSimpleListModel> iniSerializer = new IniSerializer<IniSimpleListModel>();
+            using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleDictionaryFile.ini"))
             {
                 var model = iniSerializer.Deserialize(reader);
             }
@@ -74,7 +94,13 @@ namespace TheCodingMonkey.Serialization.Tests
             IniSerializer<IniSimpleListModel> iniSerializer = new IniSerializer<IniSimpleListModel>();
             using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleListFile.ini"))
             {
-                List<string> expectedList = new List<string> { "Value1", "Value2", "Value3", "Value4" };
+                List<IniSimpleListModel.MyEnum> expectedList = new List<IniSimpleListModel.MyEnum>
+                {
+                    IniSimpleListModel.MyEnum.Value1,
+                    IniSimpleListModel.MyEnum.Value2,
+                    IniSimpleListModel.MyEnum.Value3,
+                    IniSimpleListModel.MyEnum.Value4
+                };
                 var model = iniSerializer.Deserialize(reader);
                 CollectionAssert.AreEqual(expectedList, model.MyList);
             }

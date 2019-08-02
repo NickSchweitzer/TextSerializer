@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using TheCodingMonkey.Serialization.Formatters;
 
 namespace TheCodingMonkey.Serialization
 {
@@ -80,6 +81,25 @@ namespace TheCodingMonkey.Serialization
         internal string FormatString(object objValue)
         {
             return Formatter != null ? Formatter.Serialize(objValue) : objValue.ToString();
+        }
+
+        internal virtual void InitializeFromAttributes()
+        {
+            Type memberType = GetNativeType();
+
+            // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
+            AllowedValuesAttribute allowedAttr = Member.GetCustomAttribute<AllowedValuesAttribute>();
+            if (allowedAttr != null)
+                AllowedValues = allowedAttr.AllowedValues;
+
+            if (memberType.IsEnum && FormatterType == null)
+            {
+                FormatEnumAttribute enumAttr = Member.GetCustomAttribute<FormatEnumAttribute>();
+                if (enumAttr != null)
+                    Formatter = new EnumFormatter(memberType, enumAttr.Options);
+                else
+                    Formatter = new EnumFormatter(memberType);
+            }
         }
     }
 }

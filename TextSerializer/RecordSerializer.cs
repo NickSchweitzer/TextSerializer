@@ -52,29 +52,7 @@ namespace TheCodingMonkey.Serialization
                 Field textField = GetFieldFromAttribute(member);
                 if (textField != null)
                 {
-                    Type memberType;
-                    if (member is FieldInfo)
-                        memberType = ((FieldInfo)member).FieldType;
-                    else if (member is PropertyInfo)
-                        memberType = ((PropertyInfo)member).PropertyType;
-                    else
-                        throw new TextSerializationConfigurationException("Invalid MemberInfo type encountered");
-
-                    // Check for the AllowedValues Attribute and if it's there, store away the values into the other holder attribute
-                    AllowedValuesAttribute allowedAttr = member.GetCustomAttribute<AllowedValuesAttribute>();
-                    if (allowedAttr != null)
-                        textField.AllowedValues = allowedAttr.AllowedValues;
-
-                    if (memberType.IsEnum && textField.FormatterType == null)
-                    {
-                        FormatEnumAttribute enumAttr = member.GetCustomAttribute<FormatEnumAttribute>();
-                        if (enumAttr != null)
-                            textField.Formatter = new EnumFormatter(memberType, enumAttr.Options);
-                        else
-                            textField.Formatter = new EnumFormatter(memberType);
-                    }
-
-                    textField.Member = member;
+                    textField.InitializeFromAttributes();
                     Fields.Add(textField);
                 }
             }

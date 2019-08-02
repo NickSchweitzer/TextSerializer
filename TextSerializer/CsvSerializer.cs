@@ -58,7 +58,11 @@ namespace TheCodingMonkey.Serialization
             // Check to see if they've marked up this field/property with the attribute for serialization
             TextFieldAttribute fieldAttr = member.GetCustomAttribute<TextFieldAttribute>();
             if (fieldAttr != null)
-                return fieldAttr.Field;
+            {
+                Field field = fieldAttr.Field;
+                field.Member = member;
+                return field;
+            }
             else
                 return null;
         }
