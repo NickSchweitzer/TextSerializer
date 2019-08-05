@@ -27,16 +27,16 @@ namespace TheCodingMonkey.Serialization.Tests
             Assert.AreEqual(true, Formatter.Deserialize(int.MinValue.ToString()));
         }
 
-        [TestMethod, ExpectedException(typeof(FormatException))]
+        [TestMethod]
         public void DeserializeInvalidBooleanTest()
         {
-            Formatter.Deserialize("false");
+            Assert.ThrowsException<FormatException>(() => Formatter.Deserialize("false"));
         }
 
-        [TestMethod, ExpectedException(typeof(FormatException))]
+        [TestMethod]
         public void DeserializeInvalidIntegerTest()
         {
-            Formatter.Deserialize("one");
+            Assert.ThrowsException<FormatException>(() => Formatter.Deserialize("one"));
         }
     }
 }

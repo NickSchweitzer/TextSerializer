@@ -30,10 +30,11 @@ namespace TheCodingMonkey.Serialization.Tests
             Helpers.Tests.DeserializeEnumerableWithHeaderTest(TestFile, Serializer, Records.PocoRecords);
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        [TestMethod]
         public void DeserializeWithWrongHeaderTest()
         {
-            Helpers.Tests.DeserializeArrayWithHeaderTest("CsvWithHeaderFile.csv", Serializer, Records.PocoRecords);
+            Assert.ThrowsException<TextSerializationException>(() =>
+                Helpers.Tests.DeserializeArrayWithHeaderTest("CsvWithHeaderFile.csv", Serializer, Records.PocoRecords));
         }
 
         [TestMethod]

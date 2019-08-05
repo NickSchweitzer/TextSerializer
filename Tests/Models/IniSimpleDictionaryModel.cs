@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TheCodingMonkey.Serialization.Tests.Models
 {
@@ -8,6 +7,14 @@ namespace TheCodingMonkey.Serialization.Tests.Models
     public class IniSimpleDictionaryModel
     {
         [IniField]
-        public Dictionary<string, string> Dictionary { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, MyEnum> Dictionary { get; set; } = new Dictionary<string, MyEnum>();
+
+        public enum MyEnum
+        {
+            Value1 = 1,
+            Value2,
+            Value3,
+            Value4
+        }
     }
 }

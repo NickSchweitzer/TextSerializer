@@ -8,17 +8,18 @@ namespace TheCodingMonkey.Serialization.Tests
     [TestClass, TestCategory("INI")]
     public class IniBasicExceptionsTest
     {
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void DeserializeNullReaderTest()
         {
             IniSerializer<IniModel> iniSerializer = new IniSerializer<IniModel>();
-            iniSerializer.Deserialize(null);
+            Assert.ThrowsException<ArgumentNullException>(() => iniSerializer.Deserialize(null));
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        [TestMethod]
         public void MissingTextSerializableExceptionTest()
         {
-            IniSerializer<PocoRecord> iniSerializer = new IniSerializer<PocoRecord>();
+            Assert.ThrowsException<TextSerializationConfigurationException>(() =>
+                new IniSerializer<PocoRecord>());
         }
     }
 }

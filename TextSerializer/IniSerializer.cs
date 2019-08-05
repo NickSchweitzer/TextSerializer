@@ -122,15 +122,7 @@ namespace TheCodingMonkey.Serialization
                             // If a field on this class was declared to store the Section Name, then deserialize it there
                             IniField sectionNameField = listField.Section.GetSectionNameField();
                             if (sectionNameField != null)
-                            {
-                                object sectionNameObj = sectionNameField.FormatValue(SectionName);
-
-                                // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
-                                if (sectionObj.GetType().IsValueType)
-                                    ReflectionHelper.AssignToStruct(sectionStruct, sectionNameObj, sectionNameField.Member);
-                                else
-                                    ReflectionHelper.AssignToClass(sectionObj, sectionNameObj, sectionNameField.Member);
-                            }
+                                ReflectionHelper.AssignValue(sectionObj, sectionStruct, sectionNameField.FormatValue(SectionName), sectionNameField);
 
                             list.Add(sectionObj.GetType().IsValueType ? sectionStruct : sectionObj);
                         }
@@ -152,12 +144,7 @@ namespace TheCodingMonkey.Serialization
                         }
 
                         DeserializeClass(Text, field.Section, sectionObj, sectionStruct);
-
-                        // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
-                        if (returnObj.GetType().IsValueType)
-                            ReflectionHelper.AssignToStruct(returnStruct, sectionObj.GetType().IsValueType ? sectionStruct : sectionObj, field.Member);
-                        else
-                            ReflectionHelper.AssignToClass(returnObj, sectionObj.GetType().IsValueType ? sectionStruct : sectionObj, field.Member);
+                        ReflectionHelper.AssignValue(returnObj, returnStruct, sectionObj.GetType().IsValueType ? sectionStruct : sectionObj, field);
                     }
                 }
             }    
@@ -199,13 +186,7 @@ namespace TheCodingMonkey.Serialization
                     }
                 }
                                 
-                object fieldObj = field.FormatValue(parsedLine.Value);
-
-                // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
-                if (returnObj.GetType().IsValueType)
-                    ReflectionHelper.AssignToStruct(returnStruct, fieldObj, field.Member);
-                else
-                    ReflectionHelper.AssignToClass(returnObj, fieldObj, field.Member);
+                ReflectionHelper.AssignValue(returnObj, returnStruct, field.FormatValue(parsedLine.Value), field);
             }
         }
 

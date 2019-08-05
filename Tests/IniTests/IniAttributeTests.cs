@@ -26,33 +26,33 @@ namespace TheCodingMonkey.Serialization.Tests
             }
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        [TestMethod]
         public void DeserializeFileWithExtraPropertiesIniTest()
         {
             IniSerializer<IniModel> iniSerializer = new IniSerializer<IniModel>();
             using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniNoSectionWithExtraFile.ini"))
             {
-                var model = iniSerializer.Deserialize(reader);
+                Assert.ThrowsException<TextSerializationException>(() => iniSerializer.Deserialize(reader));
             }
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        [TestMethod]
         public void DeserializeListToDictionaryIniTest()
         {
             IniSerializer<IniSimpleDictionaryModel> iniSerializer = new IniSerializer<IniSimpleDictionaryModel>();
             using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleListFile.ini"))
             {
-                var model = iniSerializer.Deserialize(reader);
+                Assert.ThrowsException<TextSerializationException>(() => iniSerializer.Deserialize(reader));
             }
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        [TestMethod]
         public void DeserializeDictionaryToListIniTest()
         {
             IniSerializer<IniSimpleListModel> iniSerializer = new IniSerializer<IniSimpleListModel>();
             using (var reader = Helpers.Utilities.OpenEmbeddedFile("IniSimpleDictionaryFile.ini"))
             {
-                var model = iniSerializer.Deserialize(reader);
+                Assert.ThrowsException<TextSerializationException>(() => iniSerializer.Deserialize(reader));
             }
         }
 
@@ -83,7 +83,7 @@ namespace TheCodingMonkey.Serialization.Tests
                 for (int i = 1; i < 5; i++)
                 {
                     Assert.IsTrue(model.Dictionary.ContainsKey($"Key{i}"));
-                    Assert.AreEqual(model.Dictionary[$"Key{i}"], $"Value{i}");
+                    Assert.AreEqual(Enum.Parse(typeof(IniSimpleDictionaryModel.MyEnum), $"Value{i}"), model.Dictionary[$"Key{i}"]);
                 }
             }
         }

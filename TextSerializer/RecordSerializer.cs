@@ -126,15 +126,7 @@ namespace TheCodingMonkey.Serialization
                 if ( field != null )
                 {
                     string strVal = Utilities.ParsingHelper.Truncate( parseList[i], field.Size );
-
-                    // If there is a custom formatter, then use that to deserialize the string, otherwise use the default .NET behvavior.
-                    object fieldObj = field.FormatValue(strVal);
-
-                    // Depending on whether the TargetType is a class or struct, you have to populate the fields differently
-                    if ( TargetType.IsValueType )
-                        Utilities.ReflectionHelper.AssignToStruct( returnStruct, fieldObj, field.Member );
-                    else
-                        Utilities.ReflectionHelper.AssignToClass( returnObj, fieldObj, field.Member );
+                    ReflectionHelper.AssignValue(returnObj, returnStruct, field.FormatValue(strVal), field);
                 }
             }
 

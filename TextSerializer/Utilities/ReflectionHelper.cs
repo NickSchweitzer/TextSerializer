@@ -62,7 +62,7 @@ namespace TheCodingMonkey.Serialization.Utilities
         /// <param name="obj">Class object which contains the property receiving the value</param>
         /// <param name="val">Value which is bieng assigned</param>
         /// <param name="member">MemberInfo of the Property or Field being assigned to.</param>
-        public static void AssignToClass(object obj, object val, MemberInfo member)
+        private static void AssignToClass(object obj, object val, MemberInfo member)
         {
             if (member is PropertyInfo)
                 ((PropertyInfo)member).SetValue(obj, val, null);
@@ -76,7 +76,7 @@ namespace TheCodingMonkey.Serialization.Utilities
         /// <param name="obj">Structure object which contains the property receiving the value</param>
         /// <param name="val">Value which is bieng assigned</param>
         /// <param name="member">MemberInfo of the Property or Field being assigned to.</param>
-        public static void AssignToStruct(ValueType obj, object val, MemberInfo member)
+        private static void AssignToStruct(ValueType obj, object val, MemberInfo member)
         {
             if (member is PropertyInfo)
                 ((PropertyInfo)member).SetValue(obj, val, null);
@@ -86,9 +86,22 @@ namespace TheCodingMonkey.Serialization.Utilities
                 throw new TextSerializationException("Invalid MemberInfo type encountered");
         }
 
+        /// <summary>Helper method which uses reflection to assign a value to a property of a structure or class.</summary>
+        /// <param name="parentObj">Object which contains the property receiving the value</param>
+        /// <param name="parentStruct">ValueType version of object which contains the property receiving the value if a struct</param>
+        /// <param name="fieldObj">Object to assign to the property</param>
+        /// <param name="field">Field definition which contains the member to assign to</param>
+        public static void AssignValue(object parentObj, ValueType parentStruct, object fieldObj, Field field)
+        {
+            if (parentObj.GetType().IsValueType)
+                AssignToStruct(parentStruct, fieldObj, field.Member);
+            else
+                AssignToClass(parentObj, fieldObj, field.Member);
+        }
+
         public static object GetPropertyFieldValue(MemberInfo member, object obj, ValueType valueStruct)
         {
-            object returnObj = null;
+            object returnObj;
             // Get the object from the field
             if (member is PropertyInfo)
                 returnObj = ((PropertyInfo)member).GetValue(obj.GetType().IsValueType && valueStruct != null ? valueStruct : obj, null);

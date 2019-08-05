@@ -47,10 +47,11 @@ namespace TheCodingMonkey.Serialization.Tests
             Helpers.Tests.SerializeArrayTest("CsvFile.csv", Serializer, Records.PocoMixedRecords);
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        [TestMethod]
         public void CantConfigureMixedPocoByConventionTest()
         {
-            Serializer = new CsvSerializer<PocoMixedRecord>(config => config.ByConvention());
+            Assert.ThrowsException<TextSerializationConfigurationException>(() =>
+                new CsvSerializer<PocoMixedRecord>(config => config.ByConvention()));
         }
     }
 }
