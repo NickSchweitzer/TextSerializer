@@ -10,30 +10,30 @@ namespace TheCodingMonkey.Serialization.Tests
     {
         private RecordSerializer<FixedWidthRecord> Serializer = new FixedWidthSerializer<FixedWidthRecord>();
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void DeserializeNullStringTest()
         {
-            Serializer.Deserialize(null);
+            Assert.ThrowsException<ArgumentNullException>(() => Serializer.Deserialize(null));
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        [TestMethod]
         public void DeserializeEmptyStringTest()
         {
-            Serializer.Deserialize(string.Empty);
+            Assert.ThrowsException<TextSerializationException>(() => Serializer.Deserialize(string.Empty));
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        [TestMethod]
         public void DeserializeIncompleteRecordTest()
         {
             string incompleteRecord = "00001   First Record     Long Description, with a Comma03.14159";
-            Serializer.Deserialize(incompleteRecord);
+            Assert.ThrowsException<TextSerializationException>(() => Serializer.Deserialize(incompleteRecord));
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationException))]
+        [TestMethod]
         public void DeserializeBadPaddingRecordTest()
         {
             string incompleteRecord = "00001 First Record   Long Description, with a Comma03.14159True";
-            Serializer.Deserialize(incompleteRecord);
+            Assert.ThrowsException<TextSerializationException>(() => Serializer.Deserialize(incompleteRecord));
         }
     }
 }

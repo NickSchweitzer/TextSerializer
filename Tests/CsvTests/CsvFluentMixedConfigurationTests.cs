@@ -50,8 +50,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void CantConfigureMixedPocoByConventionTest()
         {
-            Assert.ThrowsException<TextSerializationConfigurationException>(() =>
-                new CsvSerializer<PocoMixedRecord>(config => config.ByConvention()));
+            Assert.ThrowsException<TextSerializationConfigurationException>(() => new CsvSerializer<PocoMixedRecord>(config => config.ByConvention()));
         }
     }
 }

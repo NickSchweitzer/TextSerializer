@@ -37,10 +37,10 @@ namespace TheCodingMonkey.Serialization.Tests
             Helpers.Tests.SerializeArrayTest(TestFile, Serializer, Records.FixedWidthRecords);
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        [TestMethod]
         public void ZeroSizeTest()
         {
-            var serializer = new FixedWidthSerializer<FixedWidthInvalidSizeRecord>();
+            Assert.ThrowsException<TextSerializationConfigurationException>(() => new FixedWidthSerializer<FixedWidthInvalidSizeRecord>());
         }
     }
 }

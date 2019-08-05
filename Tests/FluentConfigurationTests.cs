@@ -64,15 +64,18 @@ namespace TheCodingMonkey.Serialization.Tests
             Assert.AreEqual(true, serializer.Fields[4].Optional);
         }
 
-        [TestMethod, ExpectedException(typeof(TextSerializationConfigurationException))]
+        [TestMethod]
         public void MissingFieldTest()
         {
-            CsvSerializer<PocoWithExtraFieldsRecord> serializer = new CsvSerializer<PocoWithExtraFieldsRecord>(config => config
-                .ForMember(field => field.Id, opt => opt.Name("UniqueId").Position(0))
-                .ForMember(field => field.Enabled, opt => opt.Optional().Position(4))
-                .ForMember(field => field.Name, opt => opt.Size(20).Position(1))
-                .ForMember(field => field.Description, opt => opt.Position(2))
-                .Ignore(field => field.ExtraField));
+            Assert.ThrowsException<TextSerializationConfigurationException>(() =>
+            {
+                CsvSerializer<PocoWithExtraFieldsRecord> serializer = new CsvSerializer<PocoWithExtraFieldsRecord>(config => config
+                    .ForMember(field => field.Id, opt => opt.Name("UniqueId").Position(0))
+                    .ForMember(field => field.Enabled, opt => opt.Optional().Position(4))
+                    .ForMember(field => field.Name, opt => opt.Size(20).Position(1))
+                    .ForMember(field => field.Description, opt => opt.Position(2))
+                    .Ignore(field => field.ExtraField));
+            });
         }
 
         [TestMethod]

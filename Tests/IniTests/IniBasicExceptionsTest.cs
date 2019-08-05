@@ -18,8 +18,7 @@ namespace TheCodingMonkey.Serialization.Tests
         [TestMethod]
         public void MissingTextSerializableExceptionTest()
         {
-            Assert.ThrowsException<TextSerializationConfigurationException>(() =>
-                new IniSerializer<PocoRecord>());
+            Assert.ThrowsException<TextSerializationConfigurationException>(() => new IniSerializer<PocoRecord>());
         }
     }
 }
