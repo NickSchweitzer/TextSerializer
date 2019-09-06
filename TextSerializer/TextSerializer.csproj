@@ -42,10 +42,6 @@
     <DocumentationFile>C:\Projects\TextSerializer\TextSerializer\bin\Debug\TextSerializer.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="XmlDocMarkdown" Version="1.5.1" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45'">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
