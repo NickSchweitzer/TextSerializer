@@ -40,13 +40,6 @@ namespace TheCodingMonkey.Serialization.Tests.Helpers
             return lines;
         }
 
-        public static T[] ToArray<T>(this ICollection<T> collection)
-        {
-            T[] returnArray = new T[collection.Count];
-            collection.CopyTo(returnArray, 0);
-            return returnArray;
-        }
-
         public static T[] ToArray<T>(this ICollection collection)
         {
             T[] returnArray = new T[collection.Count];

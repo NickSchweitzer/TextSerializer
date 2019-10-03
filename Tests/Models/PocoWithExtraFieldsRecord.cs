@@ -21,6 +21,7 @@ namespace TheCodingMonkey.Serialization.Tests.Models
             ExtraField = "Do Not Call";
         }
 
+        // Disable the "Event Never Used Warning" - Need this here to validate that its not picked up by Reflection later
 #pragma warning disable 67
         public event ExtraFieldChangedHandler ExtraEvent;
 #pragma warning restore 67

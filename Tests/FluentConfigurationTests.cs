@@ -77,17 +77,5 @@ namespace TheCodingMonkey.Serialization.Tests
                     .Ignore(field => field.ExtraField));
             });
         }
-
-        [TestMethod]
-        public void ConfigureEventExceptionTest()
-        {
-            CsvSerializer<PocoWithExtraFieldsRecord> serializer = new CsvSerializer<PocoWithExtraFieldsRecord>(config => config
-                .ForMember(field => field.Id, opt => opt.Name("UniqueId").Position(0))
-                .ForMember(field => field.Value, opt => opt.Position(3))
-                .ForMember(field => field.Enabled, opt => opt.Optional().Position(4))
-                .ForMember(field => field.Name, opt => opt.Size(20).Position(1))
-                .ForMember(field => field.Description, opt => opt.Position(2))
-                .Ignore(field => field.ExtraField));
-        }
     }
 }

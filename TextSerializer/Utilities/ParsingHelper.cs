@@ -84,7 +84,7 @@ namespace TheCodingMonkey.Serialization.Utilities
             if (text.StartsWith("[") && text.EndsWith("]"))
                 return (IniLineType.Section, text.Substring(1, text.Length - 2), null);
 
-            List<string> parsedLine = ParsingHelper.ParseDelimited(text, '\"', '=');
+            List<string> parsedLine = ParseDelimited(text, '\"', '=');
             if (parsedLine.Count == 1)
                 return (IniLineType.Item, parsedLine[0].Trim(), null);
             else if (parsedLine.Count == 2)
