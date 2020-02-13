@@ -82,7 +82,7 @@ namespace TheCodingMonkey.Serialization.Configuration
             return this;
         }
 
-        /// <summary>Character used to wrap a field if the field contins the <see cref="Delimiter">Delimiter</see>.</summary>
+        /// <summary>Character used to wrap a field if the field contains the <see cref="Delimiter">Delimiter</see>.</summary>
         public CsvConfiguration<TTargetType> Qualifier(char qualifier)
         {
             CsvSerializer.Qualifier = qualifier;
