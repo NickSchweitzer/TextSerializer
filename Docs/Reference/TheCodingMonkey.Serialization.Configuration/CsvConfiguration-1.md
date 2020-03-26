@@ -16,7 +16,7 @@ public class CsvConfiguration<TTargetType> : RecordConfiguration<TTargetType>
 | [Delimiter](CsvConfiguration-1/Delimiter.md)(…) | Character which is used to delimit fields in the record. |
 | [ForMember](CsvConfiguration-1/ForMember.md)(…) | Sets the serialization properties of a member of the class. If ByConvention was called first, this will override those inferred settings. |
 | [Ignore](CsvConfiguration-1/Ignore.md)(…) | Marks a field as not serializable. |
-| [Qualifier](CsvConfiguration-1/Qualifier.md)(…) | Character used to wrap a field if the field contins the [`Delimiter`](CsvConfiguration-1/Delimiter.md). |
+| [Qualifier](CsvConfiguration-1/Qualifier.md)(…) | Character used to wrap a field if the field contains the [`Delimiter`](CsvConfiguration-1/Delimiter.md). |
 
 ## See Also
 

@@ -1,6 +1,6 @@
 # CsvConfiguration&lt;TTargetType&gt;.Qualifier method
 
-Character used to wrap a field if the field contins the [`Delimiter`](Delimiter.md).
+Character used to wrap a field if the field contains the [`Delimiter`](Delimiter.md).
 
 ```csharp
 public CsvConfiguration Qualifier(char qualifier)

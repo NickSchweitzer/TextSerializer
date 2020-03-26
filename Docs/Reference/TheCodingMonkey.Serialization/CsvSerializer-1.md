@@ -19,7 +19,7 @@ public class CsvSerializer<TTargetType> : RecordSerializer<TTargetType>
 | [CsvSerializer](CsvSerializer-1/CsvSerializer.md)(…) | Initializes a new instance of the CSVSerializer class with specific values for how the CSV should be formatted, using Attributes on the target type to determine the configuration of fields and properties. (2 constructors) |
 | [AlwaysWriteQualifier](CsvSerializer-1/AlwaysWriteQualifier.md) { get; set; } | True if should wrap every field in the [`Qualifier`](CsvSerializer-1/Qualifier.md) during serialization. If false, then the qualifier is only written if the field contains the [`Delimiter`](CsvSerializer-1/Delimiter.md). |
 | [Delimiter](CsvSerializer-1/Delimiter.md) { get; set; } | Character which is used to delimit fields in the record. |
-| [Qualifier](CsvSerializer-1/Qualifier.md) { get; set; } | Character used to wrap a field if the field contins the [`Delimiter`](CsvSerializer-1/Delimiter.md). |
+| [Qualifier](CsvSerializer-1/Qualifier.md) { get; set; } | Character used to wrap a field if the field contains the [`Delimiter`](CsvSerializer-1/Delimiter.md). |
 | [DeserializeArray](CsvSerializer-1/DeserializeArray.md)(…) | Creates a collection of TargetType objects from a stream of text containing CSV. (2 methods) |
 | [DeserializeEnumerable](CsvSerializer-1/DeserializeEnumerable.md)(…) | Deserializes a CSV file one record at a time suitable for usage in a foreach loop. |
 | [SerializeArray](CsvSerializer-1/SerializeArray.md)(…) | Serializes an array of objects to CSV Format |
