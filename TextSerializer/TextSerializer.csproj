@@ -6,19 +6,19 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RootNamespace>TheCodingMonkey.Serialization</RootNamespace>
     <PackageId>TheCodingMonkey.Serialization</PackageId>
-    <Version>2.1.0.0</Version>
+    <Version>2.2.0.0</Version>
     <Company>The Coding Monkey</Company>
     <Authors>NickSchweitzer</Authors>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Copyright>Nick Schweitzer, 2011-2019</Copyright>
+    <Copyright>Nick Schweitzer, 2011-2021</Copyright>
     <Description>Library for reading and writing CSV and Fixed Width files into a class or struct similar to XmlSerializer.</Description>
     <PackageProjectUrl>https://github.com/NickSchweitzer/TextSerializer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NickSchweitzer/TextSerializer</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageTags>csv fixed width serialization parsing utility</PackageTags>
-    <PackageReleaseNotes>Restructured library as .NET Standard library so can be used by both Full Framework and .NET Core.</PackageReleaseNotes>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
+    <PackageReleaseNotes>Restructured library so that an external project could derive from certain classes.</PackageReleaseNotes>
+    <AssemblyVersion>2.2.0.0</AssemblyVersion>
+    <FileVersion>2.2.0.0</FileVersion>
   </PropertyGroup>
   
   <!-- .NET Standard 2.0 references, compilation flags and build options -->
