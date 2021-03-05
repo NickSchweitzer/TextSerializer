@@ -42,10 +42,13 @@ namespace TheCodingMonkey.Serialization
             config.Invoke(completedConfig);
             Fields.Sort((x, y) => x.Position.CompareTo(y.Position));
 
-            for (int i = 0; i < Fields.Count; i++)
+            if (!FieldGapsAllowed)
             {
-                if (Fields[i].Position != i)
-                    throw new TextSerializationConfigurationException($"Missing field definition for Position {i}");
+                for (int i = 0; i < Fields.Count; i++)
+                {
+                    if (Fields[i].Position != i)
+                        throw new TextSerializationConfigurationException($"Missing field definition for Position {i}");
+                }
             }
         }
 
@@ -69,7 +72,7 @@ namespace TheCodingMonkey.Serialization
         /// <summary>Character which is used to delimit fields in the record.</summary>
         public char Delimiter { get; set; }
 
-        /// <summary>Character used to wrap a field if the field contins the <see cref="Delimiter">Delimiter</see>.</summary>
+        /// <summary>Character used to wrap a field if the field contains the <see cref="Delimiter">Delimiter</see>.</summary>
         public char Qualifier { get; set; }
 
         /// <summary>Serializes out the header row by itself</summary>

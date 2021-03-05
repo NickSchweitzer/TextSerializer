@@ -48,8 +48,10 @@ namespace TheCodingMonkey.Serialization.Tests
                 Serializer.Deserialize(reader.ReadLine(), myRecord);
             }
             var expectedResult = Records.CsvWithExtraFieldsRecords[0];
+            string oldValue = expectedResult.ExtraField;
             expectedResult.ExtraField = "Created By Caller";
             Assert.AreEqual(0, new ReflectionComparer().Compare(expectedResult, myRecord));
+            expectedResult.ExtraField = oldValue;
         }
     }
 }

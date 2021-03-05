@@ -13,6 +13,7 @@ public class TextFieldAttribute : Attribute
 | --- | --- |
 | [TextFieldAttribute](TextFieldAttribute/TextFieldAttribute.md)() | Default constructor. |
 | [TextFieldAttribute](TextFieldAttribute/TextFieldAttribute.md)(…) | Default constructor. |
+| [Field](TextFieldAttribute/Field.md) { get; set; } | Field object which stores the actual configuration data for this member. |
 | [FormatterType](TextFieldAttribute/FormatterType.md) { get; set; } | Optional class which is used to control custom serialization/deserialization of this field. This class must implement the [`ITextFormatter`](ITextFormatter.md) interface. |
 | [Name](TextFieldAttribute/Name.md) { get; set; } | Name of this field. If not specified, then the property/field name of the class/struct is used. If a header is written to the CSV file, then this is the value that is used. |
 | [Optional](TextFieldAttribute/Optional.md) { get; set; } | Determines whether this field is optional. Because of the nature of CSV and FixedWidth file formats, optional fields should only be a the end of the record. |

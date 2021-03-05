@@ -1,10 +1,14 @@
-# TextConfiguration&lt;TTargetType&gt;.Serializer property
+# TextConfiguration&lt;TTargetType&gt; constructor
 
-Serializer which is being configured by this class.
+Constructs a Configuration object using the given serializer
 
 ```csharp
-protected BaseSerializer<TTargetType> Serializer { get; set; }
+protected TextConfiguration(BaseSerializer<TTargetType> serializer)
 ```
+
+| parameter | description |
+| --- | --- |
+| serializer | TextSerializer which is being configured by this object. |
 
 ## See Also
 

@@ -31,8 +31,11 @@ namespace TheCodingMonkey.Serialization
 
             for (int i = 0; i < Fields.Count; i++)
             {
-                if (Fields[i].Position != i)
-                    throw new TextSerializationConfigurationException($"Missing field definition for Position {i}");
+                if (!FieldGapsAllowed)
+                {
+                    if (Fields[i].Position != i)
+                        throw new TextSerializationConfigurationException($"Missing field definition for Position {i}");
+                }
 
                 if (Fields[i].Size <= 0)
                     throw new TextSerializationConfigurationException("TextField Size must be specified for Fixed Width");

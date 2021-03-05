@@ -11,6 +11,7 @@ public abstract class TextConfiguration<TTargetType>
 
 | name | description |
 | --- | --- |
+| [TextConfiguration](TextConfiguration-1/TextConfiguration.md)(…) | Constructs a Configuration object using the given serializer |
 | [Serializer](TextConfiguration-1/Serializer.md) { get; set; } | Serializer which is being configured by this class. |
 | [GetField](TextConfiguration-1/GetField.md)(…) | Retrieves the Field configuration for the specified member, along with the position in the file where it should be serialized. |
 | [InternalIgnore](TextConfiguration-1/InternalIgnore.md)(…) | Marks a field as not serializable. |

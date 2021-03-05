@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -13,9 +12,11 @@ namespace TheCodingMonkey.Serialization.Configuration
         where TTargetType : new()
     {
         /// <summary>Serializer which is being configured by this class.</summary>
-        protected TextSerializer<TTargetType> Serializer { get; set; }
-
-        internal TextConfiguration(TextSerializer<TTargetType> serializer)
+        protected BaseSerializer<TTargetType> Serializer { get; set; }
+        
+        /// <summary>Constructs a Configuration object using the given serializer</summary>
+        /// <param name="serializer">TextSerializer which is being configured by this object.</param>
+        protected TextConfiguration(BaseSerializer<TTargetType> serializer)
         {
             Serializer = serializer;
         }

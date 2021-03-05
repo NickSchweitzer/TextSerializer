@@ -1,9 +1,9 @@
-# Field constructor
+# Field.GetNativeType method
 
-Default Constructor
+Returns the native underlying type of the Property or Field defined for this class.
 
 ```csharp
-protected Field()
+public Type GetNativeType()
 ```
 
 ## See Also

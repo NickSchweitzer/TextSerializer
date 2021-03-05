@@ -7,7 +7,7 @@ namespace TheCodingMonkey.Serialization
     public abstract class Field
     {
         /// <summary>Default Constructor</summary>
-        public Field()
+        protected Field()
         {
             Position = -1;
             Size = -1;
@@ -31,7 +31,7 @@ namespace TheCodingMonkey.Serialization
         /// This class must implement the <see cref="ITextFormatter">ITextFormatter</see> interface.</summary>
         public Type FormatterType
         {
-            get { return _formatterType; }
+            get => _formatterType;
             set
             {
                 _formatterType = value;
@@ -44,8 +44,8 @@ namespace TheCodingMonkey.Serialization
 
         /// <summary>The Formatter to be used for Serialization/Deserialization if the default formatting is not used.</summary>
         public ITextFormatter Formatter {
-            get { return _formatter; }
-            internal set
+            get => _formatter;
+            set
             {
                 _formatter = value;
                 _formatterType = value.GetType();
@@ -55,7 +55,8 @@ namespace TheCodingMonkey.Serialization
         /// <summary>Defines the allowed characters that can be used for a field in the file.</summary>
         public object[] AllowedValues { get; set; }
 
-        internal Type GetNativeType()
+        /// <summary>Returns the native underlying type of the Property or Field defined for this class.</summary>
+        public Type GetNativeType()
         {
             if (Member is PropertyInfo)
                 return ((PropertyInfo)Member).PropertyType;

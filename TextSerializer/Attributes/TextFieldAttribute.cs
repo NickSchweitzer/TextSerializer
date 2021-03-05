@@ -7,7 +7,8 @@ namespace TheCodingMonkey.Serialization
     [AttributeUsage( AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false )]
     public class TextFieldAttribute : Attribute
     {
-        internal Field Field { get; set; }
+        /// <summary>Field object which stores the actual configuration data for this member.</summary>
+        public Field Field { get; set; }
 
         /// <summary>Default constructor.</summary>
         public TextFieldAttribute()

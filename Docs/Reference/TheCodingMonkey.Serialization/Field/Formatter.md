@@ -3,7 +3,7 @@
 The Formatter to be used for Serialization/Deserialization if the default formatting is not used.
 
 ```csharp
-public ITextFormatter Formatter { get; }
+public ITextFormatter Formatter { get; set; }
 ```
 
 ## See Also

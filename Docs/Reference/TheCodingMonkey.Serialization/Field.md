@@ -10,14 +10,20 @@ public abstract class Field
 
 | name | description |
 | --- | --- |
-| [Field](Field/Field.md)() | Default Constructor |
 | [AllowedValues](Field/AllowedValues.md) { get; set; } | Defines the allowed characters that can be used for a field in the file. |
-| [Formatter](Field/Formatter.md) { get; } | The Formatter to be used for Serialization/Deserialization if the default formatting is not used. |
+| [Formatter](Field/Formatter.md) { get; set; } | The Formatter to be used for Serialization/Deserialization if the default formatting is not used. |
 | [FormatterType](Field/FormatterType.md) { get; set; } | Optional class which is used to control custom serialization/deserialization of this field. This class must implement the [`ITextFormatter`](ITextFormatter.md) interface. |
 | [Member](Field/Member.md) { get; set; } | The reflected MemberInfo details of the field/property that this configures. |
 | [Optional](Field/Optional.md) { get; set; } | Determines whether this field is optional. Because of the nature of CSV and FixedWidth file formats, optional fields should only be a the end of the record. |
 | [Position](Field/Position.md) { get; set; } | Position (column) where this field is serialized in the CSV file. |
 | [Size](Field/Size.md) { get; set; } | Maximum length in the CSV file that this field should take up. |
+| [GetNativeType](Field/GetNativeType.md)() | Returns the native underlying type of the Property or Field defined for this class. |
+
+## Protected Members
+
+| name | description |
+| --- | --- |
+| [Field](Field/Field.md)() | Default Constructor |
 
 ## See Also
 

@@ -1,6 +1,6 @@
 # TextSerializer&lt;TTargetType&gt; constructor
 
-Default constructor for the base type. Does only basic initialization of the TargetType.
+The default constructor.
 
 ```csharp
 protected TextSerializer()

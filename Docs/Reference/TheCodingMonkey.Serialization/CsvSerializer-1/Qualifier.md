@@ -1,6 +1,6 @@
 # CsvSerializer&lt;TTargetType&gt;.Qualifier property
 
-Character used to wrap a field if the field contins the [`Delimiter`](Delimiter.md).
+Character used to wrap a field if the field contains the [`Delimiter`](Delimiter.md).
 
 ```csharp
 public char Qualifier { get; set; }
